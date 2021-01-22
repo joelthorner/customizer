@@ -548,6 +548,8 @@ SHOP.customizer = {
     init() {
       var self = SHOP.customizer.threedium;
 
+
+
       self.configuration = self.getConfiguration();
       console.log(self.configuration);
       Unlimited3D.init(self.options, self.configuration, self.onLoad);
@@ -786,28 +788,18 @@ SHOP.customizer = {
         // @TODO Remove two replaces when threedium model sigui bo !!! tingui un id correcte
         solePart = option.selectedValue/* desde aqui va fora tot lo de la dreta */.replace('XXX', '').replace('YYY', ''),
         cantoPart = option.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)/* desde aqui va fora tot lo de la dreta */.replace('XXX', '').replace('YYY', ''),
-        showParts = [solePart, cantoPart],
+        showParts = [solePart, cantoPart];
 
-        soleId = null,
-        selectedValueSplit = option.selectedValue.split('_');
+      // restringir materials (Soles___Color)
+      SHOP.customizer.methods.restrictOptionValues(option, optionTypeF);
 
-      console.log(option);
+      // si la opcio de color que teniem seleccionada esta en disabled, activar la primera que trobi del primer tab actiu
+      // activar el tab si no ho esta
+      // seleccionar la opcio // amb click, ja saltará l'actionF i es canviara de colort
 
-      // "SoleXXX_270_normal" --> id, weight, <normal|double>
-      if (selectedValueSplit.length === 3) soleId = selectedValueSplit[0];
+      // si el color ja seleccionat esta actiu, nomes canviar el material
+      // this.hideGroupShowPartChangeMaterial([option.threediumGroupPart], showParts, solePart, material);
 
-      // Falta restringir els colors del seguent opcio type F segons match daquest
-      if (soleId && optionTypeF) {
-        // restringir materials (Soles___Color)
-        SHOP.customizer.methods.restrictOptionValues(optionTypeF, soleId);
-        
-        // si la opcio de color que teniem seleccionada esta en disabled, activar la primera que trobi del primer tab actiu
-        // activar el tab si no ho esta
-        // seleccionar la opcio // amb click, ja saltará l'actionF i es canviara de colort
-        
-        // si el color ja seleccionat esta actiu, nomes canviar el material
-        // this.hideGroupShowPartChangeMaterial([option.threediumGroupPart], showParts, solePart, material);
-      }
     },
 
     /**
@@ -1557,36 +1549,55 @@ SHOP.customizer = {
       }, 100);
     },
 
-    /**
-     * 
-     * @param {object} restrictedOption
-     * @param {string} restrictingParam - "SoleXXX"
-     */
-    restrictOptionValues(restrictedOption, restrictingParam) {
+
+    restrictOptionValues(selectedOption, optionToRestrict) {
       var self = SHOP.customizer,
-        $stepContentOptionValues = self.components.getRestrictedOption(restrictedOption.id),
-        $optionValueTriggerItems = self.components.getRestrictedOptionValues($stepContentOptionValues);
+        restrictParam = null,
+        selectedValueSplit = selectedOption.selectedValue.split('_');
 
-      // For each option value set enable or disable depending on restriction
-      $optionValueTriggerItems.each((index, el) => {
-        var data = $(el).data('option-value'),
-          hide = true;
+      // Example"SoleXXX_270_normal" --> id, weight, <normal|double>
+      if (selectedValueSplit.length === 3) restrictParam = selectedValueSplit[0];
 
-        for (let i = 0; i < data.params.length; i++) {
-          const param = data.params[i];
+      if (restrictParam && optionToRestrict) {
+        var $stepContentOption = self.components.getRestrictedOption(restrictedOption.id),
+          $optionValueTriggerItems = self.components.getRestrictedOptionValues($stepContentOption);
 
-          if (param.trim() === restrictingParam.trim())
-            hide = false;
+        // For each option value set enable or disable depending on restriction
+        $optionValueTriggerItems.each((index, el) => {
+          var data = $(el).data('option-value'),
+            hide = true;
+
+          for (let i = 0; i < data.params.length; i++) {
+            const param = data.params[i];
+
+            if (param.trim() === restrictingParam.trim())
+              hide = false;
+          }
+
+          if (hide) data.disabled = true;
+          else data.disabled = false;
+        });
+
+        self.components.toggleOptionValueTriggerItems($optionValueTriggerItems);
+
+        if ($stepContentOption.hasClass('double')) {
+          self.components.toggleRestrictedOptionTabs($stepContentOption.find('.option-tab-control a'));
         }
+      }
 
-        if (hide) data.disabled = true;
-        else data.disabled = false;
-      });
-
-      self.components.toggleOptionValueTriggerItems($optionValueTriggerItems);
-
-      if ($stepContentOptionValues.hasClass('double')) {
-        self.components.toggleRestrictedOptionTabs($stepContentOptionValues.find('.option-tab-control a'));
+      // Si resulta que el valor de la opció seleccionada esta restricted
+      var optToRestrictSelectedVal = $('.option-value-trigger-item-' + optionToRestrict.selectedValueId).data('option-value');
+      if (optToRestrictSelectedVal.data('restricted')) {
+        // search next option value disponible to select
+        if ($stepContentOption.hasClass('double')) {
+          // busco la primera tab no restricted
+          // la activo
+          // busco el primer opt value no restricted
+          // el clico
+        } else {
+          // busco el primer opt value no restricted
+          // el clico
+        }
       }
     }
   },
