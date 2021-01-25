@@ -399,8 +399,17 @@ let components = {
      * @param {object} $optionTabControls 
      * @return {object}
      */
-    getValidTabOptionControl($optionTabControls) {
+    getFirstValidTabOptionControl($optionTabControls) {
       return $optionTabControls.find('.option-tab-control a').not('.restricted-hidden').first();
+    },
+
+    /**
+     * Get first 'a.option-value-trigger-item' not restricted from container target
+     * @param {object} $container 
+     * @return {object}
+     */
+    getFirstValidOptionValueControl($container) {
+      return $container.find('.option-value-trigger-item').not('.restricted-hidden').first();
     },
   },
 };

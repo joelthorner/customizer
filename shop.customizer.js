@@ -339,17 +339,18 @@ let init = {
       }, 100);
     },
 
-
+    /**
+     * 
+     * @param {object} selectedOption 
+     * @param {object} optionToRestrict 
+     */
     restrictOptionValues(selectedOption, optionToRestrict) {
       var self = SHOP.customizer,
-        restrictParam = null,
-        selectedValueSplit = selectedOption.selectedValue.split('_');
-
-      // Split selected value: Example "SoleXXX_270_normal" --> [id, weight, <normal|double>]
-      if (selectedValueSplit.length === 3) restrictParam = selectedValueSplit[0];
+        selectedValueSplit = selectedOption.selectedValue.split('_'), // "SoleXXX_270_normal" --> [id, weight, <normal|double>]
+        restrictParam = selectedValueSplit.length === 3 ? selectedValueSplit[0] : null;
 
       if (restrictParam && optionToRestrict) {
-        var $stepContentOption = self.components.getRestrictedOption(restrictedOption.id),
+        var $stepContentOption = self.components.getRestrictedOption(optionToRestrict.id),
           $optionValueTriggerItems = self.components.getRestrictedOptionValues($stepContentOption);
 
         // For each option value set enable or disable depending on restriction
@@ -357,8 +358,7 @@ let init = {
           var data = $(el).data('option-value'), hide = true;
 
           for (let i = 0; i < data.params.length; i++) {
-            if (data.params[i].trim() === restrictingParam.trim())
-              hide = false;
+            if (data.params[i].trim() === restrictingParam.trim()) hide = false;
           }
 
           if (hide) data.disabled = true;
@@ -368,24 +368,32 @@ let init = {
         self.components.toggleOptionValueTriggerItems($optionValueTriggerItems);
 
         if ($stepContentOption.hasClass('double')) {
-          self.components.toggleRestrictedOptionTabs($stepContentOption.find('.option-tab-control a'));
+          let $tabs = $stepContentOption.find('.option-tab-control a');
+          self.components.toggleRestrictedOptionTabs($tabs);
         }
       }
 
       // Si resulta que el valor de la opció ja seleccionada esta restricted
       var optToRestrictSelectedVal = $('.option-value-trigger-item-' + optionToRestrict.selectedValueId).data('option-value');
+
       if (optToRestrictSelectedVal.data('restricted')) {
-        // Search next option value disponible to select
+        var $validOptionValue = undefined;
+
         if ($stepContentOption.hasClass('double')) {
-          // busco la primera tab no restricted
-          var $validOptionTab = self.components.getValidTabOptionControl($stepContentOption);
-          // la activo
-          $validOptionTab.trigger('click');
-          // busco el primer opt value no restricted
-          // el clico
+          var $validOptionTab = self.components.getFirstValidTabOptionControl($stepContentOption),
+            $target = $($validOptionTab.data('target'));
+
+          self.components.activeDoubleOptionValuesTab($validOptionTab, $target);
+          $validOptionValue = self.components.getFirstValidOptionValueControl($target);
         } else {
-          // busco el primer opt value no restricted
-          // el clico
+          $validOptionValue = self.components.getFirstValidOptionValueControl($stepContentOption);
+        }
+
+        if ($validOptionValue) {
+          var stepId = $validOptionValue.data('step-id'),
+            optionValueData = $validOptionValue.data('option-value');
+
+          this.selectOptionValue($validOptionValue, stepId, optionValueData);
         }
       }
     }
