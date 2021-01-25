@@ -340,16 +340,16 @@ let init = {
     },
 
     /**
-     * 
+     * Restrict option values from step by other option selected value
      * @param {object} selectedOption 
      * @param {object} optionToRestrict 
      */
     restrictOptionValues(selectedOption, optionToRestrict) {
       var self = SHOP.customizer,
         selectedValueSplit = selectedOption.selectedValue.split('_'), // "SoleXXX_270_normal" --> [id, weight, <normal|double>]
-        restrictParam = selectedValueSplit.length === 3 ? selectedValueSplit[0] : null;
+        restrictParam = selectedValueSplit.length === 3 ? selectedValueSplit[0] : null; // "SoleXXX"
 
-      if (restrictParam && optionToRestrict) {
+      if (optionToRestrict) {
         var $stepContentOption = self.components.getRestrictedOption(optionToRestrict.id),
           $optionValueTriggerItems = self.components.getRestrictedOptionValues($stepContentOption);
 
@@ -357,8 +357,12 @@ let init = {
         $optionValueTriggerItems.each((index, el) => {
           var data = $(el).data('option-value'), hide = true;
 
-          for (let i = 0; i < data.params.length; i++) {
-            if (data.params[i].trim() === restrictParam.trim()) hide = false;
+          if (restrictParam) {
+            for (let i = 0; i < data.params.length; i++) {
+              if (data.params[i].trim() === restrictParam.trim()) hide = false;
+            }
+          } else {
+            hide = false;
           }
 
           if (hide) data.restricted = true;
@@ -368,35 +372,49 @@ let init = {
         self.components.toggleOptionValueTriggerItems($optionValueTriggerItems);
 
         if ($stepContentOption.hasClass('double')) {
-          let $tabs = $stepContentOption.find('.option-tab-control a');
-          self.components.toggleRestrictedOptionTabs($tabs);
+          let $elements = $stepContentOption.find('.option-tab-control a, .mobile-collapse-btn');
+          self.components.toggleRestrictedOptionElements($elements);
         }
+
+        let $activeOptionValue = $('.option-value-trigger-item-' + optionToRestrict.selectedValueId);
+        this.checkRestrictedOptionValues($stepContentOption, $activeOptionValue);
       }
- 
-      // Si resulta que el valor de la opció ja seleccionada esta restricted
-      var optToRestrictSelectedVal = $('.option-value-trigger-item-' + optionToRestrict.selectedValueId).data('option-value');
+    },
 
-      if (optToRestrictSelectedVal.restricted) {
-        var $validOptionValue = undefined;
+    /**
+     * Check restricted already option values. 
+     * If an option value is active but restricted, the first valid value is searched and selected.
+     * It also edits the components to show / hide the groupings in "double" options that are left empty.
+     * @param {object} $option - Option container
+     * @param {object} $optionValue - Selected option value
+     */
+    checkRestrictedOptionValues($option, $optionValue) {
+      let self = SHOP.customizer,
+        data = $optionValue.data('option-value');
 
-        if ($stepContentOption.hasClass('double')) {
-          var $validOptionTab = self.components.getFirstValidTabOptionControl($stepContentOption),
-            $target = $($validOptionTab.data('target'));
+      if (data.restricted) {
+        let $validOptionValue = undefined;
 
-          self.components.activeDoubleOptionValuesTab($validOptionTab, $target);
+        if ($option.hasClass('double')) {
+          let $validTabControl = self.components.getFirstValidTabOptionControl($option),
+            $target = $($validTabControl.data('target'));
+
+          self.components.activeDoubleOptionValuesTab($validTabControl, $target);
+          self.components.activeDoubleOptionValuesCollapse($target);
+
           $validOptionValue = self.components.getFirstValidOptionValueControl($target);
         } else {
-          $validOptionValue = self.components.getFirstValidOptionValueControl($stepContentOption);
+          $validOptionValue = self.components.getFirstValidOptionValueControl($option);
         }
 
         if ($validOptionValue) {
-          var stepId = $validOptionValue.data('step-id'),
+          let stepId = $validOptionValue.data('step-id'),
             optionValueData = $validOptionValue.data('option-value');
 
           this.selectOptionValue($validOptionValue, stepId, optionValueData);
         }
       }
-    }
+    },
   },
 };
 

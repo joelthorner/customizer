@@ -147,6 +147,14 @@ let components = {
     },
 
     /**
+     * Active specyfic collapse (mobile souble option)
+     * @param {object} $target - jQuery .panel to collapse show
+     */
+    activeDoubleOptionValuesCollapse($target) {
+      $target.collapse('show');
+    },
+
+    /**
      * Open side modal resume and update self steps data.
      */
     showResumeModal() {
@@ -378,11 +386,11 @@ let components = {
     },
 
     /**
-     * Hide or show '.option-tab-control a', tabs in double split options
-     * @param {object} $optionTabControls 
+     * Hide or show control elements into double options
+     * @param {object} $elements 
      */
-    toggleRestrictedOptionTabs($optionTabControls) {
-      $optionTabControls.each((index, el) => {
+    toggleRestrictedOptionElements($elements) {
+      $elements.each((index, el) => {
         var target = $(el).data('target');
         var $elements = this.getRestrictedOptionValues($(target));
 

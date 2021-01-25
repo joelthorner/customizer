@@ -331,15 +331,8 @@ let threedium = {
         showParts = [solePart, cantoPart];
 
       // restringir materials (Soles___Color)
+      // Al restringir ja es reselecciona el material si es necessari
       SHOP.customizer.methods.restrictOptionValues(option, optionTypeF);
-
-      // si la opcio de color que teniem seleccionada esta en disabled, activar la primera que trobi del primer tab actiu
-      // activar el tab si no ho esta
-      // seleccionar la opcio // amb click, ja saltará l'actionF i es canviara de colort
-
-      // si el color ja seleccionat esta actiu, nomes canviar el material
-      // this.hideGroupShowPartChangeMaterial([option.threediumGroupPart], showParts, solePart, material);
-
     },
 
     /**
