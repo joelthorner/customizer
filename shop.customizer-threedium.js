@@ -320,7 +320,7 @@ let threedium = {
      * [Soles___Soles] options action type
      * @param {string} step 
      * @param {string} option 
-     * @TODO
+     * @TODO remove ID replace and change LC values
      */
     actionE(step, option) {
       var optionTypeF = SHOP.customizer.getStepOptionByType(step, 'F'),
@@ -331,7 +331,6 @@ let threedium = {
         showParts = [solePart, cantoPart];
 
       // restringir materials (Soles___Color)
-      // Al restringir ja es reselecciona el material si es necessari
       SHOP.customizer.methods.restrictOptionValues(option, optionTypeF);
     },
 
@@ -353,19 +352,6 @@ let threedium = {
 
         this.changeMaterial(changeParts, option.selectedValue);
       }
-
-      // •	Canviarà el material de les parts visibles del grup Sole, Ex SoleXXX_360_normal i CantoXXX_360_normal
-      // •	Marcara com a seleccionat el valor corresponent en l’opció Canto___Color per sincronitzar (? Cal confirmar)
-
-      // var optionTypeF = SHOP.customizer.getStepOptionByType(step, 'F'),
-      //   material = optionTypeF ? optionTypeF.selectedValue : '',
-      //   showParts = [
-      //     // @TODO Remove two replaces when threedium model sigui bo !!! tingui un id correcte
-      //     option.selectedValue.replace('XXX', '').replace('YYY', ''),
-      //     option.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO).replace('XXX', '').replace('YYY', '')
-      //   ];
-
-      // this.hideGroupShowPartChangeMaterial([option.threediumGroupPart], showParts, material);
     },
   },
 };

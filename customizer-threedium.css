@@ -178,9 +178,6 @@
 .option-values-grid.grid-4 {
   -ms-grid-columns: (minmax(80px, calc(25% - 15px)))[auto-fit];
   grid-template-columns: repeat(auto-fit, minmax(80px, calc(25% - 15px)));
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
 }
 
 .option-values-grid.grid-3 {
