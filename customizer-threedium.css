@@ -1,5 +1,8 @@
 /* system */
-.restricted-hidden,
+.restricted-hidden {
+  display: none !important;
+}
+
 .customizer-steps-container .step-content,
 .customizer-steps-container .step-resume {
   display: none;

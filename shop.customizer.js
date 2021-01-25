@@ -358,11 +358,11 @@ let init = {
           var data = $(el).data('option-value'), hide = true;
 
           for (let i = 0; i < data.params.length; i++) {
-            if (data.params[i].trim() === restrictingParam.trim()) hide = false;
+            if (data.params[i].trim() === restrictParam.trim()) hide = false;
           }
 
-          if (hide) data.disabled = true;
-          else data.disabled = false;
+          if (hide) data.restricted = true;
+          else data.restricted = false;
         });
 
         self.components.toggleOptionValueTriggerItems($optionValueTriggerItems);
@@ -372,11 +372,11 @@ let init = {
           self.components.toggleRestrictedOptionTabs($tabs);
         }
       }
-
+ 
       // Si resulta que el valor de la opció ja seleccionada esta restricted
       var optToRestrictSelectedVal = $('.option-value-trigger-item-' + optionToRestrict.selectedValueId).data('option-value');
 
-      if (optToRestrictSelectedVal.data('restricted')) {
+      if (optToRestrictSelectedVal.restricted) {
         var $validOptionValue = undefined;
 
         if ($stepContentOption.hasClass('double')) {

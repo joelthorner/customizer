@@ -354,7 +354,7 @@ let components = {
       $elements.each((index, el) => {
         var data = $(el).data('option-value');
 
-        if (data.disabled) $(el).addClass('restricted-hidden');
+        if (data.restricted) $(el).addClass('restricted-hidden');
         else $(el).removeClass('restricted-hidden');
       });
     },

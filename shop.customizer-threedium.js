@@ -374,15 +374,6 @@ let threedium = {
 
       // this.hideGroupShowPartChangeMaterial([option.threediumGroupPart], showParts, material);
     },
-
-    /**
-     * [Sole___Color] options action type
-     * @param {string} step 
-     * @param {string} option 
-     */
-    actionF(step, option) {
-      console.log(step, option);
-    },
   },
 };
 
