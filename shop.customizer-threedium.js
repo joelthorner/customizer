@@ -88,7 +88,9 @@ let threedium = {
     init() {
       var self = SHOP.customizer.threedium;
 
-
+      // cal anar per cada "step" amb opcions de tipus restrictiu i fer un:
+      // self.methods.restrictOptionValues();
+      // combinacions restrictives: E -> F
 
       self.configuration = self.getConfiguration();
       console.log(self.configuration);
@@ -318,6 +320,7 @@ let threedium = {
 
     /**
      * [Soles___Soles] options action type
+     * Restrictive option. E -> F
      * @param {string} step 
      * @param {string} option 
      * @TODO remove ID replace and change LC values
@@ -330,7 +333,10 @@ let threedium = {
         cantoPart = option.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)/* desde aqui va fora tot lo de la dreta */.replace('XXX', '').replace('YYY', ''),
         showParts = [solePart, cantoPart];
 
-      // restringir materials (Soles___Color)
+      // no em funciona aixo
+      console.log([option.threediumGroupPart], showParts); 
+      this.hideGroupShowPartChangeMaterial([option.threediumGroupPart], showParts, material);
+
       SHOP.customizer.methods.restrictOptionValues(option, optionTypeF);
     },
 
