@@ -419,6 +419,30 @@ let components = {
     getFirstValidOptionValueControl($container) {
       return $container.find('.option-value-trigger-item').not('.restricted-hidden').first();
     },
+
+    /**
+     * Update restricted data of value trigger items
+     * @param {object} $elements 
+     * @param {string} restrictParam 
+     */
+    updateRestrictedData($elements, restrictParam) {
+      // For each option value set enable or disable depending on restriction
+      $elements.each((index, el) => {
+        var data = $(el).data('option-value'),
+          hide = true;
+
+        if (restrictParam) {
+          for (let i = 0; i < data.params.length; i++) {
+            if (data.params[i].trim() === restrictParam.trim()) hide = false;
+          }
+        } else {
+          hide = false;
+        }
+
+        if (hide) data.restricted = true;
+        else data.restricted = false;
+      });
+    },
   },
 };
 

@@ -86,15 +86,14 @@ let threedium = {
      * This function is called into threedium import method.
      */
     init() {
-      var self = SHOP.customizer.threedium;
+      // Self is necessary because Fluid.import losses "this" reference
+      var self = SHOP.customizer;
 
-      // cal anar per cada "step" amb opcions de tipus restrictiu i fer un:
-      // self.methods.restrictOptionValues();
-      // combinacions restrictives: E -> F
+      self.methods.applyAllRestrictions();
 
-      self.configuration = self.getConfiguration();
-      console.log(self.configuration);
-      Unlimited3D.init(self.options, self.configuration, self.onLoad);
+      self.threedium.configuration = self.threedium.getConfiguration();
+      console.log(self.threedium.configuration);
+      Unlimited3D.init(self.threedium.options, self.threedium.configuration, self.threedium.onLoad);
     },
 
     /**
@@ -334,7 +333,7 @@ let threedium = {
         showParts = [solePart, cantoPart];
 
       // no em funciona aixo
-      console.log([option.threediumGroupPart], showParts); 
+      console.log([option.threediumGroupPart], showParts);
       this.hideGroupShowPartChangeMaterial([option.threediumGroupPart], showParts, material);
 
       SHOP.customizer.methods.restrictOptionValues(option, optionTypeF);
