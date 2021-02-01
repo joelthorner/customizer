@@ -138,34 +138,58 @@ let threedium = {
               override.push(option.selectedValue);
             }
           } else if (option.type == 'E') {
-            var optionTypeF = SHOP.customizer.getStepOptionByType(step, 'F');
+            // Sole type
+
+            // Per donar una part bona a la configuració 'sagafen totes les parts i materials aplicats
+            // sobre Sole i Canto d'una tacada ja que son parts fraccionades entre varies opcions.
+            var stepCanto = SHOP.customizer.getStepData(STEP_ID_CANTO),
+              soleTypeOpt = option, // Sole type
+              soleColorOpt = SHOP.customizer.getStepOptionByType(step, 'F'), // Sole color
+              cantoColorOpt = SHOP.customizer.getStepOptionByType(stepCanto, 'G'), // Canto Color
+              cantoThicknessOpt = SHOP.customizer.getStepOptionByType(stepCanto, 'H'); // Canto Thickness
+            // TODO cantoViraStormweltOpt = SHOP.customizer.getStepOptionByType(stepCanto, 'I'); // Canto Vira-Stormwelt
+
             // @TODO Remove two replaces when threedium model sigui bo !!! tingui un id correcte
-            var showParts = [
-              option.selectedValue/* desde aqui va fora tot lo de la dreta */.replace('XXX', '').replace('YYY', ''),
-              option.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)/* desde aqui va fora tot lo de la dreta */.replace('XXX', '').replace('YYY', ''),
-            ];
-            override = [...override, ...showParts];
+            var solePart = soleTypeOpt.selectedValue.replace('XXX', '').replace('YYY', ''),
+              cantoPart = solePart.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
+              showParts = [solePart, cantoPart];
 
-            var material = optionTypeF ? optionTypeF.selectedValue : '';
-            this.addConfigMaterialPart(materials, material, [option.selectedValue/* desde aqui va fora tot lo de la dreta */.replace('XXX', '').replace('YYY', '')]);
-
-          } else if (option.type == 'F') {
-            // en aquest cas no hauriem de fer res doncs ja ho hem fet la opt 'E' del step Soles
-
-          } else if (option.type == 'G') {
-            // afegir material al canto
-            var stepSoles = SHOP.customizer.getStepData(STEP_ID_SOLES),
-              optionTypeE = SHOP.customizer.getStepOptionByType(stepSoles, 'E');
-
-            if (optionTypeE) {
-              var cantoPart = optionTypeE.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)/* desde aqui va fora tot lo de la dreta */.replace('XXX', '').replace('YYY', ''),
-                material = option ? option.selectedValue : '';
-
-              this.addConfigMaterialPart(materials, material, [cantoPart]);
+            // Change <normal|double> from Canto Thickness
+            if (cantoThicknessOpt) {
+              showParts.forEach(part => {
+                part = part
+                  .replace(SOLES_THICKNESS_NORMAL, cantoThicknessOpt.selectedValue)
+                  .replace(SOLES_THICKNESS_DOUBLE, cantoThicknessOpt.selectedValue)
+              });
             }
 
-          } else if (option.type == 'H') {
+            // TODO Change <270|360> from Canto Vira-Stormwelt
+            // if (cantoViraStormweltOpt) { 
+            //   showParts.forEach(part => {
+            //     part = part
+            //       .replace(SOLES_VIRA_270, cantoViraStormweltOpt.selectedValue)
+            //       .replace(SOLES_VIRA_360, cantoViraStormweltOpt.selectedValue)
+            //   });
+            // }
 
+
+            override = [...override, ...showParts];
+
+            if (soleColorOpt) {
+              var material = soleColorOpt ? soleColorOpt.selectedValue : '';
+              this.addConfigMaterialPart(materials, material, showParts[0]); // Sole
+            }
+            if (cantoColorOpt) {
+              var material = cantoColorOpt ? cantoColorOpt.selectedValue : '';
+              this.addConfigMaterialPart(materials, material, showParts[1]); // Canto
+            }
+
+          } else if (option.type == 'F') {
+            // Sole color
+          } else if (option.type == 'G') {
+            // Canto color
+          } else if (option.type == 'H') {
+            // Canto thickness
           }
         });
       });
@@ -385,7 +409,7 @@ let threedium = {
      */
     actionG(step, option) {
       var stepSoles = SHOP.customizer.getStepData(STEP_ID_SOLES),
-        optionTypeE = SHOP.customizer.getStepOptionByType(stepSoles, 'E');
+        optionTypeE = SHOP.customizer.getStepOptionByType(stepSoles, 'E'); // Sole Color
 
       if (optionTypeE) {
         var cantoPart = optionTypeE.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)/* desde aqui va fora tot lo de la dreta */.replace('XXX', '').replace('YYY', ''),
@@ -395,6 +419,35 @@ let threedium = {
 
         this.hideGroupShowPart([option.threediumGroupPart], showParts);
         this.changeMaterial([cantoPart], option.selectedValue);
+      }
+    },
+
+    /**
+     * [Canto___Soles___Weight] options action type
+     * @param {string} step 
+     * @param {string} option 
+     */
+    actionH(step, option) {
+      var stepSoles = SHOP.customizer.getStepData(STEP_ID_SOLES),
+        optionTypeE = SHOP.customizer.getStepOptionByType(stepSoles, 'E'), // Sole type
+        optionTypeF = SHOP.customizer.getStepOptionByType(stepSoles, 'F'), // Sole color
+        optionTypeG = SHOP.customizer.getStepOptionByType(step, 'G'); // Canto Color
+
+      if (optionTypeE) {
+        var cantoPart = optionTypeE.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)/* desde aqui va fora tot lo de la dreta */.replace('XXX', '').replace('YYY', ''),
+          // @TODO Remove two replaces when threedium model sigui bo !!! tingui un id correcte
+          solePart = optionTypeE.selectedValue/* desde aqui va fora tot lo de la dreta */.replace('XXX', '').replace('YYY', ''),
+          showParts = [solePart, cantoPart];
+
+        // Change <normal|double> to seleted THICKNESS
+        showParts.forEach(part => {
+          part = part.replace(SOLES_THICKNESS_NORMAL, option.selectedValue).replace(SOLES_THICKNESS_DOUBLE, option.selectedValue)
+        });
+
+        this.hideGroupShowPart([option.threediumGroupPart], showParts);
+
+        if (optionTypeF) this.changeMaterial([solePart], optionTypeF.selectedValue);
+        if (optionTypeG) this.changeMaterial([cantoPart], optionTypeG.selectedValue);
       }
     },
   },

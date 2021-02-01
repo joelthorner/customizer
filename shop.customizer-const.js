@@ -24,12 +24,14 @@ const EMPTY_OPTION_VALUE_PART = 'NONE';
 
 /**
  * Prefix of Soles option values id (selected value part)
+ * "SoleXXX_360_double" --> "Sole"
  * @constant {string}
  */
 const ID_PREFIX_SOLE = 'Sole';
 
 /**
  * Prefix of Soles option values id (selected value part)
+ * "CantoXXX_360_double" --> "Canto"
  * @constant {string}
  */
 const ID_PREFIX_CANTO = 'Canto';
@@ -45,3 +47,31 @@ const STEP_ID_SOLES = 'Soles';
  * @constant {string}
  */
 const STEP_ID_CANTO = 'Canto';
+
+/**
+ * Static part of value sole|canto, thickness.
+ * "CantoXXX_360_normal" --> "normal"
+ * @constant {string}
+ */
+const SOLES_THICKNESS_NORMAL = 'normal';
+
+/**
+ * Static part of value sole|canto, thickness.
+ * "CantoXXX_360_double" --> "double"
+ * @constant {string}
+ */
+const SOLES_THICKNESS_DOUBLE = 'double';
+
+/**
+ * Static part of value sole|canto, vira.
+ * "CantoXXX_270_double" --> "270"
+ * @constant {number}
+ */
+const SOLES_VIRA_270 = 270;
+
+/**
+ * Static part of value sole|canto, vira.
+ * "CantoXXX_360_double" --> "360"
+ * @constant {number}
+ */
+const SOLES_VIRA_360 = 360;

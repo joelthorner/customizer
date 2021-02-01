@@ -185,7 +185,6 @@ let methods = {
      * @param {object} $optionValue - Selected option value
      */
     checkRestrictedOptionValues($option, $optionValue) {
-      console.log($option, $optionValue);
       let self = SHOP.customizer,
         data = $optionValue.data('option-value');
 
