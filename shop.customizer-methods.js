@@ -153,12 +153,11 @@ let methods = {
 
     /**
      * Restrict option values from step by other option selected value
-     * @param {object} selectedOption 
+     * @param {string} selectedValueSplit 
      * @param {object} optionToRestrict 
      */
-    restrictOptionValues(selectedOption, optionToRestrict) {
+    restrictOptionValues(selectedValueSplit, optionToRestrict) {
       var self = SHOP.customizer,
-        selectedValueSplit = selectedOption.selectedValue.split('_'), // "SoleXXX_270_normal" --> [id, weight, <normal|double>]
         restrictParam = selectedValueSplit.length === 3 ? selectedValueSplit[0] : null; // "SoleXXX"
 
       if (optionToRestrict) {
@@ -186,6 +185,7 @@ let methods = {
      * @param {object} $optionValue - Selected option value
      */
     checkRestrictedOptionValues($option, $optionValue) {
+      console.log($option, $optionValue);
       let self = SHOP.customizer,
         data = $optionValue.data('option-value');
 
@@ -206,7 +206,6 @@ let methods = {
         if ($validOptionValue) {
           let stepId = $validOptionValue.data('step-id'),
             optionValueData = $validOptionValue.data('option-value');
-
           this.selectOptionValue($validOptionValue, stepId, optionValueData);
         }
       }
@@ -221,8 +220,15 @@ let methods = {
       self.getStepsData().forEach((step) => {
         step.options.forEach((option) => {
           if (option.type == 'E') {
-            optionTypeF = self.getStepOptionByType(step, 'F')
-            self.methods.restrictOptionValues(option, optionTypeF);
+            let optionTypeF = self.getStepOptionByType(step, 'F'),
+              selectedValueSplit = option.selectedValue.split('_');
+
+            self.methods.restrictOptionValues(selectedValueSplit, optionTypeF);
+
+            let stepCanto = SHOP.customizer.getStepData(STEP_ID_CANTO),
+              optionTypeCantoG = SHOP.customizer.getStepOptionByType(stepCanto, 'G');
+
+            self.methods.restrictOptionValues(selectedValueSplit, optionTypeCantoG);
           }
         });
       });

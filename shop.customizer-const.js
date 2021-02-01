@@ -33,3 +33,15 @@ const ID_PREFIX_SOLE = 'Sole';
  * @constant {string}
  */
 const ID_PREFIX_CANTO = 'Canto';
+
+/**
+ * Static id of Soles Step
+ * @constant {string}
+ */
+const STEP_ID_SOLES = 'Soles';
+
+/**
+ * Static id of Canto Step
+ * @constant {string}
+ */
+const STEP_ID_CANTO = 'Canto';
