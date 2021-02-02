@@ -408,46 +408,49 @@ let threedium = {
      * @param {string} option 
      */
     actionG(step, option) {
-      var stepSoles = SHOP.customizer.getStepData(STEP_ID_SOLES),
+      let stepSoles = SHOP.customizer.getStepData(STEP_ID_SOLES),
         optionTypeE = SHOP.customizer.getStepOptionByType(stepSoles, 'E'); // Sole Color
 
       if (optionTypeE) {
-        var cantoPart = optionTypeE.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)/* desde aqui va fora tot lo de la dreta */.replace('XXX', '').replace('YYY', ''),
-          // @TODO Remove two replaces when threedium model sigui bo !!! tingui un id correcte
-          solePart = optionTypeE.selectedValue/* desde aqui va fora tot lo de la dreta */.replace('XXX', '').replace('YYY', ''),
-          showParts = [solePart, cantoPart];
+        let cantoPart = optionTypeE.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO);
+        // solePart = optionTypeE.selectedValue;
+        // showParts = [solePart, cantoPart];
 
-        this.hideGroupShowPart([option.threediumGroupPart], showParts);
+        // TODO remove this
+        cantoPart = cantoPart.replace('XXX', '').replace('YYY', '');
+
+        // this.hideGroupShowPart([option.threediumGroupPart], showParts);
         this.changeMaterial([cantoPart], option.selectedValue);
       }
     },
 
     /**
-     * [Canto___Soles___Weight] options action type
+     * [Canto___Soles___Thickness] options action type
      * @param {string} step 
      * @param {string} option 
      */
     actionH(step, option) {
-      var stepSoles = SHOP.customizer.getStepData(STEP_ID_SOLES),
+      let stepSoles = SHOP.customizer.getStepData(STEP_ID_SOLES),
         optionTypeE = SHOP.customizer.getStepOptionByType(stepSoles, 'E'), // Sole type
         optionTypeF = SHOP.customizer.getStepOptionByType(stepSoles, 'F'), // Sole color
         optionTypeG = SHOP.customizer.getStepOptionByType(step, 'G'); // Canto Color
 
       if (optionTypeE) {
-        var cantoPart = optionTypeE.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)/* desde aqui va fora tot lo de la dreta */.replace('XXX', '').replace('YYY', ''),
-          // @TODO Remove two replaces when threedium model sigui bo !!! tingui un id correcte
-          solePart = optionTypeE.selectedValue/* desde aqui va fora tot lo de la dreta */.replace('XXX', '').replace('YYY', ''),
-          showParts = [solePart, cantoPart];
+        let replaceValuePart = (text) => text.replace(SOLES_THICKNESS_NORMAL, option.selectedValue).replace(SOLES_THICKNESS_DOUBLE, option.selectedValue),
+          cantoPart = replaceValuePart(optionTypeE.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)),
+          solePart = replaceValuePart(optionTypeE.selectedValue),
+          showParts = [cantoPart, solePart];
 
-        // Change <normal|double> to seleted THICKNESS
-        showParts.forEach(part => {
-          part = part.replace(SOLES_THICKNESS_NORMAL, option.selectedValue).replace(SOLES_THICKNESS_DOUBLE, option.selectedValue)
+        // TODO remove this
+        showParts[0] = showParts[0].replace('XXX', '').replace('YYY', '');
+        showParts[1] = showParts[1].replace('XXX', '').replace('YYY', '');
+        solePart = solePart.replace('XXX', '').replace('YYY', '');
+        cantoPart = cantoPart.replace('XXX', '').replace('YYY', '');
+
+        this.hideGroupShowPart([option.threediumGroupPart], showParts, () => {
+          if (optionTypeF) this.changeMaterial([solePart], optionTypeF.selectedValue);
+          if (optionTypeG) this.changeMaterial([cantoPart], optionTypeG.selectedValue);
         });
-
-        this.hideGroupShowPart([option.threediumGroupPart], showParts);
-
-        if (optionTypeF) this.changeMaterial([solePart], optionTypeF.selectedValue);
-        if (optionTypeG) this.changeMaterial([cantoPart], optionTypeG.selectedValue);
       }
     },
   },
