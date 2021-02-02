@@ -218,17 +218,20 @@ let methods = {
 
       self.getStepsData().forEach((step) => {
         step.options.forEach((option) => {
-          if (option.type == 'E') {
-            let optionTypeF = self.getStepOptionByType(step, 'F'),
+          // Restriction TYPE_SOLE_TYPE, restricts TYPE_SOLE_COLOR & TYPE_CANTO_COLOR
+          if (option.type == TYPE_SOLE_TYPE) {
+            let optionSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
               selectedValueSplit = option.selectedValue.split('_');
 
-            self.methods.restrictOptionValues(selectedValueSplit, optionTypeF);
+            self.methods.restrictOptionValues(selectedValueSplit, optionSoleColor);
 
             let stepCanto = SHOP.customizer.getStepData(STEP_ID_CANTO),
-              optionTypeCantoG = SHOP.customizer.getStepOptionByType(stepCanto, 'G');
+              optionCantoColor = SHOP.customizer.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR);
 
-            self.methods.restrictOptionValues(selectedValueSplit, optionTypeCantoG);
+            self.methods.restrictOptionValues(selectedValueSplit, optionCantoColor);
           }
+          // Restriction XXXXX
+          // if () {}
         });
       });
     },

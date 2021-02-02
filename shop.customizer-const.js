@@ -75,3 +75,39 @@ const SOLES_VIRA_270 = 270;
  * @constant {number}
  */
 const SOLES_VIRA_360 = 360;
+
+/*
+ * Types of options (option image field)
+ * Define how that option will behave within a step and in the customizer.
+ * http://10.254.1.55:8090/display/~joel.torner/Carmina+Threedium+personalitzador
+ */
+
+const TYPE_TOECAP = 'TOECAP';
+
+const TYPE_BURNISH = 'BURNISH';
+
+const TYPE_MEDALLION = 'MEDALLION';
+
+const TYPE_SIMPLE_MATERIAL = 'SIMPLE_MATERIAL';
+
+const TYPE_SOLE_TYPE = 'SOLE_TYPE';
+
+const TYPE_SOLE_COLOR = 'SOLE_COLOR';
+
+const TYPE_CANTO_COLOR = 'CANTO_COLOR';
+
+const TYPE_CANTO_THICKNESS = 'CANTO_THICKNESS';
+
+const TYPE_VIRA_PICADO = 'VIRA_PICADO';
+
+const CUSTOMIZER_OPT_TYPES = [
+  TYPE_TOECAP,
+  TYPE_BURNISH,
+  TYPE_MEDALLION,
+  TYPE_SIMPLE_MATERIAL,
+  TYPE_SOLE_TYPE,
+  TYPE_SOLE_COLOR,
+  TYPE_CANTO_COLOR,
+  TYPE_CANTO_THICKNESS,
+  TYPE_VIRA_PICADO,
+];
