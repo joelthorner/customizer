@@ -97,7 +97,7 @@ let threedium = {
     },
 
     /**
-     * Create an object with the initial 3D moelo settings. 
+     * Create an object with the initial 3D model settings. 
      * According to the options that are selected.
      * 
      * @example
@@ -151,10 +151,10 @@ let threedium = {
               optSoleType = option,
               optSoleColor = SHOP.customizer.getStepOptionByType(step, TYPE_SOLE_COLOR),
               optCantoColor = SHOP.customizer.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR),
-              optCantoThickness = SHOP.customizer.getStepOptionByType(stepCanto, TYPE_CANTO_THICKNESS);
-            // TODO optViraPicado = SHOP.customizer.getStepOptionByType(stepCanto, TYPE_VIRA_PICADO); // Canto Vira-Stormwelt
+              optCantoThickness = SHOP.customizer.getStepOptionByType(stepCanto, TYPE_CANTO_THICKNESS),
+              optViraPicado = SHOP.customizer.getStepOptionByType(stepCanto, TYPE_VIRA_PICADO),
 
-            var solePart = optSoleType.selectedValue,
+              solePart = optSoleType.selectedValue,
               cantoPart = solePart.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
               showParts = [solePart, cantoPart];
 
@@ -164,21 +164,25 @@ let threedium = {
 
             // Change <normal|double> from Canto Thickness
             if (optCantoThickness) {
-              showParts.forEach(part => {
-                part = part
+              for (let i = 0; i < showParts.length; i++) {
+                showParts[i] = showParts[i]
                   .replace(SOLES_THICKNESS_NORMAL, optCantoThickness.selectedValue)
                   .replace(SOLES_THICKNESS_DOUBLE, optCantoThickness.selectedValue)
-              });
+              }
             }
 
-            // TODO Change <270|360> from Canto Vira-Stormwelt
-            // if (optViraPicado) { 
-            //   showParts.forEach(part => {
-            //     part = part
-            //       .replace(SOLES_VIRA_270, optViraPicado.selectedValue)
-            //       .replace(SOLES_VIRA_360, optViraPicado.selectedValue)
-            //   });
-            // }
+            // Change <270|360> from Canto Vira-Stormwelt
+            if (optViraPicado) {
+              let viraPicadoValue = optViraPicado.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`));
+
+              if (viraPicadoValue) {
+                for (let i = 0; i < showParts.length; i++) {
+                  showParts[i] = showParts[i]
+                    .replace(SOLES_VIRA_270, viraPicadoValue[0])
+                    .replace(SOLES_VIRA_360, viraPicadoValue[0])
+                }
+              }
+            }
 
 
             override = [...override, ...showParts];
@@ -283,6 +287,7 @@ let threedium = {
      */
     hideGroupShowPart(hideParts = [], showParts = [], callback = (error) => console.log(error)) {
       this.hideGroup(hideParts, (error) => {
+        console.log(error)
         this.showPart(showParts, callback);
       });
     },
@@ -297,13 +302,13 @@ let threedium = {
      */
     hideGroupShowPartChangeMaterial(hideParts = [], showParts = [], changeMaterialParts = [], material = '', callback = (error) => console.log(error)) {
       this.hideGroupShowPart(hideParts, showParts, (error) => {
-        if (material.length)
-          this.changeMaterial(changeMaterialParts, material, callback);
+        console.log(error)
+        if (material.length) this.changeMaterial(changeMaterialParts, material, callback);
       });
     },
 
     /**
-     * Threedium api actions depending option type
+     * Execute a function depending on the type of an option
      * @param {string} type - value of CUSTOMIZER_OPT_TYPES
      * @param {string} stepId
      * @param {string} optionId
@@ -423,11 +428,11 @@ let threedium = {
      */
     actionCantoColor(step, option) {
       let stepSoles = SHOP.customizer.getStepData(STEP_ID_SOLES),
-        optSoleColor = SHOP.customizer.getStepOptionByType(stepSoles, TYPE_SOLE_COLOR);
+        optSoleType = SHOP.customizer.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE);
 
-      if (optSoleColor) {
-        let cantoPart = optSoleColor.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO);
-        // solePart = optSoleColor.selectedValue;
+      if (optSoleType) {
+        let cantoPart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO);
+        // solePart = optSoleType.selectedValue;
         // showParts = [solePart, cantoPart];
 
         // TODO remove this
@@ -443,7 +448,7 @@ let threedium = {
      * @param {string} step 
      * @param {string} option 
      */
-    actionSoleThickness(step, option) {
+    actionCantoThickness(step, option) {
       let stepSoles = SHOP.customizer.getStepData(STEP_ID_SOLES),
         optSoleType = SHOP.customizer.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE),
         optSoleColor = SHOP.customizer.getStepOptionByType(stepSoles, TYPE_SOLE_COLOR),
@@ -462,7 +467,43 @@ let threedium = {
         cantoPart = cantoPart.replace('XXX', '').replace('YYY', '');
 
         this.hideGroupShowPart([option.threediumGroupPart], showParts, () => {
-          if (optSoleColor) this.changeMaterial([solePart], optionTypeF.selectedValue);
+          if (optSoleColor) this.changeMaterial([solePart], optSoleColor.selectedValue);
+          if (optCantoColor) this.changeMaterial([cantoPart], optCantoColor.selectedValue);
+        });
+      }
+    },
+
+    /**
+     * Manages Canto Vira-picado option
+     * @param {string} step 
+     * @param {string} option 
+     */
+    actionViraPicado(step, option) {
+      let stepSoles = SHOP.customizer.getStepData(STEP_ID_SOLES),
+        optSoleType = SHOP.customizer.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE),
+        optSoleColor = SHOP.customizer.getStepOptionByType(stepSoles, TYPE_SOLE_COLOR),
+        optCantoColor = SHOP.customizer.getStepOptionByType(step, TYPE_CANTO_COLOR);
+
+      if (optSoleType) {
+        let viraPicadoValue = option.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`)),
+          replaceValuePart = (text) => text.replace(SOLES_VIRA_270, viraPicadoValue).replace(SOLES_VIRA_360, viraPicadoValue),
+          cantoPart = replaceValuePart(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)),
+          solePart = replaceValuePart(optSoleType.selectedValue),
+          hideParts = [option.threediumGroupPart, optSoleType.threediumGroupPart], // "Picado", "Soles"
+          showParts = [cantoPart, solePart, option.selectedValue];
+
+        // TODO remove this
+        showParts[0] = showParts[0].replace('XXX', '').replace('YYY', '');
+        showParts[1] = showParts[1].replace('XXX', '').replace('YYY', '');
+        solePart = solePart.replace('XXX', '').replace('YYY', '');
+        cantoPart = cantoPart.replace('XXX', '').replace('YYY', '');
+
+        // TODO Activar la part Stormwelt si tria opcio amb bordón.
+
+        // Sole/Canto parts update (270/360) & Vira parts update
+        this.hideGroupShowPart(hideParts, showParts, (error) => {
+          console.log(error);
+          if (optSoleColor) this.changeMaterial([solePart], optSoleColor.selectedValue);
           if (optCantoColor) this.changeMaterial([cantoPart], optCantoColor.selectedValue);
         });
       }
