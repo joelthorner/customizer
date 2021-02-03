@@ -76,6 +76,13 @@ const SOLES_VIRA_270 = 270;
  */
 const SOLES_VIRA_360 = 360;
 
+/**
+ * Static part of value of vira_picado option.
+ * "picado_0_360___Picado___Stormwelt" --> "Stormwelt"
+ * @constant {number}
+ */
+const STORMWELT_PARAM = 'Stormwelt';
+
 /*
  * Types of options (option image field)
  * Define how that option will behave within a step and in the customizer.

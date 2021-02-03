@@ -86,6 +86,8 @@ let methods = {
         selectedValue: data.threediumValue,
         selectedTitle: data.valueTitle,
         selectedValueImg: data.valueImg,
+        selectedValueImg: data.valueImg,
+        params: data.params,
       });
 
       // Save if all step options are selected
