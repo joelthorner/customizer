@@ -1287,3 +1287,32 @@
   /* steps side */
 
 }
+
+#customizer-threedium-debug {
+  position: fixed;
+  z-index: 10000;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 330px;
+}
+
+#customizer-threedium-debug .string {
+  color: #c41a16;
+}
+
+#customizer-threedium-debug .number {
+  color: #1c00cf;
+}
+
+#customizer-threedium-debug .boolean {
+  color: #1c00cf;
+}
+
+#customizer-threedium-debug .null {
+  color: magenta;
+}
+
+#customizer-threedium-debug .key {
+  color: #881391;
+}

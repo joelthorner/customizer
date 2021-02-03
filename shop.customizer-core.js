@@ -16,5 +16,4 @@ SHOP.customizer = {
    * @type {boolean} 
    */
   userInteraction: false,
-
 };

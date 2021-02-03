@@ -1,28 +1,4 @@
-let init = {
-
-  /**
-   * Main init of threedium customizer
-   */
-  init() {
-    this.$el = $('#customizer-layout');
-
-    if (this.$el.length && $('html').hasClass('customizer-threedium')) {
-      this.data = this.getData();
-      this.fluidConfs();
-      this.components.init();
-      this.threedium.import();
-      this.listeners.init();
-      SHOP.module.sizeGuideMenu.init();
-    }
-  },
-
-  /**
-   * Fluid configurations before customizer init
-   */
-  fluidConfs() {
-    Fluid.config.showModalBasket = false;
-  },
-
+let listeners = {
   /**
    * All click events associated with customizer components are executed here
    */
@@ -188,5 +164,5 @@ let init = {
   },
 };
 
-// Add init into customizer object
-SHOP.customizer = { ...SHOP.customizer, ...init };
+// Add listeners into customizer object
+SHOP.customizer = { ...SHOP.customizer, ...listeners };

@@ -270,7 +270,7 @@ let api = {
    */
   getStepOptionByType(step, type) {
     var result = null;
-    
+
     if (CUSTOMIZER_OPT_TYPES.includes(type)) {
       for (let i = 0; i < step.options.length; i++) {
         const element = step.options[i];

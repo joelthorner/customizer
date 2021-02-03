@@ -207,13 +207,14 @@ let methods = {
         if ($validOptionValue) {
           let stepId = $validOptionValue.data('step-id'),
             optionValueData = $validOptionValue.data('option-value');
+
           this.selectOptionValue($validOptionValue, stepId, optionValueData);
         }
       }
     },
 
     /**
-     * Apply all restrictions between options
+     * Apply all restrictions between options and steps
      */
     applyAllRestrictions() {
       let self = SHOP.customizer;

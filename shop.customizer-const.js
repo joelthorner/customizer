@@ -79,7 +79,7 @@ const SOLES_VIRA_360 = 360;
 /**
  * Static part of value of vira_picado option.
  * "picado_0_360___Picado___Stormwelt" --> "Stormwelt"
- * @constant {number}
+ * @constant {string}
  */
 const STORMWELT_PARAM = 'Stormwelt';
 

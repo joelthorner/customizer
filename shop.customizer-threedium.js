@@ -92,7 +92,10 @@ let threedium = {
       self.methods.applyAllRestrictions();
 
       self.threedium.configuration = self.threedium.getConfiguration();
-      console.log(self.threedium.configuration);
+
+      if (self.debug.enabled)
+        console.log(self.threedium.configuration);
+
       Unlimited3D.init(self.threedium.options, self.threedium.configuration, self.threedium.onLoad);
     },
 
@@ -201,12 +204,12 @@ let threedium = {
               this.addConfigMaterialPart(materials, material, showParts[1]); // Canto
             }
           } else if (option.type == TYPE_VIRA_PICADO) {
-            
+
             // Stormwelt
             if (option.params[2] && option.params[2] === STORMWELT_PARAM) {
               override.push(STORMWELT_PARAM);
             }
-            
+
           }
         });
       });
@@ -479,6 +482,10 @@ let threedium = {
           if (optSoleColor) this.changeMaterial([solePart], optSoleColor.selectedValue);
           if (optCantoColor) this.changeMaterial([cantoPart], optCantoColor.selectedValue);
         });
+
+        SHOP.customizer.setStepOptionData(STEP_ID_SOLES, optSoleType.id, {
+          selectedValue: solePart,
+        });
       }
     },
 
@@ -517,6 +524,7 @@ let threedium = {
             if (showParts[0]) showParts[0] = showParts[0].replace('XXX', '').replace('YYY', '');
             if (showParts[1]) showParts[1] = showParts[1].replace('XXX', '').replace('YYY', '');
             if (showParts[2]) showParts[2] = showParts[2].replace('XXX', '').replace('YYY', '');
+            if (showParts[3]) showParts[3] = showParts[3].replace('XXX', '').replace('YYY', '');
             solePart = solePart.replace('XXX', '').replace('YYY', '');
             cantoPart = cantoPart.replace('XXX', '').replace('YYY', '');
             // END TODO remove this
