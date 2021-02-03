@@ -114,7 +114,11 @@ let threedium = {
      */
     getConfiguration() {
       // Nomes es mostraran les parts que jo digui la resta s'ocultaran gracies al <override>.
-      var materials = {}, override = [];
+      var materials = {}, override = [
+        'Culet_logo',
+        'Sole_interior',
+        'Culet', // TODO remove this cuan s'implementi el culet segons ToeCap
+      ];
 
       SHOP.customizer.getStepsData().forEach((step) => {
         var part = step.id;
@@ -489,16 +493,41 @@ let threedium = {
           replaceValuePart = (text) => text.replace(SOLES_VIRA_270, viraPicadoValue).replace(SOLES_VIRA_360, viraPicadoValue),
           cantoPart = replaceValuePart(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)),
           solePart = replaceValuePart(optSoleType.selectedValue),
-          hideParts = [option.threediumGroupPart, optSoleType.threediumGroupPart], // "Picado", "Soles"
-          showParts = [cantoPart, solePart, option.selectedValue];
-
-        // TODO remove this
-        showParts[0] = showParts[0].replace('XXX', '').replace('YYY', '');
-        showParts[1] = showParts[1].replace('XXX', '').replace('YYY', '');
-        solePart = solePart.replace('XXX', '').replace('YYY', '');
-        cantoPart = cantoPart.replace('XXX', '').replace('YYY', '');
+          hideParts = [option.threediumGroupPart], // "Picado", "Soles"
+          showParts = [option.selectedValue];
 
         // TODO Activar la part Stormwelt si tria opcio amb bordón.
+
+        // Add Sole & Canto to showParts if change 270 or 360
+        let oldViraPicadoValue = optSoleType.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`)),
+          newViraPicadoValue = option.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`));
+
+        if (newViraPicadoValue && oldViraPicadoValue) {
+          if (newViraPicadoValue[0] != oldViraPicadoValue[0]) {
+            showParts = [...showParts, ...[cantoPart, solePart]];
+            hideParts.push(optSoleType.threediumGroupPart);
+
+            // TODO remove this
+            if (showParts[0]) showParts[0] = showParts[0].replace('XXX', '').replace('YYY', '');
+            if (showParts[1]) showParts[1] = showParts[1].replace('XXX', '').replace('YYY', '');
+            if (showParts[2]) showParts[2] = showParts[2].replace('XXX', '').replace('YYY', '');
+            solePart = solePart.replace('XXX', '').replace('YYY', '');
+            cantoPart = cantoPart.replace('XXX', '').replace('YYY', '');
+            // END TODO remove this
+
+            SHOP.customizer.setStepOptionData(STEP_ID_SOLES, optSoleType.id, {
+              selectedValue: solePart,
+            });
+          }
+        }
+
+        // TODO remove this
+        if (showParts[0]) showParts[0] = showParts[0].replace('XXX', '').replace('YYY', '');
+        if (showParts[1]) showParts[1] = showParts[1].replace('XXX', '').replace('YYY', '');
+        if (showParts[2]) showParts[2] = showParts[2].replace('XXX', '').replace('YYY', '');
+        solePart = solePart.replace('XXX', '').replace('YYY', '');
+        cantoPart = cantoPart.replace('XXX', '').replace('YYY', '');
+        // END TODO remove this
 
         // Sole/Canto parts update (270/360) & Vira parts update
         this.hideGroupShowPart(hideParts, showParts, (error) => {
