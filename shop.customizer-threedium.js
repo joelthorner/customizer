@@ -7,15 +7,12 @@ let threedium = {
     /**
      * Initializes Unlimited3D library.
      * https://threedium.co.uk/documentation/api
-     * @TODO parametritzar model per producte
      */
     options: {
       distID: 'latest',
-      // solution3DName: 'trilogi-solution-2',
-      solution3DName: 'trilogi-aj-80250',
+      // solution3DID: '4792',
+      // solution3DName: 'trilogi-aj-80250',
       projectName: 'carmina-shoes-demo',
-      // solution3DID: '4544',
-      solution3DID: '4792',
       containerID: 'customizer-render',
       collectAnalytics: false,
 
@@ -43,7 +40,7 @@ let threedium = {
        * Called whenever user clicks on the scene First and only parameter is an array of objects in format.
        * @param {array} objectsClick 
        */
-      onPointerClick: function (objectsClick) {
+      onPointerClick(objectsClick) {
         console.log(objectsClick);
         if (objectsClick.length) {
           var clickedValue = objectsClick[0].shortName,
@@ -94,9 +91,28 @@ let threedium = {
       self.methods.applyAllRestrictions();
 
       self.threedium.configuration = self.threedium.getConfiguration();
+      self.threedium.options = self.threedium.getOptions();
+
       console.log(self.threedium.configuration);
+      console.log(self.threedium.options);
 
       Unlimited3D.init(self.threedium.options, self.threedium.configuration, self.threedium.onLoad);
+    },
+
+    /**
+     * Merge default defined threedium model options with product
+     * CT options if exists.
+     * @return {object}
+     */
+    getOptions() {
+      var $ctOptions = $('#threedium-model-options'),
+        ctOptions = $ctOptions.length ? $ctOptions.data('options') : {};
+
+      if (Object.keys(ctOptions).length === 0 && ctOptions.constructor === Object) {
+        console.error('epp falten params');
+      }
+
+      return { ...this.options, ...ctOptions };
     },
 
     /**
