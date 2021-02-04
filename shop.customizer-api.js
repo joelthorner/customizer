@@ -286,6 +286,22 @@ let api = {
   },
 
   /**
+   * From the parameters of an option value it returns us whether it exists or not
+   * @param {string[]} params 
+   * @param {string} value 
+   */
+  existsOptionParam(params, value) {
+    for (let index = 0; index < params.length; index++) {
+      const element = params[index];
+      
+      if (value.trim() === element.trim()) {
+        return true;
+      }
+    }
+    return false;
+  },
+
+  /**
    * Initialize data for SHOP.customizer.data.steps property.
    */
   setStepsData() {

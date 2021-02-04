@@ -11,9 +11,11 @@ let threedium = {
      */
     options: {
       distID: 'latest',
-      solution3DName: 'trilogi-solution-2',
+      // solution3DName: 'trilogi-solution-2',
+      solution3DName: 'trilogi-aj-80250',
       projectName: 'carmina-shoes-demo',
-      solution3DID: '4544',
+      // solution3DID: '4544',
+      solution3DID: '4792',
       containerID: 'customizer-render',
       collectAnalytics: false,
 
@@ -146,17 +148,9 @@ let threedium = {
               }
             }
 
-            //   if (optSimpleMaterial) {
-            //     this.addConfigMaterialPart(materials, optSimpleMaterial.selectedValue, option.selectedValue);
-            //   }
-            //   if (option.selectedValue !== EMPTY_OPTION_VALUE_PART) {
-                
-            //     override.push(option.selectedValue);
-            //   }
-            
           } else if (option.type == TYPE_SOLE_TYPE) {
 
-            // Per donar una part bona a la configuració 'sagafen totes les parts i materials aplicats
+            // Per donar una part bona a la configuració s'agafen totes les parts i materials aplicats
             // sobre Sole i Canto d'una tacada ja que son parts fraccionades entre varies opcions.
             let stepCanto = self.getStepData(STEP_ID_CANTO),
               optSoleType = option,
@@ -172,6 +166,8 @@ let threedium = {
             // TODO remove this
             showParts[0] = showParts[0].replace('XXX', '').replace('YYY', '');
             showParts[1] = showParts[1].replace('XXX', '').replace('YYY', '');
+            cantoPart = cantoPart.replace('XXX', '').replace('YYY', '');
+            solePart = solePart.replace('XXX', '').replace('YYY', '');
             // END TODO remove this
 
             // Change <normal|double> from Canto Thickness
@@ -200,24 +196,32 @@ let threedium = {
 
             if (optSoleColor) {
               var material = optSoleColor ? optSoleColor.selectedValue : '';
-              this.addConfigMaterialPart(materials, material, showParts[0]); // Sole
+              this.addConfigMaterialPart(materials, material, solePart);
             }
             if (optCantoColor) {
               var material = optCantoColor ? optCantoColor.selectedValue : '';
-              this.addConfigMaterialPart(materials, material, showParts[1]); // Canto
+              this.addConfigMaterialPart(materials, material, cantoPart);
             }
+
           } else if (option.type == TYPE_VIRA_PICADO) {
 
+            let optCantoColor = self.getStepOptionByType(step, TYPE_CANTO_COLOR),
+              material = optCantoColor ? optCantoColor.selectedValue : '';
+
             // Stormwelt
-            for (let i = 0; i < option.params.length; i++) {
-              if (option.params[i] === STORMWELT_PARAM) {
-                override.push(STORMWELT_PARAM);
-                break;
-              }
-            } 
+            if (self.existsOptionParam(option.params, STORMWELT_PARAM)) {
+              override.push(STORMWELT_PARAM);
+            }
+
+            // Apply canto material to vira-picado
+            // TODO fix materials - El material del canto no es valid per el vira-picado
+            // if (optCantoColor) {
+            //   var material = optCantoColor ? optCantoColor.selectedValue : '';
+            //   this.addConfigMaterialPart(materials, material, option.selectedValue);
+            // }
 
           } else if (option.type == TYPE_CHANGE_PART) {
-            
+
             // Simple change part with change material option in same step
             let optSimpleMaterial = self.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
 
@@ -366,6 +370,7 @@ let threedium = {
         const element = step.options[i];
         if (element.type == TYPE_SIMPLE_MATERIAL) changeMaterialPartsArr.push(element.threediumGroupPart);
         if (element.type == TYPE_MEDALLION) changeMaterialPartsArr.push(element.selectedValue);
+        if (element.type == TYPE_CHANGE_PART) changeMaterialPartsArr.push(element.selectedValue);
       }
 
       this.changeMaterial(changeMaterialPartsArr, option.selectedValue);
@@ -526,10 +531,14 @@ let threedium = {
           cantoPart = replaceValuePart(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)),
           solePart = replaceValuePart(optSoleType.selectedValue),
           hideParts = [option.threediumGroupPart], // "Picado", "Soles"
-          showParts = [option.selectedValue];
+          showParts = [option.selectedValue],
+          // partsWithCantoMaterial = [cantoPart, option.selectedValue]; // TODO fix materials - El material del canto no es valid per el vira-picado
+          partsWithCantoMaterial = [cantoPart];
 
         // Stormwelt
-        if (option.params[2] && option.params[2] === STORMWELT_PARAM) showParts.push(STORMWELT_PARAM);
+        if (self.existsOptionParam(option.params, STORMWELT_PARAM)) {
+          showParts.push(STORMWELT_PARAM);
+        }
 
         // Add Sole & Canto to showParts if change 270 or 360
         let oldViraPicadoValue = optSoleType.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`)),
@@ -557,17 +566,21 @@ let threedium = {
 
         // TODO remove this
         if (showParts[0]) showParts[0] = showParts[0].replace('XXX', '').replace('YYY', '');
+        if (partsWithCantoMaterial[0]) partsWithCantoMaterial[0] = partsWithCantoMaterial[0].replace('XXX', '').replace('YYY', '');
         if (showParts[1]) showParts[1] = showParts[1].replace('XXX', '').replace('YYY', '');
+        if (partsWithCantoMaterial[1]) partsWithCantoMaterial[1] = partsWithCantoMaterial[1].replace('XXX', '').replace('YYY', '');
         if (showParts[2]) showParts[2] = showParts[2].replace('XXX', '').replace('YYY', '');
+        if (partsWithCantoMaterial[2]) partsWithCantoMaterial[2] = partsWithCantoMaterial[2].replace('XXX', '').replace('YYY', '');
         solePart = solePart.replace('XXX', '').replace('YYY', '');
         cantoPart = cantoPart.replace('XXX', '').replace('YYY', '');
         // END TODO remove this
 
         // Sole/Canto parts update (270/360) & Vira parts update
         this.hideGroupShowPart(hideParts, showParts, (error) => {
-          console.log(error);
+          if (error) console.log(error);
+
           if (optSoleColor) this.changeMaterial([solePart], optSoleColor.selectedValue);
-          if (optCantoColor) this.changeMaterial([cantoPart], optCantoColor.selectedValue);
+          if (optCantoColor) this.changeMaterial(partsWithCantoMaterial, optCantoColor.selectedValue);
         });
       }
     },
