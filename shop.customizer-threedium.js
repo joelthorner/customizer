@@ -92,9 +92,7 @@ let threedium = {
       self.methods.applyAllRestrictions();
 
       self.threedium.configuration = self.threedium.getConfiguration();
-
-      if (self.debug.enabled)
-        console.log(self.threedium.configuration);
+      console.log(self.threedium.configuration);
 
       Unlimited3D.init(self.threedium.options, self.threedium.configuration, self.threedium.onLoad);
     },
@@ -126,31 +124,36 @@ let threedium = {
         ];
 
       self.getStepsData().forEach((step) => {
-        let part = step.id;
-
         step.options.forEach((option) => {
           if (option.type == TYPE_SIMPLE_MATERIAL) {
 
-            this.addConfigMaterialPart(materials, option.selectedValue, part);
-            override.push(part);
+            this.addConfigMaterialPart(materials, option.selectedValue, option.threediumGroupPart);
+            override.push(option.threediumGroupPart);
 
           } else if (option.type == TYPE_BURNISH) {
             // TODO
 
           } else if (option.type == TYPE_MEDALLION) {
 
-            // Todo, change type TYPE_SIMPLE_MATERIAL to TYPE_TOECAP in the future
-            // fer un agafo TYPE_SIMPLE_MATERIAL sino trobo agafo TYPE_TOECAP
+            // TODO, change type TYPE_SIMPLE_MATERIAL to TYPE_TOECAP in the future
             let optSimpleMaterial = self.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
 
-            if (option.selectedValue === EMPTY_OPTION_VALUE_PART) {
-              override.push(optSimpleMaterial.threediumGroupPart);
-            } else {
+            if (option.selectedValue !== EMPTY_OPTION_VALUE_PART) {
+              override.push(option.selectedValue);
+
               if (optSimpleMaterial) {
                 this.addConfigMaterialPart(materials, optSimpleMaterial.selectedValue, option.selectedValue);
               }
-              override.push(option.selectedValue);
             }
+
+            //   if (optSimpleMaterial) {
+            //     this.addConfigMaterialPart(materials, optSimpleMaterial.selectedValue, option.selectedValue);
+            //   }
+            //   if (option.selectedValue !== EMPTY_OPTION_VALUE_PART) {
+                
+            //     override.push(option.selectedValue);
+            //   }
+            
           } else if (option.type == TYPE_SOLE_TYPE) {
 
             // Per donar una part bona a la configuració 'sagafen totes les parts i materials aplicats
@@ -206,8 +209,24 @@ let threedium = {
           } else if (option.type == TYPE_VIRA_PICADO) {
 
             // Stormwelt
-            if (option.params[2] && option.params[2] === STORMWELT_PARAM) {
-              override.push(STORMWELT_PARAM);
+            for (let i = 0; i < option.params.length; i++) {
+              if (option.params[i] === STORMWELT_PARAM) {
+                override.push(STORMWELT_PARAM);
+                break;
+              }
+            } 
+
+          } else if (option.type == TYPE_CHANGE_PART) {
+            
+            // Simple change part with change material option in same step
+            let optSimpleMaterial = self.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
+
+            if (option.selectedValue !== EMPTY_OPTION_VALUE_PART) {
+              override.push(option.selectedValue);
+
+              if (optSimpleMaterial) {
+                this.addConfigMaterialPart(materials, optSimpleMaterial.selectedValue, option.selectedValue);
+              }
             }
 
           }
@@ -366,6 +385,7 @@ let threedium = {
      * Manages Medallion (Floron) option
      * @param {string} step 
      * @param {string} option 
+     * @todo change TYPE_SIMPLE_MATERIAL to TYPE_TOECAP
      */
     actionMedallion(step, option) {
       var optSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
@@ -549,6 +569,26 @@ let threedium = {
           if (optSoleColor) this.changeMaterial([solePart], optSoleColor.selectedValue);
           if (optCantoColor) this.changeMaterial([cantoPart], optCantoColor.selectedValue);
         });
+      }
+    },
+
+    /**
+     * Manages Canto Vira-picado option
+     * @param {string} step 
+     * @param {string} option 
+     */
+    actionChangePart(step, option) {
+      var optSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
+
+      if (option.selectedValue === EMPTY_OPTION_VALUE_PART) {
+        var showParts = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
+        this.hideGroupShowPart([option.threediumGroupPart], showParts);
+      } else {
+        var hidePartsArr = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
+        var material = optSimpleMaterial ? optSimpleMaterial.selectedValue : '';
+
+        hidePartsArr.push(option.threediumGroupPart);
+        this.hideGroupShowPartChangeMaterial(hidePartsArr, [option.selectedValue], [option.selectedValue], material);
       }
     },
   },

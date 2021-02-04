@@ -1,11 +1,11 @@
 let debug = {
-  debug: {
 
+  debug: {
     /**
      * Enable/disable debug info. Errors will continue to appear in console.
      * @type {boolean} 
      */
-    enabled: true,
+    enabled: window.location.search.includes('debug=1'),
 
     init() {
       if (this.enabled) {
@@ -14,94 +14,29 @@ let debug = {
     },
 
     printDebugPanel() {
-      // this.debounce(() => {
-        console.log('print');
-        let stringJson = JSON.stringify(SHOP.customizer.data, null, 2),
-        prettyJson = SHOP.customizer.debug.syntaxHighlight(stringJson),
-        $panel = $('#customizer-threedium-debug');
-        
-        if (!$panel.length) {
-          $('body').append('<pre id="customizer-threedium-debug"></pre>');
-          $panel = $('#customizer-threedium-debug');
-        }
-        
-        $panel.html(prettyJson);
-      // }, 1000);
-    },
+      console.log('print');
 
-    syntaxHighlight(json) {
-      if (typeof json != 'string') {
-        json = JSON.stringify(json, undefined, 2);
+      if (!$('#customizer-threedium-debug').length) {
+        $('body').append('<div id="customizer-threedium-debug"></div>');
       }
-      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
-        var cls = 'number';
-        if (/^"/.test(match)) {
-          if (/:$/.test(match)) {
-            cls = 'key';
-          } else {
-            cls = 'string';
-          }
-        } else if (/true|false/.test(match)) {
-          cls = 'boolean';
-        } else if (/null/.test(match)) {
-          cls = 'null';
-        }
-        return '<span class="' + cls + '">' + match + '</span>';
-      });
-    },
+      $('#customizer-threedium-debug').html('');
 
-    // debounce(func, wait, immediate) {
-    //   var timeout;
-    //   return function () {
-    //     var context = this, args = arguments;
-    //     var later = function () {
-    //       timeout = null;
-    //       if (!immediate) func.apply(context, args);
-    //     };
-    //     var callNow = immediate && !timeout;
-    //     clearTimeout(timeout);
-    //     timeout = setTimeout(later, wait);
-    //     if (callNow) func.apply(context, args);
-    //   };
-    // },
+      var jsonViewer = new JSONViewer();
+      document.querySelector("#customizer-threedium-debug").appendChild(jsonViewer.getContainer());
+      jsonViewer.showJSON(SHOP.customizer.data);
+    },
 
     handler() {
-      let t = null;
-
       return {
-        // get: (obj, prop) => {
-        //   // clearTimeout(t);
+        get: (obj, prop) => {
+          // this.printDebugPanel();
 
-        //   // setTimeout(() => {
-        //   //   this.printDebugPanel();
-        //   // }, 1000);
-        //   console.log('gotit');
-
-        //   // this.throttle(() => {
-        //   //   console.log('print 1');
-        //   //   this.printDebugPanel();
-        //   // }, 1000);
-        //   // this.debounce(() => {
-        //   //   this.printDebugPanel();
-        //   // }, 1000);
-
-
-        //   if (['[object Object]', '[object Array]'].indexOf(Object.prototype.toString.call(obj[prop])) > -1) {
-        //     return new Proxy(obj[prop], this.handler());
-        //   }
-        //   return obj[prop];
-        // },
+          if (['[object Object]', '[object Array]'].indexOf(Object.prototype.toString.call(obj[prop])) > -1) {
+            return new Proxy(obj[prop], this.handler());
+          }
+          return obj[prop];
+        },
         set: (obj, prop, value) => {
-          console.log('set it');
-
-          // this.throttle(() => {
-          //   console.log('print 2');
-          //   this.printDebugPanel();
-          // }, 1000);
-
-          // this.debounce(() => {
-          // }, 1000);
           this.printDebugPanel();
 
           obj[prop] = value;
@@ -114,3 +49,8 @@ let debug = {
 
 // Add debug into customizer object
 SHOP.customizer = { ...SHOP.customizer, ...debug };
+
+/**
+ * JSONViewer - by Roman Makudera 2016 (c) MIT licence.
+ */
+var JSONViewer = function (e) { var t = {}.toString, n = t.call(new Date); function a() { this._dom_container = e.createElement("pre"), this._dom_container.classList.add("json-viewer") } function i(t, n) { var a = e.createElement("span"), i = typeof t, l = "" + t; return "string" === i ? l = '"' + t + '"' : null === t ? i = "null" : n && (i = "date", l = t.toLocaleString()), a.className = "type-" + i, a.textContent = l, a } function l(t) { var n = e.createElement("span"); return n.className = "items-ph hide", n.innerHTML = function (e) { return e + " " + (e > 1 || 0 === e ? "items" : "item") }(t), n } function r(t) { var n = e.createElement("a"); return n.classList.add("list-link"), n.href = "javascript:void(0)", n.innerHTML = t || "", n } return a.prototype.showJSON = function (a, s, d) { var o = "number" == typeof s ? s : -1, c = "number" == typeof d ? d : -1; this._dom_container.innerHTML = "", function a(s, d, o, c, p) { var h = t.call(d) === n; var u = !h && "object" == typeof d && null !== d && "toJSON" in d ? d.toJSON() : d; if ("object" != typeof u || null === u || h) s.appendChild(i(d, h)); else { var f = o >= 0 && p >= o, g = c >= 0 && p >= c, v = Array.isArray(u), m = v ? u : Object.keys(u); if (0 === p) { var y = l(m.length), L = r(v ? "[" : "{"); m.length ? (L.addEventListener("click", function () { f || (L.classList.toggle("collapsed"), y.classList.toggle("hide"), s.querySelector("ul").classList.toggle("hide")) }), g && (L.classList.add("collapsed"), y.classList.remove("hide"))) : L.classList.add("empty"), L.appendChild(y), s.appendChild(L) } if (m.length && !f) { var C = m.length - 1, N = e.createElement("ul"); N.setAttribute("data-level", p), N.classList.add("type-" + (v ? "array" : "object")), m.forEach(function (t, n) { var s = v ? t : d[t], h = e.createElement("li"); if ("object" == typeof s) if (!s || s instanceof Date) h.appendChild(e.createTextNode(v ? "" : t + ": ")), h.appendChild(i(s || null, !0)); else { var u = Array.isArray(s), f = u ? s.length : Object.keys(s).length; if (f) { var g = ("string" == typeof t ? t + ": " : "") + (u ? "[" : "{"), m = r(g), y = l(f); o >= 0 && p + 1 >= o ? h.appendChild(e.createTextNode(g)) : (m.appendChild(y), h.appendChild(m)), a(h, s, o, c, p + 1), h.appendChild(e.createTextNode(u ? "]" : "}")); var L = h.querySelector("ul"), T = function () { m.classList.toggle("collapsed"), y.classList.toggle("hide"), L.classList.toggle("hide") }; m.addEventListener("click", T), c >= 0 && p + 1 >= c && T() } else h.appendChild(e.createTextNode(t + ": " + (u ? "[]" : "{}"))) } else v || h.appendChild(e.createTextNode(t + ": ")), a(h, s, o, c, p + 1); n < C && h.appendChild(e.createTextNode(",")), N.appendChild(h) }, this), s.appendChild(N) } else if (m.length && f) { var T = l(m.length); T.classList.remove("hide"), s.appendChild(T) } if (0 === p) { if (!m.length) { var T = l(0); T.classList.remove("hide"), s.appendChild(T) } s.appendChild(e.createTextNode(v ? "]" : "}")), g && s.querySelector("ul").classList.add("hide") } } }(this._dom_container, a, o, c, 0) }, a.prototype.getContainer = function () { return this._dom_container }, a }(document);

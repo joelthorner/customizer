@@ -2,7 +2,7 @@
  * Src threedium api (Fluid.import)
  * @constant {string}
  */
-const THREEDIUM_API_SRC = 'https://distcdn.unlimited3d.com/pres/v/1.1.21/unlimited3d.min.js';
+const THREEDIUM_API_SRC = 'https://distcdn.unlimited3d.com/pres/v/1.1.23/unlimited3d.min.js';
 
 /**
  * Static id of resume "step"
@@ -107,6 +107,8 @@ const TYPE_CANTO_THICKNESS = 'CANTO_THICKNESS';
 
 const TYPE_VIRA_PICADO = 'VIRA_PICADO';
 
+const TYPE_CHANGE_PART = 'CHANGE_PART';
+
 const CUSTOMIZER_OPT_TYPES = [
   TYPE_TOECAP,
   TYPE_BURNISH,
@@ -117,4 +119,5 @@ const CUSTOMIZER_OPT_TYPES = [
   TYPE_CANTO_COLOR,
   TYPE_CANTO_THICKNESS,
   TYPE_VIRA_PICADO,
+  TYPE_CHANGE_PART,
 ];

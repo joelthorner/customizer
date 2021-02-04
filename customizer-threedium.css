@@ -1283,10 +1283,7 @@
 
 @media (min-width: 1200px) {}
 
-@media (min-width: 1400px) {
-  /* steps side */
-
-}
+@media (min-width: 1400px) {}
 
 #customizer-threedium-debug {
   position: fixed;
@@ -1295,24 +1292,62 @@
   left: 0;
   bottom: 0;
   width: 330px;
+  overflow: auto;
 }
 
-#customizer-threedium-debug .string {
+.json-viewer {
+  padding-left: 15px;
+  background-color: #FFF;
+  border-radius: 0;
+  border-width: 0 1px 0 0;
+  font-size: 12px;
+}
+
+.json-viewer ul {
+  list-style-type: none;
+  margin: 0;
+  margin: 0 0 0 1px;
+  border-left: 1px dotted #ccc;
+  padding-left: 1em;
+}
+
+.json-viewer .hide {
+  display: none;
+}
+
+.json-viewer .type-string {
   color: #c41a16;
 }
 
-#customizer-threedium-debug .number {
-  color: #1c00cf;
-}
-
-#customizer-threedium-debug .boolean {
-  color: #1c00cf;
-}
-
-#customizer-threedium-debug .null {
-  color: magenta;
-}
-
-#customizer-threedium-debug .key {
+.json-viewer .type-date {
   color: #881391;
+}
+
+.json-viewer .type-boolean {
+  color: #0d22aa;
+  font-weight: bold;
+}
+
+.json-viewer .type-number {
+  color: #0d22aa;
+}
+
+.json-viewer .type-null,
+.json-viewer .type-undefined {
+  color: #881391;
+}
+
+.json-viewer a.list-link {
+  color: #000;
+  text-decoration: none;
+  position: relative;
+}
+
+.json-viewer .items-ph {
+  color: #aaa;
+  padding: 0 1em;
+}
+
+.json-viewer .items-ph:hover {
+  text-decoration: underline;
 }
