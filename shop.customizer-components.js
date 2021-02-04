@@ -429,15 +429,7 @@ let components = {
       // For each option value set enable or disable depending on restriction
       $elements.each((index, el) => {
         var data = $(el).data('option-value'),
-          hide = true;
-
-        if (restrictParam) {
-          for (let i = 0; i < data.params.length; i++) {
-            if (data.params[i].trim() === restrictParam.trim()) hide = false;
-          }
-        } else {
-          hide = false;
-        }
+          hide = !SHOP.customizer.existsOptionParam(data.params, restrictParam);
 
         if (hide) data.restricted = true;
         else data.restricted = false;

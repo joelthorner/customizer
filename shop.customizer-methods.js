@@ -155,12 +155,11 @@ let methods = {
 
     /**
      * Restrict option values from step by other option selected value
-     * @param {string} selectedValueSplit 
+     * @param {string} restrictParam 
      * @param {object} optionToRestrict 
      */
-    restrictOptionValues(selectedValueSplit, optionToRestrict) {
-      var self = SHOP.customizer,
-        restrictParam = selectedValueSplit.length === 3 ? selectedValueSplit[0] : null; // "SoleXXX"
+    restrictOptionValues(restrictParam, optionToRestrict) {
+      var self = SHOP.customizer;
 
       if (optionToRestrict) {
         var $stepContentOption = self.components.getRestrictedOption(optionToRestrict.id),
@@ -224,14 +223,16 @@ let methods = {
           // Restriction TYPE_SOLE_TYPE, restricts TYPE_SOLE_COLOR & TYPE_CANTO_COLOR
           if (option.type == TYPE_SOLE_TYPE) {
             let optionSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
-              selectedValueSplit = option.selectedValue.split('_');
+              solePartParams = self.getSoleTypeValueParams(option.selectedValue)
 
-            self.methods.restrictOptionValues(selectedValueSplit, optionSoleColor);
+            if (solePartParams) {
+              self.methods.restrictOptionValues(solePartParams.id, optionSoleColor);
 
-            let stepCanto = SHOP.customizer.getStepData(STEP_ID_CANTO),
-              optionCantoColor = SHOP.customizer.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR);
+              let stepCanto = SHOP.customizer.getStepData(STEP_ID_CANTO),
+                optionCantoColor = SHOP.customizer.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR);
 
-            self.methods.restrictOptionValues(selectedValueSplit, optionCantoColor);
+              self.methods.restrictOptionValues(solePartParams.id, optionCantoColor);
+            }
           }
           // Restriction XXXXX
           // if () {}

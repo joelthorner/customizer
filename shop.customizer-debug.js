@@ -14,8 +14,6 @@ let debug = {
     },
 
     printDebugPanel() {
-      console.log('print');
-
       if (!$('#customizer-threedium-debug').length) {
         $('body').append('<div id="customizer-threedium-debug"></div>');
       }

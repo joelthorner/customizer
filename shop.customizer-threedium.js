@@ -414,15 +414,16 @@ let threedium = {
      * @param {string} option 
      */
     actionSoleType(step, option) {
-      var optSoleColor = SHOP.customizer.getStepOptionByType(step, TYPE_SOLE_COLOR),
-        stepCanto = SHOP.customizer.getStepData(ID_PREFIX_CANTO),
-        optCantoColor = SHOP.customizer.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR),
+      let self = SHOP.customizer,
+        optSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
+        stepCanto = self.getStepData(ID_PREFIX_CANTO),
+        optCantoColor = self.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR),
+
         soleMaterial = optSoleColor ? optSoleColor.selectedValue : '',
-        // @TODO Remove two replaces when threedium model sigui bo !!! tingui un id correcte
         solePart = option.selectedValue,
         cantoPart = option.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
         showParts = [solePart, cantoPart],
-        selectedValueSplit = option.selectedValue.split('_'); // "SoleXXX_270_normal" --> [id, weight, <normal|double>];
+        solePartParams = self.getSoleTypeValueParams(option.selectedValue);
 
       // TODO remove this
       showParts[0] = showParts[0].replace('XXX', '').replace('YYY', '');
@@ -431,8 +432,10 @@ let threedium = {
       // TODO revisar el tercer param aqui, que collons hi fa?
       this.hideGroupShowPartChangeMaterial([option.threediumGroupPart], showParts, soleMaterial);
 
-      SHOP.customizer.methods.restrictOptionValues(selectedValueSplit, optSoleColor);
-      SHOP.customizer.methods.restrictOptionValues(selectedValueSplit, optCantoColor);
+      if (solePartParams) {
+        self.methods.restrictOptionValues(solePartParams.id, optSoleColor);
+        self.methods.restrictOptionValues(solePartParams.id, optCantoColor);
+      }
     },
 
     /**
@@ -520,10 +523,11 @@ let threedium = {
      * @param {string} option 
      */
     actionViraPicado(step, option) {
-      let stepSoles = SHOP.customizer.getStepData(STEP_ID_SOLES),
-        optSoleType = SHOP.customizer.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE),
-        optSoleColor = SHOP.customizer.getStepOptionByType(stepSoles, TYPE_SOLE_COLOR),
-        optCantoColor = SHOP.customizer.getStepOptionByType(step, TYPE_CANTO_COLOR);
+      let self = SHOP.customizer,
+        stepSoles = self.getStepData(STEP_ID_SOLES),
+        optSoleType = self.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE),
+        optSoleColor = self.getStepOptionByType(stepSoles, TYPE_SOLE_COLOR),
+        optCantoColor = self.getStepOptionByType(step, TYPE_CANTO_COLOR);
 
       if (optSoleType) {
         let viraPicadoValue = option.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`)),

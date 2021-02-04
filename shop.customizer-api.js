@@ -286,16 +286,42 @@ let api = {
   },
 
   /**
+   * Returns the parameters of the option value of type SOLE_TYPE
+   * If value is not 100% valid returns null
+   * Params of string value are: <part>_<id>_<vira>_<thicknes>
+   * Regexp: (Sole|Canto)_([a-zA-Z]+)_(270|360)_(normal|double)
+   * @param {string} value
+   * @return {object|null}
+   */
+  getSoleTypeValueParams(value) {
+    let rgxp = new RegExp(`(${ID_PREFIX_SOLE}|${ID_PREFIX_CANTO})_([a-zA-Z]+)_(${SOLES_VIRA_270}|${SOLES_VIRA_360})_(${SOLES_THICKNESS_NORMAL}|${SOLES_THICKNESS_DOUBLE})`),
+      matchResult = value.match(rgxp);
+
+    if (matchResult)
+      return {
+        part: matchResult[1],
+        id: matchResult[2],
+        vira: matchResult[3],
+        thicknes: matchResult[4],
+      };
+
+    return null;
+  },
+
+  /**
    * From the parameters of an option value it returns us whether it exists or not
    * @param {string[]} params 
    * @param {string} value 
+   * @return {boolean}
    */
   existsOptionParam(params, value) {
-    for (let index = 0; index < params.length; index++) {
-      const element = params[index];
-      
-      if (value.trim() === element.trim()) {
-        return true;
+    if (value && params) {
+      for (let index = 0; index < params.length; index++) {
+        const element = params[index];
+
+        if (value.trim() === element.trim()) {
+          return true;
+        }
       }
     }
     return false;
