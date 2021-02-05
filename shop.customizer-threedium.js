@@ -21,7 +21,7 @@ let threedium = {
        * @param {object} loading 
        */
       onLoadingChanged(loading) {
-        var text = loading.progress.toFixed(0) + '%',
+        let text = loading.progress.toFixed(0) + '%',
           $loading = $('#loading-customizer');
 
         $loading.find('.percent').text(text);
@@ -43,13 +43,13 @@ let threedium = {
       onPointerClick(objectsClick) {
         console.log(objectsClick);
         if (objectsClick.length) {
-          var clickedValue = objectsClick[0].shortName,
+          let clickedValue = objectsClick[0].shortName,
             step = SHOP.customizer.getStepData(clickedValue);
 
           if (step) {
             SHOP.customizer.methods.activeStep(step.id);
           } else {
-            var findedStep = SHOP.customizer.findStepByOptionSelectedValue(clickedValue);
+            let findedStep = SHOP.customizer.findStepByOptionSelectedValue(clickedValue);
             if (findedStep) {
               SHOP.customizer.methods.activeStep(findedStep.id);
             }
@@ -69,7 +69,7 @@ let threedium = {
       if (error == null) {
         $('#loading-customizer').addClass('hide');
       } else {
-        console.error('Customizer loading error: ', error);
+        CustomizerError('Customizer loading error: ', error);
       }
     },
 
@@ -86,11 +86,11 @@ let threedium = {
      */
     init() {
       // Self is necessary because Fluid.import losses "this" reference
-      var self = SHOP.customizer;
+      let self = SHOP.customizer;
 
       self.methods.applyAllRestrictions();
 
-      self.threedium.configuration = self.threedium.getConfiguration();
+      // self.threedium.configuration = self.threedium.getConfiguration();
       self.threedium.options = self.threedium.getOptions();
 
       console.log(self.threedium.configuration);
@@ -105,11 +105,11 @@ let threedium = {
      * @return {object}
      */
     getOptions() {
-      var $ctOptions = $('#threedium-model-options'),
+      let $ctOptions = $('#threedium-model-options'),
         ctOptions = $ctOptions.length ? $ctOptions.data('options') : {};
 
       if (Object.keys(ctOptions).length === 0 && ctOptions.constructor === Object) {
-        console.error('epp falten params');
+        CustomizerError(false, 'Threedium model parameters missing');
       }
 
       return { ...this.options, ...ctOptions };
@@ -143,17 +143,16 @@ let threedium = {
 
       self.getStepsData().forEach((step) => {
         step.options.forEach((option) => {
-          if (option.type == TYPE_SIMPLE_MATERIAL) {
+          if (option.type === TYPE_SIMPLE_MATERIAL) {
 
             this.addConfigMaterialPart(materials, option.selectedValue, option.threediumGroupPart);
             override.push(option.threediumGroupPart);
 
-          } else if (option.type == TYPE_BURNISH) {
+          } else if (option.type === TYPE_BURNISH) {
             // TODO
 
-          } else if (option.type == TYPE_MEDALLION) {
+          } else if (option.type === TYPE_MEDALLION || option.type === TYPE_CHANGE_PART) {
 
-            // TODO, change type TYPE_SIMPLE_MATERIAL to TYPE_TOECAP in the future
             let optSimpleMaterial = self.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
 
             if (option.selectedValue !== EMPTY_OPTION_VALUE_PART) {
@@ -164,7 +163,7 @@ let threedium = {
               }
             }
 
-          } else if (option.type == TYPE_SOLE_TYPE) {
+          } else if (option.type === TYPE_SOLE_TYPE) {
 
             // Per donar una part bona a la configuració s'agafen totes les parts i materials aplicats
             // sobre Sole i Canto d'una tacada ja que son parts fraccionades entre varies opcions.
@@ -178,13 +177,6 @@ let threedium = {
               solePart = optSoleType.selectedValue,
               cantoPart = solePart.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
               showParts = [solePart, cantoPart];
-
-            // TODO remove this
-            showParts[0] = showParts[0].replace('XXX', '').replace('YYY', '');
-            showParts[1] = showParts[1].replace('XXX', '').replace('YYY', '');
-            cantoPart = cantoPart.replace('XXX', '').replace('YYY', '');
-            solePart = solePart.replace('XXX', '').replace('YYY', '');
-            // END TODO remove this
 
             // Change <normal|double> from Canto Thickness
             if (optCantoThickness) {
@@ -211,15 +203,15 @@ let threedium = {
             override = [...override, ...showParts];
 
             if (optSoleColor) {
-              var material = optSoleColor ? optSoleColor.selectedValue : '';
+              let material = optSoleColor ? optSoleColor.selectedValue : '';
               this.addConfigMaterialPart(materials, material, solePart);
             }
             if (optCantoColor) {
-              var material = optCantoColor ? optCantoColor.selectedValue : '';
+              let material = optCantoColor ? optCantoColor.selectedValue : '';
               this.addConfigMaterialPart(materials, material, cantoPart);
             }
 
-          } else if (option.type == TYPE_VIRA_PICADO) {
+          } else if (option.type === TYPE_VIRA_PICADO) {
 
             let optCantoColor = self.getStepOptionByType(step, TYPE_CANTO_COLOR),
               material = optCantoColor ? optCantoColor.selectedValue : '';
@@ -232,22 +224,9 @@ let threedium = {
             // Apply canto material to vira-picado
             // TODO fix materials - El material del canto no es valid per el vira-picado
             // if (optCantoColor) {
-            //   var material = optCantoColor ? optCantoColor.selectedValue : '';
+            //   let material = optCantoColor ? optCantoColor.selectedValue : '';
             //   this.addConfigMaterialPart(materials, material, option.selectedValue);
             // }
-
-          } else if (option.type == TYPE_CHANGE_PART) {
-
-            // Simple change part with change material option in same step
-            let optSimpleMaterial = self.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
-
-            if (option.selectedValue !== EMPTY_OPTION_VALUE_PART) {
-              override.push(option.selectedValue);
-
-              if (optSimpleMaterial) {
-                this.addConfigMaterialPart(materials, optSimpleMaterial.selectedValue, option.selectedValue);
-              }
-            }
 
           }
         });
@@ -297,7 +276,7 @@ let threedium = {
      * @param {string} material
      * @param {function} callback
      */
-    changeMaterial(parts = [], material = '', callback = (error) => console.log(error)) {
+    changeMaterial(parts = [], material = '', callback = (error) => CustomizerError(error, 'on changeMaterial')) {
       Unlimited3D.changeMaterial({
         parts: parts,
         material: material,
@@ -309,7 +288,7 @@ let threedium = {
      * @param {string[]} parts 
      * @param {function} callback 
      */
-    hideGroup(parts = [], callback = (error) => console.log(error)) {
+    hideGroup(parts = [], callback = (error) => CustomizerError(error, 'on hideGroup')) {
       Unlimited3D.hideParts({
         parts: parts,
       }, callback);
@@ -320,7 +299,7 @@ let threedium = {
      * @param {string[]} parts 
      * @param {function} callback 
      */
-    showPart(parts = [], callback = (error) => console.log(error)) {
+    showPart(parts = [], callback = (error) => CustomizerError(error, 'on showPart')) {
       Unlimited3D.showParts({
         partObjects: [
           {
@@ -336,9 +315,9 @@ let threedium = {
      * @param {string[]} showParts 
      * @param {function} callback 
      */
-    hideGroupShowPart(hideParts = [], showParts = [], callback = (error) => console.log(error)) {
+    hideGroupShowPart(hideParts = [], showParts = [], callback = (error) => CustomizerError(error, 'on hideGroupShowPart')) {
       this.hideGroup(hideParts, (error) => {
-        console.log(error)
+        CustomizerError(error, 'on hideGroup');
         this.showPart(showParts, callback);
       });
     },
@@ -351,9 +330,9 @@ let threedium = {
      * @param {string} material 
      * @param {function} callback 
      */
-    hideGroupShowPartChangeMaterial(hideParts = [], showParts = [], changeMaterialParts = [], material = '', callback = (error) => console.log(error)) {
+    hideGroupShowPartChangeMaterial(hideParts = [], showParts = [], changeMaterialParts = [], material = '', callback = (error) => CustomizerError(error, 'on hideGroupShowPartChangeMaterial')) {
       this.hideGroupShowPart(hideParts, showParts, (error) => {
-        console.log(error)
+        CustomizerError(error, 'on hideGroupShowPartChangeMaterial');
         if (material.length) this.changeMaterial(changeMaterialParts, material, callback);
       });
     },
@@ -365,7 +344,7 @@ let threedium = {
      * @param {string} optionId
      */
     action(type, stepId, optionId) {
-      var step = SHOP.customizer.getStepData(stepId),
+      let step = SHOP.customizer.getStepData(stepId),
         option = SHOP.customizer.getOptionData(stepId, optionId),
         camelCase = type.toLowerCase().replace(/_([a-z])/g, function (g) { return g[1].toUpperCase(); }),
         methodName = 'action' + camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
@@ -380,7 +359,7 @@ let threedium = {
      * @param {string} option 
      */
     actionSimpleMaterial(step, option) {
-      var changeMaterialPartsArr = [];
+      let changeMaterialPartsArr = [];
 
       for (let i = 0; i < step.options.length; i++) {
         const element = step.options[i];
@@ -406,17 +385,16 @@ let threedium = {
      * Manages Medallion (Floron) option
      * @param {string} step 
      * @param {string} option 
-     * @todo change TYPE_SIMPLE_MATERIAL to TYPE_TOECAP
      */
     actionMedallion(step, option) {
-      var optSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
+      let optSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
 
       if (option.selectedValue === EMPTY_OPTION_VALUE_PART) {
-        var showParts = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
+        let showParts = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
         this.hideGroupShowPart([option.threediumGroupPart], showParts);
       } else {
-        var hidePartsArr = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
-        var material = optSimpleMaterial ? optSimpleMaterial.selectedValue : '';
+        let hidePartsArr = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
+        let material = optSimpleMaterial ? optSimpleMaterial.selectedValue : '';
 
         hidePartsArr.push(option.threediumGroupPart);
         this.hideGroupShowPartChangeMaterial(hidePartsArr, [option.selectedValue], [option.selectedValue], material);
@@ -435,18 +413,13 @@ let threedium = {
         stepCanto = self.getStepData(ID_PREFIX_CANTO),
         optCantoColor = self.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR),
 
-        soleMaterial = optSoleColor ? optSoleColor.selectedValue : '',
+        // soleMaterial = optSoleColor ? optSoleColor.selectedValue : '',
         solePart = option.selectedValue,
         cantoPart = option.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
         showParts = [solePart, cantoPart],
         solePartParams = self.getSoleTypeValueParams(option.selectedValue);
 
-      // TODO remove this
-      showParts[0] = showParts[0].replace('XXX', '').replace('YYY', '');
-      showParts[1] = showParts[1].replace('XXX', '').replace('YYY', '');
-
-      // TODO revisar el tercer param aqui, que collons hi fa?
-      this.hideGroupShowPartChangeMaterial([option.threediumGroupPart], showParts, soleMaterial);
+      this.hideGroupShowPart([option.threediumGroupPart], showParts);
 
       if (solePartParams) {
         self.methods.restrictOptionValues(solePartParams.id, optSoleColor);
@@ -460,20 +433,10 @@ let threedium = {
      * @param {string} option 
      */
     actionSoleColor(step, option) {
-      var optSoleType = SHOP.customizer.getStepOptionByType(step, TYPE_SOLE_TYPE),
-        changeParts = [];
+      let optSoleType = SHOP.customizer.getStepOptionByType(step, TYPE_SOLE_TYPE);
 
       if (optSoleType) {
-        changeParts = [
-          optSoleType.selectedValue,
-          // optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
-        ];
-
-        // TODO remove this
-        changeParts[0] = changeParts[0].replace('XXX', '').replace('YYY', '');
-        // changeParts[1] = changeParts[1].replace('XXX', '').replace('YYY', '');
-
-        this.changeMaterial(changeParts, option.selectedValue);
+        this.changeMaterial([optSoleType.selectedValue], option.selectedValue);
       }
     },
 
@@ -490,9 +453,6 @@ let threedium = {
         let cantoPart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO);
         // solePart = optSoleType.selectedValue;
         // showParts = [solePart, cantoPart];
-
-        // TODO remove this
-        cantoPart = cantoPart.replace('XXX', '').replace('YYY', '');
 
         // this.hideGroupShowPart([option.threediumGroupPart], showParts);
         this.changeMaterial([cantoPart], option.selectedValue);
@@ -515,12 +475,6 @@ let threedium = {
           cantoPart = replaceValuePart(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)),
           solePart = replaceValuePart(optSoleType.selectedValue),
           showParts = [cantoPart, solePart];
-
-        // TODO remove this
-        showParts[0] = showParts[0].replace('XXX', '').replace('YYY', '');
-        showParts[1] = showParts[1].replace('XXX', '').replace('YYY', '');
-        solePart = solePart.replace('XXX', '').replace('YYY', '');
-        cantoPart = cantoPart.replace('XXX', '').replace('YYY', '');
 
         this.hideGroupShowPart([option.threediumGroupPart], showParts, () => {
           if (optSoleColor) this.changeMaterial([solePart], optSoleColor.selectedValue);
@@ -569,35 +523,15 @@ let threedium = {
             showParts = [...showParts, ...[cantoPart, solePart]];
             hideParts.push(optSoleType.threediumGroupPart);
 
-            // TODO remove this
-            if (showParts[0]) showParts[0] = showParts[0].replace('XXX', '').replace('YYY', '');
-            if (showParts[1]) showParts[1] = showParts[1].replace('XXX', '').replace('YYY', '');
-            if (showParts[2]) showParts[2] = showParts[2].replace('XXX', '').replace('YYY', '');
-            if (showParts[3]) showParts[3] = showParts[3].replace('XXX', '').replace('YYY', '');
-            solePart = solePart.replace('XXX', '').replace('YYY', '');
-            cantoPart = cantoPart.replace('XXX', '').replace('YYY', '');
-            // END TODO remove this
-
             SHOP.customizer.setStepOptionData(STEP_ID_SOLES, optSoleType.id, {
               selectedValue: solePart,
             });
           }
         }
 
-        // TODO remove this
-        if (showParts[0]) showParts[0] = showParts[0].replace('XXX', '').replace('YYY', '');
-        if (partsWithCantoMaterial[0]) partsWithCantoMaterial[0] = partsWithCantoMaterial[0].replace('XXX', '').replace('YYY', '');
-        if (showParts[1]) showParts[1] = showParts[1].replace('XXX', '').replace('YYY', '');
-        if (partsWithCantoMaterial[1]) partsWithCantoMaterial[1] = partsWithCantoMaterial[1].replace('XXX', '').replace('YYY', '');
-        if (showParts[2]) showParts[2] = showParts[2].replace('XXX', '').replace('YYY', '');
-        if (partsWithCantoMaterial[2]) partsWithCantoMaterial[2] = partsWithCantoMaterial[2].replace('XXX', '').replace('YYY', '');
-        solePart = solePart.replace('XXX', '').replace('YYY', '');
-        cantoPart = cantoPart.replace('XXX', '').replace('YYY', '');
-        // END TODO remove this
-
         // Sole/Canto parts update (270/360) & Vira parts update
         this.hideGroupShowPart(hideParts, showParts, (error) => {
-          if (error) console.log(error);
+          CustomizerError(error, 'on actionViraPicado');
 
           if (optSoleColor) this.changeMaterial([solePart], optSoleColor.selectedValue);
           if (optCantoColor) this.changeMaterial(partsWithCantoMaterial, optCantoColor.selectedValue);
@@ -611,14 +545,14 @@ let threedium = {
      * @param {string} option 
      */
     actionChangePart(step, option) {
-      var optSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
+      let optSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
 
       if (option.selectedValue === EMPTY_OPTION_VALUE_PART) {
-        var showParts = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
+        let showParts = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
         this.hideGroupShowPart([option.threediumGroupPart], showParts);
       } else {
-        var hidePartsArr = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
-        var material = optSimpleMaterial ? optSimpleMaterial.selectedValue : '';
+        let hidePartsArr = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
+        let material = optSimpleMaterial ? optSimpleMaterial.selectedValue : '';
 
         hidePartsArr.push(option.threediumGroupPart);
         this.hideGroupShowPartChangeMaterial(hidePartsArr, [option.selectedValue], [option.selectedValue], material);

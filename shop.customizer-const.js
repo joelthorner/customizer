@@ -32,6 +32,7 @@ const ID_PREFIX_SOLE = 'Sole';
 /**
  * Prefix of Soles option values id (selected value part)
  * "CantoXXX_360_double" --> "Canto"
+ * "Canto_Rojo" --> "Canto"
  * @constant {string}
  */
 const ID_PREFIX_CANTO = 'Canto';
@@ -89,8 +90,6 @@ const STORMWELT_PARAM = 'Stormwelt';
  * http://10.254.1.55:8090/display/~joel.torner/Carmina+Threedium+personalitzador
  */
 
-const TYPE_TOECAP = 'TOECAP';
-
 const TYPE_BURNISH = 'BURNISH';
 
 const TYPE_MEDALLION = 'MEDALLION';
@@ -109,8 +108,9 @@ const TYPE_VIRA_PICADO = 'VIRA_PICADO';
 
 const TYPE_CHANGE_PART = 'CHANGE_PART';
 
+const TYPE_CULET = 'CULET';
+
 const CUSTOMIZER_OPT_TYPES = [
-  TYPE_TOECAP,
   TYPE_BURNISH,
   TYPE_MEDALLION,
   TYPE_SIMPLE_MATERIAL,
@@ -120,4 +120,5 @@ const CUSTOMIZER_OPT_TYPES = [
   TYPE_CANTO_THICKNESS,
   TYPE_VIRA_PICADO,
   TYPE_CHANGE_PART,
+  TYPE_CULET,
 ];

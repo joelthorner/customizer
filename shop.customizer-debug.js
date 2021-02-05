@@ -14,13 +14,17 @@ let debug = {
     },
 
     printDebugPanel() {
-      if (!$('#customizer-threedium-debug').length) {
-        $('body').append('<div id="customizer-threedium-debug"></div>');
+      var panel = document.getElementById('customizer-threedium-debug');
+
+      if (!panel) {
+        var panel = document.createElement('div');
+        panel.id = 'customizer-threedium-debug';
+        document.body.appendChild(panel);
       }
-      $('#customizer-threedium-debug').html('');
 
       var jsonViewer = new JSONViewer();
-      document.querySelector("#customizer-threedium-debug").appendChild(jsonViewer.getContainer());
+      panel.innerHTML = '';
+      panel.appendChild(jsonViewer.getContainer());
       jsonViewer.showJSON(SHOP.customizer.data);
     },
 
@@ -43,6 +47,16 @@ let debug = {
       };
     },
   },
+};
+
+const CustomizerError = (error, message = '') => {
+  if (error) {
+
+    if (message.length)
+      console.error(error, message);
+    else
+      console.error(error);
+  }
 };
 
 // Add debug into customizer object
