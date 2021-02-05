@@ -57,23 +57,23 @@ let threedium = {
               SHOP.customizer.methods.activeStep(findedStep.id);
             }
           }
-
-          // let clickedValue = objectsClick[0].shortName,
-          //   step = SHOP.customizer.getStepData(clickedValue);
-
-          // if (step) {
-          //   SHOP.customizer.methods.activeStep(step.id);
-          // } else {
-          //   let findedStep = SHOP.customizer.findStepByOptionSelectedValue(clickedValue);
-          //   if (findedStep) {
-          //     SHOP.customizer.methods.activeStep(findedStep.id);
-          //   }
-          // }
         }
       },
     },
 
-    configuration: {},
+    configuration: {
+      parts: {
+        // hide,
+        // show,
+        override: [
+          'Culet_logo',
+          'Sole_interior',
+          'Culet', // TODO remove this cuan s'implementi el culet type
+        ],
+        materials: {},
+      },
+
+    },
 
     /**
      * Callback function called after action is completed first parameter returned is error, 
@@ -105,7 +105,7 @@ let threedium = {
 
       self.methods.applyAllRestrictions();
 
-      self.threedium.configuration = self.threedium.getConfiguration();
+      self.threedium.getConfiguration();
       self.threedium.options = self.threedium.getOptions();
 
       console.log(self.threedium.configuration);
@@ -133,7 +133,7 @@ let threedium = {
     /**
      * Create an object with the initial 3D model settings. 
      * According to the options that are selected.
-     * 
+     * Nomes es mostraran les parts que jo digui la resta s'ocultaran gracies al <override>.
      * @example
      * parts: {
      *   show: ['PartName'],
@@ -143,146 +143,189 @@ let threedium = {
      *     'Boxcalf_Black': ['ToeCap'],
      *   },
      * }, 
-     * @return {object}
      * @todo extreure de cada type una funcio per separar el codi
      */
     getConfiguration() {
-      // Nomes es mostraran les parts que jo digui la resta s'ocultaran gracies al <override>.
-      let self = SHOP.customizer,
-        materials = {},
-        override = [
-          'Culet_logo',
-          'Sole_interior',
-          'Culet', // TODO remove this cuan s'implementi el culet segons ToeCap
-        ];
-
-      self.getStepsData().forEach((step) => {
+      SHOP.customizer.getStepsData().forEach((step) => {
         step.options.forEach((option) => {
-          if (option.type === TYPE_SIMPLE_MATERIAL) {
+          let methodName = SHOP.customizer.getMethodName(option.type, 'getConf');
 
-            this.addConfigMaterialPart(materials, option.selectedValue, option.threediumGroupPart);
-            override.push(option.threediumGroupPart);
-
-          } else if (option.type === TYPE_BURNISH) {
-            // TODO
-
-          } else if (option.type === TYPE_MEDALLION || option.type === TYPE_CHANGE_PART) {
-
-            let optSimpleMaterial = self.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
-
-            if (option.selectedValue !== EMPTY_OPTION_VALUE_PART) {
-              override.push(option.selectedValue);
-
-              if (optSimpleMaterial) {
-                this.addConfigMaterialPart(materials, optSimpleMaterial.selectedValue, option.selectedValue);
-              }
-            }
-
-          } else if (option.type === TYPE_SOLE_TYPE) {
-
-            // Per donar una part bona a la configuració s'agafen totes les parts i materials aplicats
-            // sobre Sole i Canto d'una tacada ja que son parts fraccionades entre varies opcions.
-            let stepCanto = self.getStepData(STEP_ID_CANTO),
-              optSoleType = option,
-              optSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
-              optCantoColor = self.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR),
-              optCantoThickness = self.getStepOptionByType(stepCanto, TYPE_CANTO_THICKNESS),
-              optViraPicado = self.getStepOptionByType(stepCanto, TYPE_VIRA_PICADO),
-
-              solePart = optSoleType.selectedValue,
-              cantoPart = solePart.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
-              showParts = [solePart, cantoPart];
-
-            // Change <normal|double> from Canto Thickness
-            if (optCantoThickness) {
-              for (let i = 0; i < showParts.length; i++) {
-                showParts[i] = showParts[i]
-                  .replace(SOLES_THICKNESS_NORMAL, optCantoThickness.selectedValue)
-                  .replace(SOLES_THICKNESS_DOUBLE, optCantoThickness.selectedValue)
-              }
-            }
-
-            // Change <270|360> from Canto Vira-Stormwelt
-            if (optViraPicado) {
-              let viraPicadoValue = optViraPicado.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`));
-
-              if (viraPicadoValue) {
-                for (let i = 0; i < showParts.length; i++) {
-                  showParts[i] = showParts[i]
-                    .replace(SOLES_VIRA_270, viraPicadoValue[0])
-                    .replace(SOLES_VIRA_360, viraPicadoValue[0])
-                }
-              }
-            }
-
-            override = [...override, ...showParts];
-
-            if (optSoleColor) {
-              let material = optSoleColor ? optSoleColor.selectedValue : '';
-              this.addConfigMaterialPart(materials, material, solePart);
-            }
-            if (optCantoColor) {
-              let material = optCantoColor ? optCantoColor.selectedValue : '';
-              this.addConfigMaterialPart(materials, material, cantoPart);
-            }
-
-          } else if (option.type === TYPE_VIRA_PICADO) {
-
-            let optCantoColor = self.getStepOptionByType(step, TYPE_CANTO_COLOR),
-              material = optCantoColor ? optCantoColor.selectedValue : '';
-
-            // Stormwelt
-            if (self.existsOptionParam(option.params, STORMWELT_PARAM)) {
-              override.push(STORMWELT_PARAM);
-            }
-
-            // Apply canto material to vira-picado
-            // TODO fix materials - El material del canto no es valid per el vira-picado
-            // if (optCantoColor) {
-            //   let material = optCantoColor ? optCantoColor.selectedValue : '';
-            //   this.addConfigMaterialPart(materials, material, option.selectedValue);
-            // }
-
+          if (CUSTOMIZER_OPT_TYPES.includes(option.type) && typeof this[methodName] === 'function') {
+            this[methodName](step, option);
           }
         });
       });
-
-      return {
-        parts: {
-          // hide,
-          // show,
-          override,
-          materials,
-        },
-      };
     },
 
     /**
-     * Add part into material key to materials object
-     * @param {object} materials 
+     * Set threedium configuration of TYPE_SIMPLE_MATERIAL type
+     * @param {object} step 
+     * @param {object} option 
+     */
+    getConfSimpleMaterial(step, option) {
+      this.addConfigMaterialPart(option.selectedValue, option.threediumGroupPart);
+      this.addConfigOverridePart(option.threediumGroupPart);
+    },
+
+    /**
+     * Set threedium configuration of TYPE_BURNISH type
+     * @param {object} step 
+     * @param {object} option 
+     * @TODO all
+     */
+    getConfBurnish(step, option) {
+
+    },
+
+    /**
+     * Set threedium configuration of TYPE_MEDALLION type
+     * @param {object} step 
+     * @param {object} option 
+     */
+    getConfMedallion(step, option) {
+      let optSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
+
+      if (!SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
+        this.addConfigOverridePart(option.selectedValue);
+
+        if (optSimpleMaterial) {
+          this.addConfigMaterialPart(optSimpleMaterial.selectedValue, option.selectedValue);
+        }
+      }
+    },
+
+    /**
+     * Set threedium configuration of TYPE_CHANGE_PART type
+     * @param {object} step 
+     * @param {object} option 
+     */
+    getConfChangePArt(step, option) {
+      let optSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
+
+      if (!SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
+        this.addConfigOverridePart(option.selectedValue);
+
+        if (optSimpleMaterial) {
+          this.addConfigMaterialPart(optSimpleMaterial.selectedValue, option.selectedValue);
+        }
+      }
+    },
+
+    /**
+     * Set threedium configuration of TYPE_SOLE_TYPE type
+     * @param {object} step 
+     * @param {object} option 
+     */
+    getConfSoleType(step, option) {
+      // Per donar una part bona a la configuració s'agafen totes les parts i materials aplicats
+      // sobre Sole i Canto d'una tacada ja que son parts fraccionades entre varies opcions.
+      let self = SHOP.customizer,
+        stepCanto = self.getStepData(STEP_ID_CANTO),
+
+        optSoleType = option,
+        optSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
+        optCantoColor = self.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR),
+        optCantoThickness = self.getStepOptionByType(stepCanto, TYPE_CANTO_THICKNESS),
+        optViraPicado = self.getStepOptionByType(stepCanto, TYPE_VIRA_PICADO),
+
+        solePart = optSoleType.selectedValue,
+        cantoPart = solePart.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
+        showParts = [solePart, cantoPart];
+
+      // Change <normal|double> from Canto Thickness
+      if (optCantoThickness) {
+        for (let i = 0; i < showParts.length; i++) {
+          showParts[i] = showParts[i]
+            .replace(SOLES_THICKNESS_NORMAL, optCantoThickness.selectedValue)
+            .replace(SOLES_THICKNESS_DOUBLE, optCantoThickness.selectedValue)
+        }
+      }
+
+      // Change <270|360> from Canto Vira-Stormwelt
+      if (optViraPicado) {
+        let viraPicadoValue = optViraPicado.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`));
+
+        if (viraPicadoValue) {
+          for (let i = 0; i < showParts.length; i++) {
+            showParts[i] = showParts[i]
+              .replace(SOLES_VIRA_270, viraPicadoValue[0])
+              .replace(SOLES_VIRA_360, viraPicadoValue[0])
+          }
+        }
+      }
+
+      this.addConfigOverridePart(showParts);
+
+      if (optSoleColor) {
+        let material = optSoleColor ? optSoleColor.selectedValue : '';
+        this.addConfigMaterialPart(material, solePart);
+      }
+      if (optCantoColor) {
+        let material = optCantoColor ? optCantoColor.selectedValue : '';
+        this.addConfigMaterialPart(material, cantoPart);
+      }
+    },
+
+
+    /**
+     * Set threedium configuration of TYPE_VIRA_PICADO type
+     * @param {object} step 
+     * @param {object} option 
+     */
+    getConfViraPicado(step, option) {
+      let optCantoColor = SHOP.customizer.getStepOptionByType(step, TYPE_CANTO_COLOR);
+      // material = optCantoColor ? optCantoColor.selectedValue : '';
+
+      // Stormwelt
+      if (SHOP.customizer.existsOptionParam(option.params, STORMWELT_PARAM)) {
+        this.addConfigOverridePart(STORMWELT_PARAM);
+      }
+
+      // Apply canto material to vira-picado
+      // TODO fix materials - El material del canto no es valid per el vira-picado
+      // if (optCantoColor) {
+      //   let material = optCantoColor ? optCantoColor.selectedValue : '';
+      //   this.addConfigMaterialPart(materials, material, option.selectedValue);
+      // }
+    },
+
+    /**
+     * Add part into material key to materials threedium config object
      * @param {string} material 
      * @param {string|string[]} part 
      */
-    addConfigMaterialPart(materials, material, part) {
+    addConfigMaterialPart(material, part) {
       if (material.length) {
-        if (typeof materials[material] == 'undefined') {
+        if (typeof this.configuration.parts.materials[material] == 'undefined') {
           if (typeof part === 'string') {
-            materials[material] = [part];
+            this.configuration.parts.materials[material] = [part];
           }
           else {
-            materials[material] = part;
+            this.configuration.parts.materials[material] = part;
           }
         }
         else {
           if (typeof part === 'string') {
-            materials[material].push(part);
+            this.configuration.parts.materials[material].push(part);
           }
           else {
-            materials[material] = [...materials[material], ...part]
+            this.configuration.parts.materials[material] = [...this.configuration.parts.materials[material], ...part]
           }
         }
       }
-      return materials;
+    },
+
+    /**
+     * Add part into overrite key to threedium config object
+     * @param {string[]|string} parts 
+     */
+    addConfigOverridePart(parts) {
+      if (Array.isArray(parts)) {
+        this.configuration.parts.override = [...this.configuration.parts.override, ...parts]
+      }
+      else if (typeof parts === 'string') {
+        this.configuration.parts.override.push(parts);
+      }
     },
 
     /**
@@ -361,8 +404,7 @@ let threedium = {
     action(type, stepId, optionId) {
       let step = SHOP.customizer.getStepData(stepId),
         option = SHOP.customizer.getOptionData(stepId, optionId),
-        camelCase = type.toLowerCase().replace(/_([a-z])/g, function (g) { return g[1].toUpperCase(); }),
-        methodName = 'action' + camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
+        methodName = SHOP.customizer.getMethodName(type, 'action');
 
       if (CUSTOMIZER_OPT_TYPES.includes(type) && typeof this[methodName] === 'function')
         this[methodName](step, option);
@@ -404,7 +446,7 @@ let threedium = {
     actionMedallion(step, option) {
       let optSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
 
-      if (option.selectedValue === EMPTY_OPTION_VALUE_PART) {
+      if (SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
         let showParts = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
         this.hideGroupShowPart([option.threediumGroupPart], showParts);
       } else {
@@ -562,7 +604,7 @@ let threedium = {
     actionChangePart(step, option) {
       let optSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
 
-      if (option.selectedValue === EMPTY_OPTION_VALUE_PART) {
+      if (SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
         let showParts = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
         this.hideGroupShowPart([option.threediumGroupPart], showParts);
       } else {
