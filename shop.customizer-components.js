@@ -172,7 +172,7 @@ let components = {
 
     /**
      * Get resume modal step html
-     * @param {array} steps
+     * @param {object[]} steps
      * @return {string}
      */
     getResumeHtmlSteps(steps) {

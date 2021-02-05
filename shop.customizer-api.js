@@ -38,7 +38,7 @@ let api = {
 
   /**
    * Return data for SHOP.customizer.data.steps property
-   * @return {array}
+   * @return {object[]}
    */
   getStepsData() {
     return SHOP.customizer.data.steps;
@@ -139,7 +139,7 @@ let api = {
   /**
    * Return SHOP.customizer.data.steps.stepX.options
    * @param {string} stepId
-   * @return {array}
+   * @return {object[]}
    */
   getStepOptionsData(stepId) {
     var step = this.getStepData(stepId);
@@ -181,7 +181,7 @@ let api = {
 
   /**
    * Return all selected steps
-   * @return {array}
+   * @return {object[]}
    */
   getCompletedSteps() {
     var result = [];
@@ -306,6 +306,48 @@ let api = {
       };
 
     return null;
+  },
+
+  /**
+   * Return all steps id in a string array.
+   * @return {string[]}
+   */
+  getAllStepIds() {
+    return this.getStepsData().map((step) => step.id);
+  },
+
+  /**
+   * Return all step options threediumGroupPart in a one level string array.
+   * @return {string[]}
+   */
+  getAllThreediumGroupParts() {
+    return [].concat(...[].concat(...this.getStepsData().map(step => step.options.map(option => option.threediumGroupPart))));
+  },
+
+  /**
+   * Find step by threediumGroupPart into steps options
+   * @param {string} value
+   * @return {object|null}
+   */
+  getStepByThreediumGroupPart(value) {
+    var result = null;
+
+    for (var i = 0; i < this.data.steps.length; i++) {
+      const step = this.data.steps[i];
+
+      for (let j = 0; j < step.options.length; j++) {
+        const option = step.options[j];
+
+        if (option.threediumGroupPart == value) {
+          result = step;
+          break;
+        }
+      }
+
+      if (result) break;
+    }
+
+    return result;
   },
 
   /**

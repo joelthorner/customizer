@@ -38,22 +38,37 @@ let threedium = {
 
       /**
        * Called whenever user clicks on the scene First and only parameter is an array of objects in format.
-       * @param {array} objectsClick 
+       * @param {object[]} objectsClick 
        */
       onPointerClick(objectsClick) {
         console.log(objectsClick);
+
         if (objectsClick.length) {
           let clickedValue = objectsClick[0].shortName,
-            step = SHOP.customizer.getStepData(clickedValue);
+            regexp = `(${SHOP.customizer.getAllThreediumGroupParts().join('|')})`,
+            match = clickedValue.match(new RegExp(regexp));
 
-          if (step) {
-            SHOP.customizer.methods.activeStep(step.id);
+          if (match) {
+            let stepId = SHOP.customizer.getStepByThreediumGroupPart(match[0]);
+            SHOP.customizer.methods.activeStep(stepId);
           } else {
             let findedStep = SHOP.customizer.findStepByOptionSelectedValue(clickedValue);
             if (findedStep) {
               SHOP.customizer.methods.activeStep(findedStep.id);
             }
           }
+
+          // let clickedValue = objectsClick[0].shortName,
+          //   step = SHOP.customizer.getStepData(clickedValue);
+
+          // if (step) {
+          //   SHOP.customizer.methods.activeStep(step.id);
+          // } else {
+          //   let findedStep = SHOP.customizer.findStepByOptionSelectedValue(clickedValue);
+          //   if (findedStep) {
+          //     SHOP.customizer.methods.activeStep(findedStep.id);
+          //   }
+          // }
         }
       },
     },
@@ -90,7 +105,7 @@ let threedium = {
 
       self.methods.applyAllRestrictions();
 
-      // self.threedium.configuration = self.threedium.getConfiguration();
+      self.threedium.configuration = self.threedium.getConfiguration();
       self.threedium.options = self.threedium.getOptions();
 
       console.log(self.threedium.configuration);
@@ -413,13 +428,13 @@ let threedium = {
         stepCanto = self.getStepData(ID_PREFIX_CANTO),
         optCantoColor = self.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR),
 
-        // soleMaterial = optSoleColor ? optSoleColor.selectedValue : '',
+        soleMaterial = optSoleColor ? optSoleColor.selectedValue : '',
         solePart = option.selectedValue,
         cantoPart = option.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
         showParts = [solePart, cantoPart],
         solePartParams = self.getSoleTypeValueParams(option.selectedValue);
 
-      this.hideGroupShowPart([option.threediumGroupPart], showParts);
+      this.hideGroupShowPartChangeMaterial([option.threediumGroupPart], showParts, soleMaterial);
 
       if (solePartParams) {
         self.methods.restrictOptionValues(solePartParams.id, optSoleColor);
