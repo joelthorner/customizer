@@ -1,4 +1,9 @@
 /**
+ * @file Define SHOP.customizer
+ * @author joelthorner
+ */
+
+/**
  * Object with all customizer data stored
  * @typedef {Object} CustomizerData
  * @property {object} activeStep - Active step data

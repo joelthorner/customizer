@@ -1,55 +1,62 @@
-let debug = {
+/**
+ * @file Debug tools
+ * @author joelthorner
+ */
 
-  debug: {
-    /**
-     * Enable/disable debug info. Errors will continue to appear in console.
-     * @type {boolean} 
-     */
-    enabled: window.location.search.includes('debug=1'),
+SHOP.customizer = {
+  ...SHOP.customizer, ...{
 
-    init() {
-      if (this.enabled) {
-        this.printDebugPanel();
-      }
-    },
+    debug: {
+      /**
+       * Enable/disable debug info. Errors will continue to appear in console.
+       * @type {boolean} 
+       */
+      enabled: window.location.search.includes('debug=1'),
 
-    printDebugPanel() {
-      var panel = document.getElementById('customizer-threedium-debug');
-
-      if (!panel) {
-        var panel = document.createElement('div');
-        panel.id = 'customizer-threedium-debug';
-        document.body.appendChild(panel);
-      }
-
-      var jsonViewer = new JSONViewer();
-      panel.innerHTML = '';
-      panel.appendChild(jsonViewer.getContainer());
-      jsonViewer.showJSON(SHOP.customizer.data);
-    },
-
-    handler() {
-      return {
-        get: (obj, prop) => {
-          // this.printDebugPanel();
-
-          if (['[object Object]', '[object Array]'].indexOf(Object.prototype.toString.call(obj[prop])) > -1) {
-            return new Proxy(obj[prop], this.handler());
-          }
-          return obj[prop];
-        },
-        set: (obj, prop, value) => {
+      init() {
+        if (this.enabled) {
           this.printDebugPanel();
-
-          obj[prop] = value;
-          return true;
         }
-      };
+      },
+
+      printDebugPanel() {
+        var panel = document.getElementById('customizer-threedium-debug');
+
+        if (!panel) {
+          var panel = document.createElement('div');
+          panel.id = 'customizer-threedium-debug';
+          document.body.appendChild(panel);
+        }
+
+        var jsonViewer = new JSONViewer();
+        panel.innerHTML = '';
+        panel.appendChild(jsonViewer.getContainer());
+        jsonViewer.showJSON(SHOP.customizer.data);
+      },
+
+      handler() {
+        return {
+          get: (obj, prop) => {
+            // this.printDebugPanel();
+
+            if (['[object Object]', '[object Array]'].indexOf(Object.prototype.toString.call(obj[prop])) > -1) {
+              return new Proxy(obj[prop], this.handler());
+            }
+            return obj[prop];
+          },
+          set: (obj, prop, value) => {
+            this.printDebugPanel();
+
+            obj[prop] = value;
+            return true;
+          }
+        };
+      },
     },
   },
 };
 
-const CustomizerError = (error, message = '') => {
+CustomizerError = (error, message = '') => {
   if (error) {
 
     if (message.length)
@@ -57,11 +64,7 @@ const CustomizerError = (error, message = '') => {
     else
       console.error(error);
   }
-};
-
-// Add debug into customizer object
-SHOP.customizer = { ...SHOP.customizer, ...debug };
-
+}
 /**
  * JSONViewer - by Roman Makudera 2016 (c) MIT licence.
  */
