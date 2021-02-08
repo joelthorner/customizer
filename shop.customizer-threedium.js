@@ -49,8 +49,8 @@ let threedium = {
             match = clickedValue.match(new RegExp(regexp));
 
           if (match) {
-            let stepId = SHOP.customizer.getStepByThreediumGroupPart(match[0]);
-            SHOP.customizer.methods.activeStep(stepId);
+            let step = SHOP.customizer.getStepByThreediumGroupPart(match[0]);
+            SHOP.customizer.methods.activeStep(step.id);
           } else {
             let findedStep = SHOP.customizer.findStepByOptionSelectedValue(clickedValue);
             if (findedStep) {
@@ -107,9 +107,6 @@ let threedium = {
 
       self.threedium.getConfiguration();
       self.threedium.options = self.threedium.getOptions();
-
-      console.log(self.threedium.configuration);
-      console.log(self.threedium.options);
 
       Unlimited3D.init(self.threedium.options, self.threedium.configuration, self.threedium.onLoad);
     },
