@@ -81,6 +81,7 @@
                         </li>
                       </ul>
                     </li>
+
                     <li class="method-link scope-public">
                       <a href="#pala" title="parseFile">Pala</a>
                       <ul>
@@ -89,6 +90,7 @@
                         </li>
                       </ul>
                     </li>
+
                     <li class="method-link scope-public">
                       <a href="#talon" title="parseFile">Talon</a>
                       <ul>
@@ -97,6 +99,30 @@
                         </li>
                         <li class="method-link scope-public">
                           <a href="#talon-brunido">Talon bruñido</a>
+                        </li>
+                      </ul>
+                    </li>
+
+                    <li class="method-link scope-public">
+                      <a href="#forro" title="parseFile">Forro</a>
+                      <ul>
+                        <li class="method-link scope-public">
+                          <a href="#forro-color">Forro piel (color)</a>
+                        </li>
+                        <li class="method-link scope-public">
+                          <a href="#forro-culet">Culet</a>
+                        </li>
+                      </ul>
+                    </li>
+
+                    <li class="method-link scope-public">
+                      <a href="#hormaysuela" title="parseFile">Horma y suela</a>
+                      <ul>
+                        <li class="method-link scope-public">
+                          <a href="#hormaysuela-type">Suela</a>
+                        </li>
+                        <li class="method-link scope-public">
+                          <a href="#hormaysuela-color">Color</a>
                         </li>
                       </ul>
                     </li>
@@ -470,9 +496,190 @@
               </div>
             </section>
           </div>
+
+          <div class="method scope-public">
+            <h3 id="forro">
+              <a href="#forro" class="permalink">#</a>
+              <span class="method-name">Forro</span>
+            </h3>
+            <div class="description lead mb-5">
+              <p>El step del forro tiene 2 opciones de Logicommerce agrupadas.</p>
+            </div>
+
+            <section class="parameters">
+              <h4 id="forro-color">
+                <a href="#forro-color" class="permalink">#</a>
+                <span class="method-name">Forro piel (color)</span>
+              </h4>
+              <div class="description">
+                <p>Configuración de la opción en Logicommerce:</p>
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Id interno</th>
+                    <th>Type</th>
+                    <th>Nombre</th>
+                    <th>Mensaje front office</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>Lining___Lining___Color</code></td>
+                    <td><code>SIMPLE_MATERIAL</code></td>
+                    <td>Forro && Forro interior</td>
+                    <td>
+                      Seleccione el tipo de piel y color del &lt;b&gt;forro&lt;/b&gt;
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <br>
+              <div class="description">
+                <p>Los <b>valores de la opción</b> deben seguir este ejemplo para su <b>id interno</b>:
+                  <code>Patent_Black___Lining</code> Todos los valores seràn iguales cambiando la parte de
+                  <code>Patent_Black</code> por otros materiales (pieles/colores).
+                </p>
+              </div>
+            </section>
+
+            <section class="parameters">
+              <h4 id="forro-culet">
+                <a href="#forro-culet" class="permalink">#</a>
+                <span class="method-name">Culet</span>
+              </h4>
+              <div class="description">
+                <p>Configuración de la opción en Logicommerce:</p>
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Id interno</th>
+                    <th>Type</th>
+                    <th>Nombre</th>
+                    <th>Mensaje front office</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>Lining___Culets___Color</code></td>
+                    <td><code>CULET</code></td>
+                    <td>Forro && Culet</td>
+                    <td>
+                      TODO
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <br>
+              <div class="description">
+                TODO option value id
+              </div>
+            </section>
+          </div>
+
+          <div class="method scope-public">
+            <h3 id="hormaysuela">
+              <a href="#hormaysuela" class="permalink">#</a>
+              <span class="method-name">Horma y suela</span>
+            </h3>
+            <div class="description lead mb-5">
+              <p>El step del horma y suela tiene 2 opciones de Logicommerce agrupadas.</p>
+            </div>
+
+            <section class="parameters">
+              <h4 id="hormaysuela-type">
+                <a href="#hormaysuela-type" class="permalink">#</a>
+                <span class="method-name">Suela</span>
+              </h4>
+              <div class="description">
+                <p>Configuración de la opción en Logicommerce:</p>
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Id interno</th>
+                    <th>Type</th>
+                    <th>Nombre</th>
+                    <th>Mensaje front office</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>Soles___Soles___Type</code></td>
+                    <td><code>SOLE_TYPE</code></td>
+                    <td>Horma y suela && Suela</td>
+                    <td>
+                      Configura tu &lt;b&gt;suela&lt;/b&gt;
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <br>
+              <div class="description">
+                <p>Los <b>valores de la opción</b> deben seguir este ejemplo para su <b>id interno</b>:
+                  <code>Sole_Tomir_270_normal___Soles</code> Todos los valores seràn iguales cambiando la parte de
+                  <code>Sole_Tomir_270_normal</code>, este valor es el nombre de la parte de Threedium.
+                </p>
+                <p>
+                  En el modelo de Threedium tendremos varios tipos de suela. De cada una hay combinaciones pero en esta
+                  opción solo nos interesa poner una de cada tipo. Por ejemplo en Threedium en el modelo tenemos estas
+                  suelas y sus variaciones, pero cogeremos estos dos valores: <br><br>
+                  <img src="./index_files/soletype.JPG" class="img-fluid img-thumbnail" data-action="zoom"> <br><br>
+                  De esta manera tendremos dos valores de opción en logicommerce:
+                  <code>Sole_Tomir_270_normal___Soles</code> y <code>Sole_Leather_270_normal___Soles</code>
+                </p>
+                <p>
+                  Los valores de esta opción es decir los tipos de suela, restringen los valores de otra opción.
+                </p>
+              </div>
+            </section>
+
+            <section class="parameters">
+              <h4 id="forro-culet">
+                <a href="#forro-culet" class="permalink">#</a>
+                <span class="method-name">Culet</span>
+              </h4>
+              <div class="description">
+                <p>Configuración de la opción en Logicommerce:</p>
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Id interno</th>
+                    <th>Type</th>
+                    <th>Nombre</th>
+                    <th>Mensaje front office</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>Lining___Culets___Color</code></td>
+                    <td><code>CULET</code></td>
+                    <td>Forro && Culet</td>
+                    <td>
+                      TODO
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <br>
+              <div class="description">
+                TODO option value id
+              </div>
+            </section>
+          </div>
           <!-- END STEPS -->
 
-
+          <!-- <a href="#hormaysuela" title="parseFile">Horma y suela</a>
+                      <ul>
+                        <li class="method-link scope-public">
+                          <a href="#hormaysuela-type">Suela</a>
+                        </li>
+                        <li class="method-link scope-public">
+                          <a href="#hormaysuela-color">Color</a>
+                        </li>
+                      </ul> -->
         </div>
       </div>
     </div>
