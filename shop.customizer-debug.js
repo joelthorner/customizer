@@ -3,7 +3,7 @@
  * @author joelthorner
  */
 
-let module = {
+var module = {
 
   debug: {
     /**

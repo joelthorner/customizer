@@ -3,7 +3,7 @@
  * @author joelthorner
  */
 
-let module = {
+var module = {
   /**
    * This object contains initializations of all HTML components except threedium, 
    * and actions to interact with them.

@@ -3,7 +3,7 @@
  * @author joelthorner
  */
 
-let module = {
+var module = {
   /**
    * Main init of threedium customizer
    */

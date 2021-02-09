@@ -3,7 +3,7 @@
  * @author joelthorner
  */
 
-let module = {
+var module = {
   /**
    * All click events associated with customizer components are executed here
    */

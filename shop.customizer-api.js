@@ -3,7 +3,7 @@
  * @author joelthorner
  */
 
-let module = {
+var module = {
   /**
    * Return data for SHOP.customizer.data property
    * @return {object}

@@ -3,7 +3,7 @@
  * @author joelthorner
  */
 
-let module = {
+var module = {
   /**
    * Object that contains all related of Threedium
    */

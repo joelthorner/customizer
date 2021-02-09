@@ -3,7 +3,7 @@
  * @author joelthorner
  */
 
-let module = {
+var module = {
   /**
    * Transform underscore case to CamelCase method
    * @param {string} value 

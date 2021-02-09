@@ -3,7 +3,7 @@
  * @author joelthorner
  */
 
-let module = {
+var module = {
   /**
    * Direct actions of the customizer, transversal actions between threedium, 
    * components and listeners.
