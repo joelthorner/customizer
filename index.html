@@ -71,10 +71,10 @@
                       <a href="#puntera" title="parseFile">Puntera</a>
                       <ul>
                         <li class="method-link scope-public">
-                          <a href="#puntera-piel">Puntera piel (color)</a>
+                          <a href="#puntera-piel">Piel</a>
                         </li>
                         <li class="method-link scope-public">
-                          <a href="#puntera-brunido">Puntera bruñido</a>
+                          <a href="#puntera-brunido">Bruñido</a>
                         </li>
                         <li class="method-link scope-public">
                           <a href="#puntera-floron">Florón</a>
@@ -86,7 +86,7 @@
                       <a href="#pala" title="parseFile">Pala</a>
                       <ul>
                         <li class="method-link scope-public">
-                          <a href="#pala-piel">Pala piel (color)</a>
+                          <a href="#pala-piel">Piel</a>
                         </li>
                       </ul>
                     </li>
@@ -95,10 +95,10 @@
                       <a href="#talon" title="parseFile">Talon</a>
                       <ul>
                         <li class="method-link scope-public">
-                          <a href="#talon-piel">Talon piel (color)</a>
+                          <a href="#talon-piel">Piel</a>
                         </li>
                         <li class="method-link scope-public">
-                          <a href="#talon-brunido">Talon bruñido</a>
+                          <a href="#talon-brunido">Bruñido</a>
                         </li>
                       </ul>
                     </li>
@@ -107,7 +107,7 @@
                       <a href="#forro" title="parseFile">Forro</a>
                       <ul>
                         <li class="method-link scope-public">
-                          <a href="#forro-color">Forro piel (color)</a>
+                          <a href="#forro-color">Piel</a>
                         </li>
                         <li class="method-link scope-public">
                           <a href="#forro-culet">Culet</a>
@@ -123,6 +123,21 @@
                         </li>
                         <li class="method-link scope-public">
                           <a href="#hormaysuela-color">Color</a>
+                        </li>
+                      </ul>
+                    </li>
+
+                    <li class="method-link scope-public">
+                      <a href="#canto" title="parseFile">Canto</a>
+                      <ul>
+                        <li class="method-link scope-public">
+                          <a href="#canto-color">Color</a>
+                        </li>
+                        <li class="method-link scope-public">
+                          <a href="#canto-grossor">Grossor</a>
+                        </li>
+                        <li class="method-link scope-public">
+                          <a href="#virapicado">Vira y picado</a>
                         </li>
                       </ul>
                     </li>
@@ -256,7 +271,7 @@
             <section class="parameters">
               <h4 id="puntera-piel">
                 <a href="#puntera-piel" class="permalink">#</a>
-                <span class="method-name">Puntera piel (color)</span>
+                <span class="method-name">Piel</span>
               </h4>
               <div class="description">
                 <p>Configuración de la opción en Logicommerce:</p>
@@ -295,7 +310,7 @@
             <section class="parameters">
               <h4 id="puntera-brunido">
                 <a href="#puntera-brunido" class="permalink">#</a>
-                <span class="method-name">Puntera bruñido</span>
+                <span class="method-name">Bruñido</span>
               </h4>
               <div class="description">
                 <p>Configuración de la opción en Logicommerce:</p>
@@ -379,7 +394,7 @@
             <section class="parameters">
               <h4 id="pala-piel">
                 <a href="#pala-piel" class="permalink">#</a>
-                <span class="method-name">Pala piel (color)</span>
+                <span class="method-name">Piel</span>
               </h4>
               <div class="description">
                 <p>Configuración de la opción en Logicommerce:</p>
@@ -426,7 +441,7 @@
             <section class="parameters">
               <h4 id="talon-piel">
                 <a href="#talon-piel" class="permalink">#</a>
-                <span class="method-name">Talón piel (color)</span>
+                <span class="method-name">Piel</span>
               </h4>
               <div class="description">
                 <p>Configuración de la opción en Logicommerce:</p>
@@ -464,7 +479,7 @@
             <section class="parameters">
               <h4 id="talon-brunido">
                 <a href="#talon-brunido" class="permalink">#</a>
-                <span class="method-name">Talón bruñido</span>
+                <span class="method-name">Bruñido</span>
               </h4>
               <div class="description">
                 <p>Configuración de la opción en Logicommerce:</p>
@@ -509,7 +524,7 @@
             <section class="parameters">
               <h4 id="forro-color">
                 <a href="#forro-color" class="permalink">#</a>
-                <span class="method-name">Forro piel (color)</span>
+                <span class="method-name">Piel</span>
               </h4>
               <div class="description">
                 <p>Configuración de la opción en Logicommerce:</p>
@@ -626,19 +641,23 @@
                   opción solo nos interesa poner una de cada tipo. Por ejemplo en Threedium en el modelo tenemos estas
                   suelas y sus variaciones, pero cogeremos estos dos valores: <br><br>
                   <img src="./index_files/soletype.JPG" class="img-fluid img-thumbnail" data-action="zoom"> <br><br>
-                  De esta manera tendremos dos valores de opción en logicommerce:
+                  De esta manera tendremos dos valores de opción en logicommerce con estos ids:
                   <code>Sole_Tomir_270_normal___Soles</code> y <code>Sole_Leather_270_normal___Soles</code>
                 </p>
                 <p>
-                  Los valores de esta opción es decir los tipos de suela, restringen los valores de otra opción.
+                  <b>Restricciones</b><br>
+                  Los ids de los valores de esta opción restringen los valores de la opciones color de suela y color de
+                  canto. Cada suela tiene varias partes separadas por <code>_</code>:
+                  <code>Sole</code>, <code>Tomir</code>, <code>270</code> y <code>normal</code>, es importante el
+                  segundo parametro, el id de la suela. Con este id restringiremos los valores de las otras opciones.
                 </p>
               </div>
             </section>
 
             <section class="parameters">
-              <h4 id="forro-culet">
-                <a href="#forro-culet" class="permalink">#</a>
-                <span class="method-name">Culet</span>
+              <h4 id="hormaysuela-color">
+                <a href="#hormaysuela-color" class="permalink">#</a>
+                <span class="method-name">Color</span>
               </h4>
               <div class="description">
                 <p>Configuración de la opción en Logicommerce:</p>
@@ -654,32 +673,183 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td><code>Lining___Culets___Color</code></td>
-                    <td><code>CULET</code></td>
-                    <td>Forro && Culet</td>
+                    <td><code>Soles___Soles___Color</code></td>
+                    <td><code>SOLE_COLOR</code></td>
+                    <td>Horma y suela && Color</td>
                     <td>
-                      TODO
+                      Selecciona tipo de piel y color de la &lt;b&gt;suela&lt;/b&gt;
                     </td>
                   </tr>
                 </tbody>
               </table>
               <br>
               <div class="description">
-                TODO option value id
+                <p>
+                  Los <b>valores de la opción</b> deben seguir este ejemplo para su <b>id interno</b>:
+                  <code>Sole_bottom_Kakie___Soles___Tomir</code> Tiene 3 partes,
+                  <code>Sole_bottom_Kakie</code> que es el color/material, el segundo que es un id interno de threedium
+                  y el tercer parametro <code>Tomir</code> es un id de suela.
+                </p>
+                <p>
+                  <b>Restricciones</b><br>
+                  Todos los valores de esta opción serán restringidos. Se mostraran los valores cuyo tercer parametro
+                  coincida con el id del tipo de suela seleccionado.
+                  <br><br>
+                  Por ejemplo, si en la opción tipo de suela seleccionamos <code>Sole_Tomir_270_normal___Soles</code>,
+                  en esta opción se mostrarán todos los valores que tengan como tercer parametro <code>Tomir</code>.
+                </p>
               </div>
             </section>
           </div>
-          <!-- END STEPS -->
 
-          <!-- <a href="#hormaysuela" title="parseFile">Horma y suela</a>
-                      <ul>
-                        <li class="method-link scope-public">
-                          <a href="#hormaysuela-type">Suela</a>
+          <div class="method scope-public">
+            <h3 id="canto">
+              <a href="#canto" class="permalink">#</a>
+              <span class="method-name">Canto</span>
+            </h3>
+            <div class="description lead mb-5">
+              <p>El step de canto tiene 3 opciones de Logicommerce agrupadas.</p>
+            </div>
+
+            <section class="parameters">
+              <h4 id="canto-color">
+                <a href="#canto-color" class="permalink">#</a>
+                <span class="method-name">Color</span>
+              </h4>
+              <div class="description">
+                <p>Configuración de la opción en Logicommerce:</p>
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Id interno</th>
+                    <th>Type</th>
+                    <th>Nombre</th>
+                    <th>Mensaje front office</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>Canto___Soles___Canto_color</code></td>
+                    <td><code>CANTO_COLOR</code></td>
+                    <td>Canto && Color</td>
+                    <td>
+                      Configura el &lt;b&gt;canto&lt;/b&gt;
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <br>
+              <div class="description">
+                <p>
+                  Los <b>valores de la opción</b> deben seguir este ejemplo para su <b>id interno</b>:
+                  <code>Canto_rojo___Soles___Tomir</code> Tiene 3 partes,
+                  <code>Canto_rojo</code> que es el color/material, el segundo que es un id interno de threedium
+                  y el tercer parametro <code>Tomir</code> es un id de suela.
+                </p>
+                <p>
+                  <b>Restricciones</b><br>
+                  Todos los valores de esta opción serán restringidos. Se mostraran los valores cuyo tercer parametro
+                  coincida con el id del tipo de suela seleccionado.
+                  <br><br>
+                  Por ejemplo, si en la opción tipo de suela seleccionamos <code>Sole_Tomir_270_normal___Soles</code>,
+                  en esta opción se mostrarán todos los valores que tengan como tercer parametro <code>Tomir</code>.
+                </p>
+              </div>
+            </section>
+
+            <section class="parameters">
+              <h4 id="canto-grossor">
+                <a href="#canto-grossor" class="permalink">#</a>
+                <span class="method-name">Grossor</span>
+              </h4>
+              <div class="description">
+                <p>Configuración de la opción en Logicommerce:</p>
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Id interno</th>
+                    <th>Type</th>
+                    <th>Nombre</th>
+                    <th>Mensaje front office</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>Canto___Soles___Thickness</code></td>
+                    <td><code>CANTO_THICKNESS</code></td>
+                    <td>Canto && Grosor</td>
+                    <td>
+                      Configura el &lt;b&gt;canto&lt;/b&gt; $$ 3
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <br>
+              <div class="description">
+                <p>Los <b>valores de la opción</b> deben seguir este ejemplo para su <b>id interno</b>:
+                  <code>normal___Soles</code> Tiene 2 partes,
+                  <code>normal</code> que es un valor estatico, que puede ser <code>normal</code> o <code>double</code>,
+                  el segundo que es un id interno de threedium
+                  y el tercer parametro <code>Tomir</code> es un id de suela.
+                </p>
+              </div>
+            </section>
+
+            <section class="parameters">
+              <h4 id="virapicado">
+                <a href="#virapicado" class="permalink">#</a>
+                <span class="method-name">Vira y picado</span>
+              </h4>
+              <div class="description">
+                <p>Configuración de la opción en Logicommerce:</p>
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Id interno</th>
+                    <th>Type</th>
+                    <th>Nombre</th>
+                    <th>Mensaje front office</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>Canto___Picado___Vira_Picado</code></td>
+                    <td><code>VIRA_PICADO</code></td>
+                    <td>Canto && Vira y picado</td>
+                    <td>
+                      Configura el &lt;b&gt;canto&lt;/b&gt; $$ 3
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <br>
+              <div class="description">
+                <p>Los <b>valores de la opción</b> deben seguir este ejemplo para su <b>id interno</b>:
+                  <code>picado_0_270___Picado___Stormwelt</code> Tiene 3 partes,
+                  <code>picado_0_270</code> que es el valor de la parte de threedium, el segundo es un id interno de
+                  threedium que siempre serà igual, y el tercer parametro es opcional<code>Stormwelt</code>, que es un
+                  valor estatico.
+                </p>
+                <p>
+                  El primer valor del id interno es una parte de threedium y pueden ser varias: <br>
+                  <img src="./index_files/picado.JPG" class="img-fluid img-thumbnail" data-action="zoom"> <br><br>
+                  Por cada valor se pueden hacer combinaciones con <code>Stormwelt</code>. Así pues por ejemplo podemos
+                  tener <code>picado_0_270___Picado</code> y <code>picado_0_270___Picado___Stormwelt</code>.
+                </p>
+              </div>
+            </section>
+          </div>
+
+          <!--
                         </li>
                         <li class="method-link scope-public">
-                          <a href="#hormaysuela-color">Color</a>
+                          <a href="#virapicado">Vira y picado</a>
                         </li>
                       </ul> -->
+          <!-- END STEPS -->
         </div>
       </div>
     </div>
