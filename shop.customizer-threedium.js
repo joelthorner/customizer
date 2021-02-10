@@ -111,6 +111,7 @@ var module = {
       self.actions.applyAllRestrictions();
 
       self.threedium.getConfiguration();
+
       self.threedium.options = self.threedium.getOptions();
 
       Unlimited3D.init(self.threedium.options, self.threedium.configuration, self.threedium.onLoad);
@@ -289,6 +290,11 @@ var module = {
       //   let material = optCantoColor ? optCantoColor.selectedValue : '';
       //   this.addConfigMaterialPart(materials, material, option.selectedValue);
       // }
+
+      // Add vira part
+      if (!SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
+        this.addConfigOverridePart(option.selectedValue);
+      }
     },
 
     /**
