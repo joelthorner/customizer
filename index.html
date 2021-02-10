@@ -149,6 +149,19 @@
                     </li>
                   </ul>
                 </li>
+
+                <li>
+                  <a href="#resumen" class="file"><b>Resumen</b></a>
+                  <ul>
+                    <li class="method-link scope-public">
+                      <a href="#resumen-options" title="parseFile">Opciones del resumen</a>
+                    </li>
+                    <li class="method-link scope-public">
+                      <a href="#size" title="parseFile">Talla i puntera de metal</a>
+                    </li>
+                  </ul>
+                </li>
+
               </ul>
             </div>
           </div>
@@ -167,7 +180,8 @@
               <span class="method-name">Layout y plantilla</span>
             </h3>
             <div class="description lead">
-              <p>Para que un producto cargue como el personalizador de threedium, hay que cambiar la plantilla y el layout de este.</p>
+              <p>Para que un producto cargue como el personalizador de threedium, hay que cambiar la plantilla y el
+                layout de este.</p>
               <img src="./index_files/layout.JPG" class="mb-3 img-fluid img-thumbnail" data-action="zoom">
             </div>
           </div>
@@ -180,7 +194,7 @@
             <div class="description lead">
               <p>Para configurar que un producto de Logicommerce cargue un modelo 3D de threedium, hay que añadir 3
                 etiquetas del grupo de etiquetas THREEDIUM.</p>
-              <img src="./index_files/cts.JPG" class="mb-3 img-fluid img-thumbnail"  data-action="zoom">
+              <img src="./index_files/cts.JPG" class="mb-3 img-fluid img-thumbnail" data-action="zoom">
             </div>
             <ul>
               <li>
@@ -313,7 +327,8 @@
             <a id="steps">Steps</a>
           </h2>
           <div class="description lead mb-5">
-            <p>Aquí se ejemplifican todas las opciones de todos los steps, como configurar cada uno (sus valores) y sus valores de opción.</p>
+            <p>Aquí se ejemplifican todas las opciones de todos los steps, como configurar cada uno (sus valores) y sus
+              valores de opción.</p>
           </div>
 
 
@@ -903,6 +918,61 @@
             </section>
           </div>
           <!-- END STEPS -->
+
+
+          <h2 class="mb-4">
+            <a href="#resumen" class="permalink">#</a>
+            <a id="resumen">Resumen</a>
+          </h2>
+          <div class="description lead mb-5">
+            <p>Como configurar el "step" final, el resumen.</p>
+          </div>
+
+          <div class="method scope-public">
+            <h3 id="resumen-options">
+              <a href="#resumen-options" class="permalink">#</a>
+              <span class="method-name">Opciones del resumen</span>
+            </h3>
+
+            <p>
+              Si en el campo imagen de la opción como "type" ponemos <code>RESUME</code>, esa opción automaticamente se
+              mostrarà en el paso final del personalizador.
+            </p>
+            <img src="./index_files/resume.JPG" class="img-fluid img-thumbnail"
+              data-action="zoom">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src="./index_files/resume2.JPG" class="img-fluid img-thumbnail" data-action="zoom">
+          </div>
+
+          <div class="method scope-public">
+            <h3 id="resumen-options">
+              <a href="#size" class="permalink">#</a>
+              <span class="method-name">Talla i puntera de metal</span>
+            </h3>
+
+            <p>
+              Adicionalmente para que la opción de talla se muestre y se trate como opcion diferente (La de talla) hay
+              que cambiar el tipo (campo imagen) a <code>RESUME</code> i el tipo de opción a <code>Talla</code>.
+            </p>
+            <img src="./index_files/talla.JPG" class="img-fluid img-thumbnail" data-action="zoom"> <br> <br>
+            <p>
+              Para la opción de puntera de metal (para que se una dentro de Talla) la configuración es la siguiente:
+              Añadir como campo de imagen <code>RESUME</code>, de tipo de opción <code>Otros</code> y que la opción sea
+              checkbox (opción de selección multiple).
+            </p>
+            <img src="./index_files/puntera.JPG" class="img-fluid img-thumbnail" data-action="zoom">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src="./index_files/puntera2.JPG" class="img-fluid img-thumbnail" data-action="zoom"> <br> <br>
+          </div>
+          <!-- <li>
+                  <a href="#resumen" class="file"><b>Resumen</b></a>
+                  <ul>
+                    <li class="method-link scope-public">
+                      <a href="#resumen-options" title="parseFile">Opciones del resumen</a>
+                    </li>
+                    <li class="method-link scope-public">
+                      <a href="#size" title="parseFile">Talla i puntera de metal</a>
+                    </li>
+                  </ul>
+                </li> -->
         </div>
       </div>
     </div>
