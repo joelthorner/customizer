@@ -53,6 +53,9 @@
                   <a href="#configuration-general" class="file"><b>Configuración</b></a>
                   <ul>
                     <li class="method-link scope-public">
+                      <a href="#etiquetas-modelo">Configurar modelo (etiquetas)</a>
+                    </li>
+                    <li class="method-link scope-public">
                       <a href="#partes-de-una-opcion">Mapa de opción de Logicommerce</a>
                     </li>
                     <li class="method-link scope-public">
@@ -154,6 +157,44 @@
             <a href="#configuration-general" class="permalink">#</a>
             <a id="configuration-general">Configuración</a>
           </h2>
+
+          <div class="method scope-public">
+            <h3 id="etiquetas-modelo">
+              <a href="#etiquetas-modelo" class="permalink">#</a>
+              <span class="method-name">Configurar modelo (etiquetas)</span>
+            </h3>
+            <div class="description lead">
+              <p>Para configurar que un producto de Logicommerce cargue un modelo 3D de threedium, hay que añadir 3
+                etiquetas del grupo de etiquetas THREEDIUM.</p>
+              <img src="./index_files/cts.JPG" class="mb-3 img-fluid img-thumbnail">
+            </div>
+            <ul>
+              <li>
+                <b>distID</b>: Esta etiqueta es la unica opcional. Esta etiqueta indica que versioón de publicación
+                queremos del modelo 3D de threedium.
+                Si no se especifica, será la ultima generada automaticamente. Se puede conseguir accediendo al modelo3D
+                de threedium.<br><br>
+                <img src="./index_files/distId.JPG" class="img-fluid img-thumbnail" data-action="zoom">
+              </li>
+              <li>
+                <b>solution3DID</b>: Este valor es el id de threedium del modelo. Siempre es el mismo para cada modelo
+                3D.
+              </li>
+              <li>
+                <b>solution3DName</b>: Este valor es el nombre interno de threedium del modelo. Siempre es el mismo para
+                cada modelo 3D.
+              </li>
+            </ul>
+            <br>
+            <p>
+              Tanto el solution3DID y el solution3DName se consiguen de la siguiente forma. Acediendo al modelo de
+              threedium y
+              copiando este contenido: <br>
+              <img src="./index_files/ct2.JPG" class="img-fluid img-thumbnail" data-action="zoom"> <br><br>
+              Del texto que hemos copiado podemos coger estos dos valores: <br>
+              <img src="./index_files/txt.JPG" class="img-fluid img-thumbnail" data-action="zoom"> <br>
+            </p>
+          </div>
 
           <div class="method scope-public">
             <h3 id="partes-de-una-opcion">
@@ -837,18 +878,13 @@
                   El primer valor del id interno es una parte de threedium y pueden ser varias: <br>
                   <img src="./index_files/picado.JPG" class="img-fluid img-thumbnail" data-action="zoom"> <br><br>
                   Por cada valor se pueden hacer combinaciones con <code>Stormwelt</code>. Así pues por ejemplo podemos
-                  tener <code>picado_0_270___Picado</code> y <code>picado_0_270___Picado___Stormwelt</code>.
+                  tener <code>picado_0_270___Picado</code> y <code>picado_0_270___Picado___Stormwelt</code>. <br><br>
+                  Tambien podemos poner <code>NONE</code> como primer parametro, por ejemplo <code>NONE___Picado</code>
+                  como id de valor de opción "Sin vira picado".
                 </p>
               </div>
             </section>
           </div>
-
-          <!--
-                        </li>
-                        <li class="method-link scope-public">
-                          <a href="#virapicado">Vira y picado</a>
-                        </li>
-                      </ul> -->
           <!-- END STEPS -->
         </div>
       </div>
