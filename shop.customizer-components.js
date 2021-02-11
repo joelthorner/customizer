@@ -212,7 +212,7 @@ var module = {
 
       return `
         <div class="virtual-resume-item">
-          <a href="#" data-step-id="${step.id}" class="virtual-resume-trigger" data-click-action="goToStep">
+          <a href="#" data-step-id="${step.id}" class="virtual-resume-trigger" data-click-action="goToStep,hideResumeModal">
             <div class="virtual-resume-item-img">
               <img class="large-img img-responsive" src="${step.resumeImg}">
             </div>
