@@ -422,13 +422,11 @@ var module = {
       showParts = showParts.filter(Boolean);
       changeMaterialParts = changeMaterialParts.filter(Boolean);
 
-      this.hideGroupShowPart(hideParts, showParts, (error) => {
-        CustomizerError(error, 'on hideGroupShowPartChangeMaterial');
-
-        if (changeMaterialParts.length && material.length) {
-          this.changeMaterial(changeMaterialParts, material, callback);
-        }
-      });
+      this.hideGroupShowPart(hideParts, showParts, callback);
+      
+      if (changeMaterialParts.length && material.length) {
+        this.changeMaterial(changeMaterialParts, material, callback);
+      }
     },
 
     /**
