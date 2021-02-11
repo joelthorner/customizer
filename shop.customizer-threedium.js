@@ -512,6 +512,7 @@ var module = {
         solePartParams = self.getSoleTypeValueParams(option.selectedValue);
 
       this.hideGroupShowPartChangeMaterial([option.threediumGroupPart], showParts, soleMaterial);
+      this.hideGroupShowPartChangeMaterial([option.threediumGroupPart], showParts, [], soleMaterial);
 
       if (solePartParams) {
         self.actions.restrictOptionValues(solePartParams.id, optSoleColor);
