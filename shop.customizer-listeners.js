@@ -16,11 +16,8 @@ var module = {
       ['click', 'input', 'change'].forEach((type) => {
         $(document).on(type, `[data-${type}-action]`, function (event) {
           event.preventDefault();
-          var method = $(this).data(`${type}-action`);
           let methods = $(this).data(`${type}-action`);
 
-          if (typeof SHOP.customizer.listeners[method] === 'function')
-            SHOP.customizer.listeners[method]($(this));
           methods.split(',').forEach((method) => {
             if (typeof SHOP.customizer.listeners[method] === 'function')
               SHOP.customizer.listeners[method]($(this));
