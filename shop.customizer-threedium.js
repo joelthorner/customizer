@@ -277,6 +277,7 @@ var module = {
      */
     getConfViraPicado(step, option) {
       let self = SHOP.customizer,
+        showParts = [],
         optCantoColor = self.getStepOptionByType(step, TYPE_CANTO_COLOR),
         viraPicadoMaterials = this.getViraPicadoMaterials(optCantoColor, option);
 
@@ -289,6 +290,15 @@ var module = {
           this.addConfigMaterialPart(viraPicadoMaterials.stormwelt, STORMWELT_PARAM);
         }
       }
+
+      // Add picado and stormwelt parts
+      if (!SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
+        showParts.push(option.selectedValue);
+      }
+      if (SHOP.customizer.existsOptionParam(option.params, STORMWELT_PARAM)) {
+        showParts.push(STORMWELT_PARAM);
+      }
+      this.addConfigOverridePart(showParts);
     },
 
     /**
@@ -595,7 +605,7 @@ var module = {
           }
         }
 
-        // Sole/Canto parts update (270/360) & Vira parts update
+        // Sole/Canto parts update (270/360) & Vira parts update 
         this.hideGroupShowPart(hideParts, showParts, (error) => {
           CustomizerError(error, 'on actionViraPicado');
 
