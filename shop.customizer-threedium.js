@@ -347,10 +347,14 @@ var module = {
      * @param {function} callback
      */
     changeMaterial(parts = [], material = '', callback = (error) => CustomizerError(error, 'on changeMaterial')) {
-      Unlimited3D.changeMaterial({
-        parts: parts,
-        material: material,
-      }, callback);
+      parts = parts.filter(Boolean);
+
+      if (parts.length && material.length) {
+        Unlimited3D.changeMaterial({
+          parts: parts,
+          material: material,
+        }, callback);
+      }
     },
 
     /**
@@ -359,9 +363,13 @@ var module = {
      * @param {function} callback 
      */
     hideGroup(parts = [], callback = (error) => CustomizerError(error, 'on hideGroup')) {
-      Unlimited3D.hideParts({
-        parts: parts,
-      }, callback);
+      parts = parts.filter(Boolean);
+
+      if (parts.length) {
+        Unlimited3D.hideParts({
+          parts: parts,
+        }, callback);
+      }
     },
 
     /**
@@ -370,13 +378,17 @@ var module = {
      * @param {function} callback 
      */
     showPart(parts = [], callback = (error) => CustomizerError(error, 'on showPart')) {
-      Unlimited3D.showParts({
-        partObjects: [
-          {
-            parts: parts,
-          },
-        ],
-      }, callback);
+      parts = parts.filter(Boolean);
+
+      if (parts.length) {
+        Unlimited3D.showParts({
+          partObjects: [
+            {
+              parts: parts,
+            },
+          ],
+        }, callback);
+      }
     },
 
     /**
@@ -386,10 +398,15 @@ var module = {
      * @param {function} callback 
      */
     hideGroupShowPart(hideParts = [], showParts = [], callback = (error) => CustomizerError(error, 'on hideGroupShowPart')) {
-      this.hideGroup(hideParts, (error) => {
-        CustomizerError(error, 'on hideGroup');
-        this.showPart(showParts, callback);
-      });
+      hideParts = hideParts.filter(Boolean);
+      showParts = showParts.filter(Boolean);
+
+      if (showParts.length) {
+        this.hideGroup(hideParts, (error) => {
+          CustomizerError(error, 'on hideGroup');
+          this.showPart(showParts, callback);
+        });
+      }
     },
 
     /**
@@ -401,9 +418,16 @@ var module = {
      * @param {function} callback 
      */
     hideGroupShowPartChangeMaterial(hideParts = [], showParts = [], changeMaterialParts = [], material = '', callback = (error) => CustomizerError(error, 'on hideGroupShowPartChangeMaterial')) {
+      hideParts = hideParts.filter(Boolean);
+      showParts = showParts.filter(Boolean);
+      changeMaterialParts = changeMaterialParts.filter(Boolean);
+
       this.hideGroupShowPart(hideParts, showParts, (error) => {
         CustomizerError(error, 'on hideGroupShowPartChangeMaterial');
-        if (material.length) this.changeMaterial(changeMaterialParts, material, callback);
+
+        if (changeMaterialParts.length && material.length) {
+          this.changeMaterial(changeMaterialParts, material, callback);
+        }
       });
     },
 
@@ -464,7 +488,6 @@ var module = {
       } else {
         let hidePartsArr = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
         let material = optSimpleMaterial ? optSimpleMaterial.selectedValue : '';
-
         hidePartsArr.push(option.threediumGroupPart);
         this.hideGroupShowPartChangeMaterial(hidePartsArr, [option.selectedValue], [option.selectedValue], material);
       }
