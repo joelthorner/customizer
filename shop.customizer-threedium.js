@@ -114,6 +114,7 @@ var module = {
 
       self.threedium.options = self.threedium.getOptions();
 
+      console.log(self.threedium.options, self.threedium.configuration);
       Unlimited3D.init(self.threedium.options, self.threedium.configuration, self.threedium.onLoad);
     },
 
@@ -202,7 +203,7 @@ var module = {
      * @param {object} step 
      * @param {object} option 
      */
-    getConfChangePArt(step, option) {
+    getConfChangePart(step, option) {
       let optSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
 
       if (!SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
@@ -269,31 +270,24 @@ var module = {
       }
     },
 
-
     /**
      * Set threedium configuration of TYPE_VIRA_PICADO type
      * @param {object} step 
      * @param {object} option 
      */
     getConfViraPicado(step, option) {
-      let optCantoColor = SHOP.customizer.getStepOptionByType(step, TYPE_CANTO_COLOR);
-      // material = optCantoColor ? optCantoColor.selectedValue : '';
+      let self = SHOP.customizer,
+        optCantoColor = self.getStepOptionByType(step, TYPE_CANTO_COLOR),
+        viraPicadoMaterials = this.getViraPicadoMaterials(optCantoColor, option);
 
-      // Stormwelt
-      if (SHOP.customizer.existsOptionParam(option.params, STORMWELT_PARAM)) {
-        this.addConfigOverridePart(STORMWELT_PARAM);
-      }
-
-      // Apply canto material to vira-picado
-      // TODO fix materials - El material del canto no es valid per el vira-picado
-      // if (optCantoColor) {
-      //   let material = optCantoColor ? optCantoColor.selectedValue : '';
-      //   this.addConfigMaterialPart(materials, material, option.selectedValue);
-      // }
-
-      // Add vira part
-      if (!SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
-        this.addConfigOverridePart(option.selectedValue);
+      // Apply canto material to vira-picado & stormwelt
+      if (optCantoColor) {
+        if (viraPicadoMaterials.picado) {
+          this.addConfigMaterialPart(viraPicadoMaterials.picado, option.selectedValue);
+        }
+        if (viraPicadoMaterials.stormwelt) {
+          this.addConfigMaterialPart(viraPicadoMaterials.stormwelt, STORMWELT_PARAM);
+        }
       }
     },
 
@@ -511,16 +505,23 @@ var module = {
      * @param {string} option 
      */
     actionCantoColor(step, option) {
-      let stepSoles = SHOP.customizer.getStepData(STEP_ID_SOLES),
-        optSoleType = SHOP.customizer.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE);
+      let self = SHOP.customizer,
+        stepSoles = self.getStepData(STEP_ID_SOLES),
+        optSoleType = self.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE),
+        optViraPicado = self.getStepOptionByType(step, TYPE_VIRA_PICADO),
+        viraPicadoMaterials = this.getViraPicadoMaterials(option, optViraPicado);
 
       if (optSoleType) {
         let cantoPart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO);
-        // solePart = optSoleType.selectedValue;
-        // showParts = [solePart, cantoPart];
-
-        // this.hideGroupShowPart([option.threediumGroupPart], showParts);
         this.changeMaterial([cantoPart], option.selectedValue);
+      }
+
+      // Apply canto material to vira-picado & stormwelt
+      if (viraPicadoMaterials.picado) {
+        this.changeMaterial([optViraPicado.selectedValue], viraPicadoMaterials.picado);
+      }
+      if (viraPicadoMaterials.stormwelt) {
+        this.changeMaterial([STORMWELT_PARAM], viraPicadoMaterials.stormwelt);
       }
     },
 
@@ -562,7 +563,8 @@ var module = {
         stepSoles = self.getStepData(STEP_ID_SOLES),
         optSoleType = self.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE),
         optSoleColor = self.getStepOptionByType(stepSoles, TYPE_SOLE_COLOR),
-        optCantoColor = self.getStepOptionByType(step, TYPE_CANTO_COLOR);
+        optCantoColor = self.getStepOptionByType(step, TYPE_CANTO_COLOR),
+        viraPicadoMaterials = this.getViraPicadoMaterials(optCantoColor, option);
 
       if (optSoleType) {
         let viraPicadoValue = option.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`)),
@@ -571,7 +573,6 @@ var module = {
           solePart = replaceValuePart(optSoleType.selectedValue),
           hideParts = [option.threediumGroupPart], // "Picado", "Soles"
           showParts = [option.selectedValue],
-          // partsWithCantoMaterial = [cantoPart, option.selectedValue]; // TODO fix materials - El material del canto no es valid per el vira-picado
           partsWithCantoMaterial = [cantoPart];
 
         // Stormwelt
@@ -600,6 +601,9 @@ var module = {
 
           if (optSoleColor) this.changeMaterial([solePart], optSoleColor.selectedValue);
           if (optCantoColor) this.changeMaterial(partsWithCantoMaterial, optCantoColor.selectedValue);
+
+          if (viraPicadoMaterials.picado) this.changeMaterial([option.selectedValue], viraPicadoMaterials.picado);
+          if (viraPicadoMaterials.stormwelt) this.changeMaterial([STORMWELT_PARAM], viraPicadoMaterials.stormwelt);
         });
       }
     },
@@ -622,6 +626,37 @@ var module = {
         hidePartsArr.push(option.threediumGroupPart);
         this.hideGroupShowPartChangeMaterial(hidePartsArr, [option.selectedValue], [option.selectedValue], material);
       }
+    },
+
+    /**
+     * Transform canto material to vira-picado material and stormwelt material
+     * @param {object} cantoColor - option
+     * @param {object} viraPicado - option
+     * @return {object}
+     */
+    getViraPicadoMaterials(cantoColor, viraPicado) {
+      // Transform "Canto_Rojo" to "picado_0_270_Rojo" and "Stormwelt_Rojo"
+
+      let result = {
+        picado: null,
+        stormwelt: null,
+      };
+
+      let regExp = new RegExp(ID_PREFIX_CANTO + '_(.*)'),
+        match = cantoColor.selectedValue.match(regExp);
+
+      if (match.length == 2) {
+        let materialPart = match[1];
+
+        if (!SHOP.customizer.isEmptyOptionValuePart(viraPicado.selectedValue)) {
+          result.picado = `${viraPicado.selectedValue}_${materialPart}`;
+        }
+        if (SHOP.customizer.existsOptionParam(viraPicado.params, STORMWELT_PARAM)) {
+          result.stormwelt = `${STORMWELT_PARAM}_${materialPart}`;
+        }
+      }
+
+      return result;
     },
   },
 };
