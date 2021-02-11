@@ -176,6 +176,14 @@ var module = {
     },
 
     /**
+     * Close side modal resume and update self steps data.
+     */
+    hideResumeModal() {
+      var $modal = $('#resume-menu-customizer-modal');
+      $modal.modal('hide');
+    },
+
+    /**
      * Get resume modal step html
      * @param {object[]} steps
      * @return {string}
