@@ -511,7 +511,6 @@ var module = {
         showParts = [solePart, cantoPart],
         solePartParams = self.getSoleTypeValueParams(option.selectedValue);
 
-      this.hideGroupShowPartChangeMaterial([option.threediumGroupPart], showParts, soleMaterial);
       this.hideGroupShowPartChangeMaterial([option.threediumGroupPart], showParts, [], soleMaterial);
 
       if (solePartParams) {
