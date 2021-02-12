@@ -448,6 +448,31 @@ var module = {
         else data.restricted = false;
       });
     },
+
+    /**
+     * Hide loading layer 
+     * @param {boolean} isFallback
+     */
+    hideLoading(isFallback = false) {
+      let $loading = $('#loading-customizer');
+
+      if (isFallback) {
+        setTimeout(() => {
+          $loading.addClass('hide');
+        }, 6000);
+      } else {
+        $loading.addClass('hide');
+      }
+    },
+
+    /**
+     * Set percent value to loading layer
+     * @param {float} percent 
+     */
+    setLoadingPercent(percent) {
+      let percentText = percent.toFixed(0) + '%';
+      $('#loading-customizer .percent').text(percentText);
+    },
   },
 };
 

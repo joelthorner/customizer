@@ -26,19 +26,11 @@ var module = {
        * @param {object} loading 
        */
       onLoadingChanged(loading) {
-        let text = loading.progress.toFixed(0) + '%',
-          $loading = $('#loading-customizer');
-
-        $loading.find('.percent').text(text);
+        SHOP.customizer.components.setLoadingPercent(loading.progress);
 
         if (loading.progress >= 100) {
-          $loading.addClass('hide');
+          SHOP.customizer.components.hideLoading();
         }
-
-        // Fallback
-        setTimeout(() => {
-          $loading.addClass('hide');
-        }, 8000);
       },
 
       /**
@@ -87,10 +79,15 @@ var module = {
      */
     onLoad(error) {
       if (error == null) {
-        $('#loading-customizer').addClass('hide');
+        SHOP.customizer.components.hideLoading();
+
+        if (SHOP.customizer.debug.findErrors)
+          SHOP.customizer.debug.checkConfiguration();
       } else {
         CustomizerError('Customizer loading error: ', error);
+        SHOP.customizer.components.hideLoading(true);
       }
+      SHOP.customizer.threedium.initialized = true;
     },
 
     /**
