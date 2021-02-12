@@ -10,6 +10,12 @@ var module = {
   threedium: {
 
     /**
+     * Indicates if the threedium model has been initialized
+     * @type {boolean}
+     */
+    initialized: false,
+
+    /**
      * Initializes Unlimited3D library.
      * https://threedium.co.uk/documentation/api
      */
@@ -38,7 +44,7 @@ var module = {
        * @param {object[]} objectsClick 
        */
       onPointerClick(objectsClick) {
-        // console.log(objectsClick);
+        console.log(objectsClick);
 
         if (objectsClick.length) {
           let clickedValue = objectsClick[0].shortName,
@@ -63,13 +69,12 @@ var module = {
         // hide,
         // show,
         override: [
-          'Culet_logo',
+          // 'Culet_logo',
           'Sole_interior',
           'Culet', // TODO remove this cuan s'implementi el culet type
         ],
         materials: {},
       },
-
     },
 
     /**
@@ -111,8 +116,12 @@ var module = {
 
       self.threedium.options = self.threedium.getOptions();
 
-      console.log(self.threedium.options, self.threedium.configuration);
-      Unlimited3D.init(self.threedium.options, self.threedium.configuration, self.threedium.onLoad);
+      // If mode is findErrors initialize without confs and search bad part/material
+      if (self.debug.findErrors) {
+        Unlimited3D.init(self.threedium.options, {}, self.threedium.onLoad);
+      } else {
+        Unlimited3D.init(self.threedium.options, self.threedium.configuration, self.threedium.onLoad);
+      }
     },
 
     /**
@@ -420,7 +429,7 @@ var module = {
       changeMaterialParts = changeMaterialParts.filter(Boolean);
 
       this.hideGroupShowPart(hideParts, showParts, callback);
-      
+
       if (changeMaterialParts.length && material.length) {
         this.changeMaterial(changeMaterialParts, material, callback);
       }
@@ -437,7 +446,7 @@ var module = {
         option = SHOP.customizer.getOptionData(stepId, optionId),
         methodName = SHOP.customizer.getMethodName(type, 'action');
 
-      if (CUSTOMIZER_OPT_TYPES.includes(type) && typeof this[methodName] === 'function')
+      if (CUSTOMIZER_OPT_TYPES.includes(type) && typeof this[methodName] === 'function' && this.initialized)
         this[methodName](step, option);
     },
 

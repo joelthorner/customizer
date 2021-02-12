@@ -12,12 +12,74 @@ var module = {
      */
     enabled: window.location.search.includes('debug=1'),
 
+    /**
+     * If findErrors is true, initialize threedium without confs and search bad part/material
+     * @type {boolean} 
+     */
+    findErrors: window.location.search.includes('findErrors=1'),
+
+    /**
+     * Initialize debug functions
+     */
     init() {
       if (this.enabled) {
         this.printDebugPanel();
       }
+      if (this.findErrors) {
+        console.log('Looking for errors in materials and parts/groups. Please wait...');
+      }
     },
 
+    /**
+     * Com que threedium no proporciona un control d'errors
+     * dels params de configuració al inicialitzar, es fa un
+     * mode per buscar-ho manualment si s'activa aquesta funcio 
+     * via url per "findErrors".
+     */
+    checkConfiguration() {
+      let confParts = SHOP.customizer.threedium.configuration.parts.override;
+      let confMaterials = SHOP.customizer.threedium.configuration.parts.materials;
+
+      Unlimited3D.getAvailableParts((error, parts) => {
+        if (parts) {
+          confParts.forEach(confPart => {
+            let isValid = false;
+
+            for (let i = 0; i < parts.length; i++) {
+              if (parts[i].shortName === confPart) {
+                isValid = true;
+                break;
+              }
+            }
+
+            if (!isValid)
+              CustomizerError(`Invalid option value [part/group] with name "${confPart}"`);
+          });
+        }
+      });
+
+      Unlimited3D.getAvailableMaterials((error, materials) => {
+        if (materials) {
+          for (const confMaterial in confMaterials) {
+            let isValid = false;
+
+            for (let i = 0; i < materials.length; i++) {
+              if (materials[i].shortName == confMaterial) {
+                isValid = true;
+                break;
+              }
+            }
+
+            if (!isValid)
+              CustomizerError(`Invalid option value [material name] with "${confMaterial}"`);
+          }
+        }
+      });
+    },
+
+    /**
+     * Print and update the debug panel with SHOP.customizzer.data
+     */
     printDebugPanel() {
       var panel = document.getElementById('customizer-threedium-debug');
 
@@ -33,11 +95,14 @@ var module = {
       jsonViewer.showJSON(SHOP.customizer.data);
     },
 
+    /**
+     * Permet detectar sempre que s'updateja el objecte
+     * SHOP.customizer.data i fer un redraw del debug panel cada vegada.
+     */
     handler() {
       return {
         get: (obj, prop) => {
           // this.printDebugPanel();
-
           if (['[object Object]', '[object Array]'].indexOf(Object.prototype.toString.call(obj[prop])) > -1) {
             return new Proxy(obj[prop], this.handler());
           }
@@ -56,15 +121,18 @@ var module = {
 
 SHOP.customizer = { ...SHOP.customizer, ...module };
 
+/**
+ * Print error on console after good Threedium object init.
+ */
 CustomizerError = (error, message = '') => {
   if (error) {
-
     if (message.length)
       console.error(error, message);
     else
       console.error(error);
   }
 }
+
 /**
  * JSONViewer - by Roman Makudera 2016 (c) MIT licence.
  */
