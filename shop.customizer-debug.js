@@ -53,7 +53,7 @@ var module = {
             }
 
             if (!isValid)
-              CustomizerError(`Invalid option value [part/group] with name "${confPart}"`);
+              console.warn(`Invalid option value [part/group] with name "${confPart}"`);
           });
         }
       });
@@ -71,7 +71,7 @@ var module = {
             }
 
             if (!isValid)
-              CustomizerError(`Invalid option value [material name] with "${confMaterial}"`);
+              console.error(`Invalid option value [material name] with "${confMaterial}"`);
           }
         }
       });
