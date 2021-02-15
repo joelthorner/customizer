@@ -35,4 +35,4 @@ var module = {
   },
 };
 
-Object.assign(SHOP.customizer, module);
+SHOP.customizer = { ...SHOP.customizer, ...module };
