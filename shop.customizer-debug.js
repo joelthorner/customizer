@@ -119,7 +119,7 @@ var module = {
   },
 };
 
-SHOP.customizer = { ...SHOP.customizer, ...module };
+Object.assign(SHOP.customizer, module);
 
 /**
  * Print error on console after good Threedium object init.
