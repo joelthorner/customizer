@@ -71,11 +71,16 @@ var module = {
         override: [
           // 'Culet_logo',
           'Sole_interior',
-          'Culet', // TODO remove this cuan s'implementi el culet type
         ],
         materials: {},
       },
     },
+
+    /**
+     * Array of functions that will be executed just after starting the 3d model.
+     * @type {Function[]}
+     */
+    onLoadCallbacks: [],
 
     /**
      * Callback function called after action is completed first parameter returned is error, 
@@ -83,16 +88,20 @@ var module = {
      * @param {object|null} error 
      */
     onLoad(error) {
-      if (error == null) {
-        SHOP.customizer.components.hideLoading();
+      let self = SHOP.customizer;
 
-        if (SHOP.customizer.debug.findErrors)
-          SHOP.customizer.debug.checkConfiguration();
+      if (error == null) {
+        self.components.hideLoading();
+
+        if (self.debug.findErrors) self.debug.checkConfiguration();
+
+        self.threedium.onLoadCallbacks.forEach(func => func.call());
       } else {
         CustomizerError('Customizer loading error: ', error);
-        SHOP.customizer.components.hideLoading(true);
+        self.components.hideLoading(true);
       }
-      SHOP.customizer.threedium.initialized = true;
+
+      self.threedium.initialized = true;
     },
 
     /**
@@ -308,6 +317,24 @@ var module = {
     },
 
     /**
+     * Set threedium configuration of TYPE_CULET type
+     * @param {object} step
+     * @param {object} option
+     * @todo add overlay? la conf no ho permet de forma previa
+     */
+    getConfCulet(step, option) {
+      this.addConfigMaterialPart(option.selectedValue, option.threediumGroupPart);
+      this.addConfigOverridePart(option.threediumGroupPart);
+
+      if (option.params[2]) {
+        let culetOverlayChange = function () {
+          SHOP.customizer.threedium.changeOverlay(option.threediumGroupPart, option.params[2]);
+        };
+        this.onLoadCallbacks.push(culetOverlayChange);
+      }
+    },
+
+    /**
      * Add part into material key to materials threedium config object
      * @param {string} material 
      * @param {string|string[]} part 
@@ -348,9 +375,9 @@ var module = {
 
     /**
      * Threedium method https://threedium.co.uk/documentation/api#ChangeMaterial
-     * @param {string[]} parts
-     * @param {string} material
-     * @param {function} callback
+     * @param {string[]} [parts]
+     * @param {string} [material]
+     * @param {function} [callback]
      */
     changeMaterial(parts = [], material = '', callback = (error) => CustomizerError(error, 'on changeMaterial')) {
       parts = parts.filter(Boolean);
@@ -364,11 +391,26 @@ var module = {
     },
 
     /**
+     * Threedium method https://threedium.co.uk/documentation/api#SetOverlayToPart
+     * @param {string} part 
+     * @param {string} overlayName 
+     * @param {function} [callback]
+     */
+    changeOverlay(part, overlayName, callback = (error) => CustomizerError(error, 'on changeOverlay')) {
+      if (part.length && overlayName.length) {
+        Unlimited3D.setOverlayToPart({
+          overlay: overlayName,
+          part: part,
+        }, callback);
+      }
+    },
+
+    /**
      * Threedium method https://threedium.co.uk/documentation/api#Hideparts
      * @param {string[]} parts 
-     * @param {function} callback 
+     * @param {function} [callback] 
      */
-    hideGroup(parts = [], callback = (error) => CustomizerError(error, 'on hideGroup')) {
+    hideGroup(parts, callback = (error) => CustomizerError(error, 'on hideGroup')) {
       parts = parts.filter(Boolean);
 
       if (parts.length) {
@@ -381,9 +423,9 @@ var module = {
     /**
      * Threedium method https://threedium.co.uk/documentation/api#Showparts
      * @param {string[]} parts 
-     * @param {function} callback 
+     * @param {function} [callback] 
      */
-    showPart(parts = [], callback = (error) => CustomizerError(error, 'on showPart')) {
+    showPart(parts, callback = (error) => CustomizerError(error, 'on showPart')) {
       parts = parts.filter(Boolean);
 
       if (parts.length) {
@@ -399,9 +441,9 @@ var module = {
 
     /**
      * Hide group of parts and show a part
-     * @param {string[]} hideParts 
-     * @param {string[]} showParts 
-     * @param {function} callback 
+     * @param {string[]} [hideParts] 
+     * @param {string[]} [showParts] 
+     * @param {function} [callback] 
      */
     hideGroupShowPart(hideParts = [], showParts = [], callback = (error) => CustomizerError(error, 'on hideGroupShowPart')) {
       hideParts = hideParts.filter(Boolean);
@@ -417,11 +459,11 @@ var module = {
 
     /**
      * Hide group of parts, show a part and change material.
-     * @param {string[]} hideParts 
-     * @param {string[]} showParts 
-     * @param {string[]} changeMaterialParts 
-     * @param {string} material 
-     * @param {function} callback 
+     * @param {string[]} [hideParts] 
+     * @param {string[]} [showParts] 
+     * @param {string[]} [changeMaterialParts] 
+     * @param {string} [material] 
+     * @param {function} [callback] 
      */
     hideGroupShowPartChangeMaterial(hideParts = [], showParts = [], changeMaterialParts = [], material = '', callback = (error) => CustomizerError(error, 'on hideGroupShowPartChangeMaterial')) {
       hideParts = hideParts.filter(Boolean);
@@ -663,6 +705,19 @@ var module = {
         hidePartsArr.push(option.threediumGroupPart);
         this.hideGroupShowPartChangeMaterial(hidePartsArr, [option.selectedValue], [option.selectedValue], material);
       }
+    },
+
+    /**
+     * Manages Culet option
+     * @param {string} step
+     * @param {string} option
+     */
+    actionCulet(step, option) {
+      this.changeMaterial([option.threediumGroupPart], option.selectedValue, (error) => {
+        if (option.params[2]) {
+          this.changeOverlay(option.threediumGroupPart, option.params[2]);
+        }
+      });
     },
 
     /**
