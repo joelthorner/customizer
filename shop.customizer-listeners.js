@@ -160,6 +160,11 @@ var module = {
     },
 
     /**
+     * @todo
+     */
+    syncInputStepOption() { },
+
+    /**
      * Sync checks and radios inputs values with fake options
      * @param {object} $this 
      */

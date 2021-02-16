@@ -82,7 +82,16 @@ var module = {
      * Initialize step custom scrollbars plugin
      */
     scrollBars() {
-      $('.customizer-threedium .scrollbar-outer').scrollbar();
+      $('.step-content.active .step-content-option-values.active, .step-resume.active')
+        .find('.scrollbar-outer').not('.initialized-scroll')
+        .each(function (index, el) {
+          $(this).scrollbar({
+            ignoreMobile: true,
+            onInit: (elements) => {
+              $(this).addClass('initialized-scroll');
+            },
+          });
+        });
     },
 
     /**
@@ -98,6 +107,8 @@ var module = {
       if (typeof target == "object" && target.length) {
         target.addClass('active');
       }
+
+      this.scrollBars();
     },
 
     /**
@@ -110,6 +121,8 @@ var module = {
       $('.step-resume .resume-virtual-steps').html(self.components.getResumeHtmlSteps(steps));
       $('.step-control, .step-content').removeClass('active');
       $('.step-resume, .step-control-resume').addClass('active');
+
+      this.scrollBars();
     },
 
     /**
@@ -134,6 +147,8 @@ var module = {
       // tab titles [ 1.aaaa ] & tab containers [ oooo ]
       $relatedTargets.closest('.step-content').find('.step-content-option-values, .step-content-option-subtitle').removeClass('active');
       $relatedTargets.addClass('active');
+
+      this.scrollBars();
     },
 
     /**
@@ -149,6 +164,8 @@ var module = {
       // tab containers
       $relatedTargets.closest('.option-block-split-panels').find('.option-block-split-panel').removeClass('active');
       $relatedTargets.closest('.option-block-split-panel').addClass('active');
+
+      this.scrollBars();
     },
 
     /**

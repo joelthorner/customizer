@@ -221,10 +221,15 @@ var module = {
      * Apply all restrictions between options and steps
      */
     applyAllRestrictions() {
-      let self = SHOP.customizer;
+      let self = SHOP.customizer,
+        steps = self.getStepsData();
 
-      self.getStepsData().forEach((step) => {
-        step.options.forEach((option) => {
+      for (let i = 0; i < steps.length; i++) {
+        let step = steps[i],
+          options = step.options;
+
+        for (let j = 0; j < options.length; j++) {
+          const option = options[j];
           // Restriction TYPE_SOLE_TYPE, restricts TYPE_SOLE_COLOR & TYPE_CANTO_COLOR
           if (option.type == TYPE_SOLE_TYPE) {
             let optionSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
@@ -238,11 +243,12 @@ var module = {
 
               self.actions.restrictOptionValues(solePartParams.id, optionCantoColor);
             }
+            break;
           }
           // Restriction XXXXX
           // if () {}
-        });
-      });
+        }
+      }
     },
   },
 };

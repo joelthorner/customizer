@@ -24,4 +24,4 @@ var module = {
   },
 };
 
-{ ...SHOP.customizer, ...module };
+SHOP.customizer = { ...SHOP.customizer, ...module };
