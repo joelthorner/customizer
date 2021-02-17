@@ -201,18 +201,6 @@ var module = {
   },
 
   /**
-   * Return resume step image
-   * @param {string} stepId
-   * @return {string}
-   */
-  getResumeStepImage(stepId) {
-    var image = '',
-      stepOptions = this.getStepOptionsData(stepId);
-
-    this.buyFormData.options[`id${stepOptions[0].id}`].values
-  },
-
-  /**
    * Get data to SHOP.customizer.data.resume.options.optionX
    * @param {number} optionId
    * @return {object|null}
@@ -234,6 +222,7 @@ var module = {
 
   /**
    * Return last step of array (SHOP.customizer.data.steps)
+   * @return {object}
    */
   getLastStep() {
     var steps = this.getStepsData();
