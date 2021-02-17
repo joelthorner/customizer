@@ -150,7 +150,7 @@ var module = {
     },
 
     /**
-     * Sync input text and textarea values with fake options
+     * Sync resume input text and textarea values with fake options
      * @param {object} $this 
      */
     syncInputResumeOption($this) {
@@ -160,9 +160,15 @@ var module = {
     },
 
     /**
-     * @todo
+     * Sync step input text and textarea values with fake options
+     * @param {object} $this
      */
-    syncInputStepOption() { },
+    syncInputStepOption($this) {
+      var stepId = $this.data('step-id'),
+        optionValueData = $this.data('option-value');
+
+      SHOP.customizer.actions.selectOptionValue($this, stepId, optionValueData);
+    },
 
     /**
      * Sync checks and radios inputs values with fake options

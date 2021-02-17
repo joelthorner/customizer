@@ -82,15 +82,27 @@ var module = {
      */
     selectOptionValue($target, stepId, data) {
       var self = SHOP.customizer,
-        stepOptionData = self.getOptionData(stepId, data.optionId);
+        stepOptionData = self.getOptionData(stepId, data.optionId),
+        selectedValue = data.threediumValue,
+        valueTitle = data.valueTitle;
+
+      // Select real option value (fluid)
+      if (self.isTextOption($target)) {
+        self.components.syncTextOption(data.optionId, $target.val());
+        valueTitle = $target.val();
+      } else if (self.isRadioOption($target)) {
+        self.components.syncRadioOrCheckOption(data.optionId, data.valueId);
+      } else if (self.isCheckboxOption($target)) {
+        self.components.syncRadioOrCheckOption(data.optionId, data.valueId);
+        selectedValue = $target.prop('checked');
+      }
 
       // Save step option data
       self.setStepOptionData(stepId, data.optionId, {
         selected: true,
         selectedValueId: data.valueId,
-        selectedValue: data.threediumValue,
-        selectedTitle: data.valueTitle,
-        selectedValueImg: data.valueImg,
+        selectedValue: selectedValue,
+        selectedTitle: valueTitle,
         selectedValueImg: data.valueImg,
         params: data.params,
       });
@@ -100,9 +112,6 @@ var module = {
 
       // Active component opt value
       self.components.activeOptionValue($target);
-
-      // Select real option value (fluid)
-      self.components.syncRadioOrCheckOption(data.optionId, data.valueId);
 
       // Threedium actions
       self.threedium.action(stepOptionData.type, stepId, data.optionId);
@@ -119,11 +128,11 @@ var module = {
         selectedValue = $target.val(),
         resumeOptData = self.getResumeOptionData(optionId);
 
-      if ($target.is('textarea, input[type="text"]')) {
+      if (self.isTextOption($target)) {
         self.components.syncTextOption(optionId, selectedValue);
-      } else if ($target.is('input[type="radio"]')) {
+      } else if (self.isRadioOption($target)) {
         self.components.syncRadioOrCheckOption(optionId, valueId);
-      } else if ($target.is('input[type="checkbox"]')) {
+      } else if (self.isCheckboxOption($target)) {
         self.components.syncRadioOrCheckOption(optionId, valueId);
         selectedValue = $target.prop('checked');
       }
@@ -137,10 +146,7 @@ var module = {
       if (resumeOptData.type == RESUME_SIZE_TYPE) {
         self.components.toggleSizeAlert(false);
         self.components.setSizeSelectedValue(resumeOptData);
-        self.components.changeBuyFormSubmit(
-          resumeOptData.selected,
-          resumeOptData.title
-        );
+        self.components.changeBuyFormSubmit(resumeOptData.selected, resumeOptData.title);
       }
     },
 
@@ -223,7 +229,7 @@ var module = {
     applyAllRestrictions() {
       let self = SHOP.customizer,
         steps = self.getStepsData(),
-        toalRestrictions = 1, // change
+        totalRestrictions = 1, // Options that restrict three options
         restrictionsDone = 0;
 
       for (let i = 0; i < steps.length; i++) {
@@ -232,7 +238,7 @@ var module = {
 
         for (let j = 0; j < options.length; j++) {
           const option = options[j];
-          // Restriction TYPE_SOLE_TYPE, restricts TYPE_SOLE_COLOR & TYPE_CANTO_COLOR
+          // Restriction TYPE_SOLE_TYPE, restricts TYPE_SOLE_COLOR and TYPE_CANTO_COLOR
           if (option.type == TYPE_SOLE_TYPE) {
             let optionSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
               solePartParams = self.getSoleTypeValueParams(option.selectedValue)
@@ -250,9 +256,9 @@ var module = {
           // Add restrictions here
           // if () {}
 
-          if (restrictionsDone === toalRestrictions) break;
+          if (restrictionsDone === totalRestrictions) break;
         }
-        if (restrictionsDone === toalRestrictions) break;
+        if (restrictionsDone === totalRestrictions) break;
       }
     },
   },

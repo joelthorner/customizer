@@ -22,6 +22,30 @@ var module = {
   isEmptyOptionValuePart(value) {
     return value ? value === EMPTY_OPTION_VALUE_PART : false;
   },
+
+  /**
+   * Returns true or false if element is a text html element
+   * @param {object} $element - jQuery element
+   */
+  isTextOption($element) {
+    return $element.is('textarea, input[type="text"]');
+  },
+
+  /**
+   * Returns true or false if element is a checkbox html element
+   * @param {object} $element - jQuery element
+   */
+  isCheckboxOption($element) {
+    return $element.is('input[type="checkbox"]');
+  },
+
+  /**
+   * Returns true or false if element is a radio html element
+   * @param {object} $element - jQuery element
+   */
+  isRadioOption($element) {
+    return $element.is('input[type="radio"]');
+  },
 };
 
 SHOP.customizer = { ...SHOP.customizer, ...module };

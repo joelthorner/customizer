@@ -84,13 +84,11 @@ var module = {
     scrollBars() {
       $('.step-content.active .step-content-option-values.active, .step-resume.active')
         .find('.scrollbar-outer').not('.initialized-scroll')
-        .each(function (index, el) {
-          $(this).scrollbar({
-            ignoreMobile: true,
-            onInit: (elements) => {
-              $(this).addClass('initialized-scroll');
-            },
-          });
+        .scrollbar({
+          ignoreMobile: true,
+          onInit: (elements) => {
+            $(this).addClass('initialized-scroll');
+          },
         });
     },
 
