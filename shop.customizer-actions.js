@@ -222,7 +222,9 @@ var module = {
      */
     applyAllRestrictions() {
       let self = SHOP.customizer,
-        steps = self.getStepsData();
+        steps = self.getStepsData(),
+        toalRestrictions = 1, // change
+        restrictionsDone = 0;
 
       for (let i = 0; i < steps.length; i++) {
         let step = steps[i],
@@ -243,11 +245,14 @@ var module = {
 
               self.actions.restrictOptionValues(solePartParams.id, optionCantoColor);
             }
-            break;
+            restrictionsDone++;
           }
-          // Restriction XXXXX
+          // Add restrictions here
           // if () {}
+
+          if (restrictionsDone === toalRestrictions) break;
         }
+        if (restrictionsDone === toalRestrictions) break;
       }
     },
   },
