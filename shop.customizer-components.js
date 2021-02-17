@@ -23,6 +23,7 @@ var module = {
       this.scrollBars();
       this.initSizeOption();
       this.initRealOptions();
+      this.initCustomValidations();
     },
 
     /**
@@ -60,6 +61,23 @@ var module = {
         spaceBetween: 0,
         slidesPerView: 'auto'
       });
+    },
+
+    initCustomValidations() {
+      let key = 'THREEDIUM_CUSTOMIZER_INSCRIPTION_ERROR';
+
+      $.formUtils.addValidator({
+        name: 'inscription',
+        validatorFunction: function (value, $el, config, language, $form) {
+          let maxLength = $el.attr('maxlength');
+
+          language[key] = language[key].replace('%n%', maxLength);
+          return new RegExp(`^[a-zA-Z0-9]{0,${maxLength}}$`).test(value);
+        },
+        errorMessageKey: key,
+      });
+
+      $.validate(Fluid.validateFormConf);
     },
 
     /**

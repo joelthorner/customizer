@@ -1371,6 +1371,10 @@
   border: 0;
 }
 
+.option-value-input-item .help-block+.help-block.form-error {
+  display: none;
+}
+
 @media (max-width: 459px) {
   .virtual-resume-item-img {
     width: 95px;
