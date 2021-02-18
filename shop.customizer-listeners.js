@@ -31,15 +31,7 @@ var module = {
      * @param {object} $this - jQuery event target element
      */
     showStepGroupedOptionTab($this) {
-      SHOP.customizer.components.activeStepGroupedOptionTab(
-        $this,
-        $($this.data('target'))
-      );
-
-      SHOP.customizer.setActiveStep(
-        $this.data('step-id'),
-        $this.data('step-option')
-      );
+      SHOP.customizer.actions.showStepGroupedOptionTab($this);
     },
 
     /**
@@ -47,10 +39,7 @@ var module = {
      * @param {object} $this - jQuery event target element
      */
     showDoubleOptionValuesTab($this) {
-      SHOP.customizer.components.activeDoubleOptionValuesTab(
-        $this,
-        $($this.data('target'))
-      );
+      SHOP.customizer.actions.showDoubleOptionValuesTab($this);
     },
 
     /**
@@ -59,77 +48,37 @@ var module = {
      * @param {object} $this - jQuery event target element
      */
     selectOptionValue($this) {
-      var stepId = $this.data('step-id'),
-        optionValueData = $this.data('option-value');
-
-      SHOP.customizer.actions.selectOptionValue($this, stepId, optionValueData);
+      SHOP.customizer.actions.selectOptionValue($this);
     },
 
     /**
      * Event, click on any trigger with this data value, call component
      * open resume lateral panel.
-     * @param {object} $this - jQuery event target element
      */
-    showResumeModal($this) {
-      SHOP.customizer.components.showResumeModal();
+    showResumeModal() {
+      SHOP.customizer.actions.showResumeModal();
     },
 
     /**
      * Event, click on any trigger with this data value, call component
      * close resume lateral panel.
-     * @param {object} $this - jQuery event target element
      */
     hideResumeModal() {
-      SHOP.customizer.components.hideResumeModal();
+      SHOP.customizer.actions.hideResumeModal();
     },
 
     /**
      * Force go to the next grouped option or step
-     * @param {object} $this - jQuery event target element
      */
-    goToPrev($this) {
-      var self = SHOP.customizer,
-        active = self.getActiveStep();
-
-      if (active.stepId == RESUME_ID_STEP) {
-        var lastStep = self.getLastStep(),
-          lastStepOpt = self.getLastStepOption(lastStep.id);
-
-        self.actions.activeStep(lastStep.id, lastStepOpt.id);
-      }
-      else {
-        var stepData = self.getStepData(active.stepId),
-          stepDataPrevOption = self.getPrevStepOptionData(active.stepId, active.optionId),
-          prevStepData = self.getPrevStepData(stepData.id);
-
-        if (stepData.grouped && stepDataPrevOption) {
-          self.actions.activeStep(stepData.id, stepDataPrevOption.id, true);
-        }
-        else if (prevStepData) {
-          var lastOptId = prevStepData.options[prevStepData.options.length - 1].id;
-          self.actions.activeStep(prevStepData.id, lastOptId);
-        }
-      }
+    goToPrev() {
+      SHOP.customizer.actions.prevStep();
     },
 
     /**
      * Force go to the prev grouped option or step
-     * @param {object} $this - jQuery event target element
      */
-    goToNext($this) {
-      var self = SHOP.customizer,
-        active = self.getActiveStep(),
-        stepData = self.getStepData(active.stepId),
-        stepDataNextOption = self.getNextStepOptionData(active.stepId, active.optionId),
-        nextStepData = self.getNextStepData(stepData.id);
-
-      if (stepData.grouped && stepDataNextOption) {
-        self.actions.activeStep(stepData.id, stepDataNextOption.id, true);
-      } else if (nextStepData) {
-        self.actions.activeStep(nextStepData.id);
-      } else {
-        self.actions.activeResume();
-      }
+    goToNext() {
+      SHOP.customizer.actions.nextStep();
     },
 
     /**
@@ -143,9 +92,8 @@ var module = {
 
     /**
      * Go to resume
-     * @param {object} $this - jQuery event target element
      */
-    goToResume($this) {
+    goToResume() {
       SHOP.customizer.actions.activeResume();
     },
 
@@ -154,8 +102,7 @@ var module = {
      * @param {object} $this 
      */
     syncInputResumeOption($this) {
-      var optionId = $this.data('option-id');
-
+      let optionId = $this.data('option-id');
       SHOP.customizer.actions.selectOptionResumeValue($this, optionId, 0);
     },
 
@@ -164,7 +111,7 @@ var module = {
      * @param {object} $this
      */
     syncInputStepOption($this) {
-      var stepId = $this.data('step-id'),
+      let stepId = $this.data('step-id'),
         optionValueData = $this.data('option-value');
 
       SHOP.customizer.actions.selectOptionValue($this, stepId, optionValueData);

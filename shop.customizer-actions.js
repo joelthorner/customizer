@@ -6,7 +6,7 @@
 var module = {
   /**
    * Direct actions of the customizer, transversal actions between threedium, 
-   * components and listeners.
+   * components, api and listeners.
    */
   actions: {
 
@@ -77,13 +77,13 @@ var module = {
     /**
      * Select option value method
      * @param {object} $target
-     * @param {string} stepId
-     * @param {object} data
+     * @param {string} [stepId]
+     * @param {object} [data]
      */
-    selectOptionValue($target, stepId, data) {
-      var self = SHOP.customizer,
+    selectOptionValue($target, stepId = $target.data('step-id'), data = $target.data('option-value')) {
+      let self = SHOP.customizer,
         stepOptionData = self.getOptionData(stepId, data.optionId),
-        selectedValue = data.threediumValue,
+        selectedValue = data.value,
         valueTitle = data.valueTitle;
 
       // Select real option value (fluid)
@@ -259,6 +259,94 @@ var module = {
           if (restrictionsDone === totalRestrictions) break;
         }
         if (restrictionsDone === totalRestrictions) break;
+      }
+    },
+
+    /**
+     * Call active step grouped option tab component and update system data
+     * @param {object} $target
+     */
+    showStepGroupedOptionTab($target) {
+      SHOP.customizer.components.activeStepGroupedOptionTab(
+        $target,
+        $($target.data('target'))
+      );
+
+      SHOP.customizer.setActiveStep(
+        $target.data('step-id'),
+        $target.data('step-option')
+      );
+    },
+
+    /**
+     * Call active double option tab (vertical tabs inside option values)
+     * @param {object} $target
+     */
+    showDoubleOptionValuesTab($target) {
+      SHOP.customizer.components.activeDoubleOptionValuesTab(
+        $target,
+        $($target.data('target'))
+      );
+    },
+
+    /**
+     * Call show resume modal component method
+     */
+    showResumeModal() {
+      SHOP.customizer.components.showResumeModal();
+    },
+
+    /**
+     * Call hide resume modal component method
+     */
+    hideResumeModal() {
+      SHOP.customizer.components.hideResumeModal();
+    },
+
+    /**
+     * Goes to previous step from active step
+     */
+    prevStep() {
+      var self = SHOP.customizer,
+        active = self.getActiveStep();
+
+      if (active.stepId == RESUME_ID_STEP) {
+        var lastStep = self.getLastStep(),
+          lastStepOpt = self.getLastStepOption(lastStep.id);
+
+        self.actions.activeStep(lastStep.id, lastStepOpt.id);
+      }
+      else {
+        var stepData = self.getStepData(active.stepId),
+          stepDataPrevOption = self.getPrevStepOptionData(active.stepId, active.optionId),
+          prevStepData = self.getPrevStepData(stepData.id);
+
+        if (stepData.grouped && stepDataPrevOption) {
+          self.actions.activeStep(stepData.id, stepDataPrevOption.id, true);
+        }
+        else if (prevStepData) {
+          var lastOptId = prevStepData.options[prevStepData.options.length - 1].id;
+          self.actions.activeStep(prevStepData.id, lastOptId);
+        }
+      }
+    },
+
+    /**
+     * Goes to next step from active step
+     */
+    nextStep() {
+      var self = SHOP.customizer,
+        active = self.getActiveStep(),
+        stepData = self.getStepData(active.stepId),
+        stepDataNextOption = self.getNextStepOptionData(active.stepId, active.optionId),
+        nextStepData = self.getNextStepData(stepData.id);
+
+      if (stepData.grouped && stepDataNextOption) {
+        self.actions.activeStep(stepData.id, stepDataNextOption.id, true);
+      } else if (nextStepData) {
+        self.actions.activeStep(nextStepData.id);
+      } else {
+        self.actions.activeResume();
       }
     },
   },
