@@ -509,8 +509,6 @@ var module = {
       this.changeMaterial(changeMaterialPartsArr, option.selectedValue);
 
       let optBurnish = SHOP.customizer.getStepOptionByType(step, TYPE_BURNISH);
-      // param = `${BURNISH_PARAM}_${step.id}`,
-      // existsBurnish = SHOP.customizer.existsOptionParam(option.params, param);
 
       if (optBurnish) {
         let param = option.params.length >= 3 ? option.params[2] : '';
