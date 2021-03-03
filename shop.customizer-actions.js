@@ -227,38 +227,89 @@ var module = {
      * Apply all restrictions between options and steps
      */
     applyAllRestrictions() {
-      let self = SHOP.customizer,
-        steps = self.getStepsData(),
-        totalRestrictions = 1, // Options that restrict three options
+      let steps = SHOP.customizer.getStepsData(),
+        totalRestrictions = SHOP.customizer.getTotalRestrictions(),
         restrictionsDone = 0;
 
-      for (let i = 0; i < steps.length; i++) {
-        let step = steps[i],
-          options = step.options;
+      if (totalRestrictions > 0) {
+        for (let i = 0; i < steps.length; i++) {
+          const step = steps[i];
 
-        for (let j = 0; j < options.length; j++) {
-          const option = options[j];
-          // Restriction TYPE_SOLE_TYPE, restricts TYPE_SOLE_COLOR and TYPE_CANTO_COLOR
-          if (option.type == TYPE_SOLE_TYPE) {
-            let optionSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
-              solePartParams = self.getSoleTypeValueParams(option.selectedValue)
+          for (let j = 0; j < step.options.length; j++) {
+            const option = step.options[j];
+            restrictionsDone += this.applyRestriction(step, option);
 
-            if (solePartParams) {
-              self.actions.restrictOptionValues(solePartParams.id, optionSoleColor);
-
-              let stepCanto = SHOP.customizer.getStepData(STEP_ID_CANTO),
-                optionCantoColor = SHOP.customizer.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR);
-
-              self.actions.restrictOptionValues(solePartParams.id, optionCantoColor);
+            if (restrictionsDone === totalRestrictions) {
+              break;
             }
-            restrictionsDone++;
           }
-          // Add restrictions here
-          // if () {}
-
-          if (restrictionsDone === totalRestrictions) break;
+          if (restrictionsDone === totalRestrictions) {
+            break;
+          }
         }
-        if (restrictionsDone === totalRestrictions) break;
+      }
+    },
+
+    applyRestriction(step, option) {
+      if (option.type === TYPE_SOLE_COLOR) {
+        this.restrictionSoleColor(step, option);
+        return 1;
+      }
+      else if (option.type === TYPE_CANTO_COLOR) {
+        this.restrictionCantoColor(option);
+        return 1;
+      }
+      else if (option.type === TYPE_BURNISH) {
+        this.restrictionBurnish(step, option);
+        return 1;
+      }
+      return 0;
+    },
+
+    /**
+     * Apply the restriction of TYPE_SIMPLE_MATERIAL on TYPE_BURNISH
+     * @param {object} step
+     * @param {object} option
+     */
+    restrictionBurnish(step, option) {
+      let optionSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
+
+      if (optionSimpleMaterial) {
+        let burnish = SHOP.customizer.existsOptionParam(optionSimpleMaterial.params, BURNISH_PARAM);
+
+        if (burnish) {
+          this.restrictOptionValues(BURNISH_PARAM, option);
+        }
+      }
+    },
+
+    /**
+     * Apply the restriction of TYPE_SOLE_TYPE on TYPE_SOLE_COLOR
+     * @param {object} step
+     * @param {object} option 
+     */
+    restrictionSoleColor(step, option) {
+      let optionSoleColor = option,
+        optionSoleType = SHOP.customizer.getStepOptionByType(step, TYPE_SOLE_TYPE),
+        solePartParams = SHOP.customizer.getSoleTypeValueParams(optionSoleType.selectedValue);
+
+      if (solePartParams) {
+        this.restrictOptionValues(solePartParams.id, optionSoleColor);
+      }
+    },
+
+    /**
+     * Apply the restriction of TYPE_SOLE_TYPE on TYPE_CANTO_COLOR
+     * @param {object} option 
+     */
+    restrictionCantoColor(option) {
+      let optionCantoColor = option,
+        stepSole = SHOP.customizer.getStepData(STEP_ID_SOLES),
+        optionSoleType = SHOP.customizer.getStepOptionByType(stepSole, TYPE_SOLE_TYPE),
+        solePartParams = SHOP.customizer.getSoleTypeValueParams(optionSoleType.selectedValue);
+
+      if (solePartParams) {
+        this.restrictOptionValues(solePartParams.id, optionCantoColor);
       }
     },
 

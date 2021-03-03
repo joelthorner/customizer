@@ -24,14 +24,14 @@ const EMPTY_OPTION_VALUE_PART = 'NONE';
 
 /**
  * Prefix of Soles option values id (selected value part)
- * "SoleXXX_360_double" --> "Sole"
+ * @example "SoleXXX_360_double" --> "Sole"
  * @constant {string}
  */
 const ID_PREFIX_SOLE = 'Sole';
 
 /**
  * Prefix of Soles option values id (selected value part)
- * "CantoXXX_360_double" --> "Canto"
+ * @example "CantoXXX_360_double" --> "Canto"
  * "Canto_Rojo" --> "Canto"
  * @constant {string}
  */
@@ -51,38 +51,45 @@ const STEP_ID_CANTO = 'Canto';
 
 /**
  * Static part of value sole|canto, thickness.
- * "CantoXXX_360_normal" --> "normal"
+ * @example "CantoXXX_360_normal" --> "normal"
  * @constant {string}
  */
 const SOLES_THICKNESS_NORMAL = 'normal';
 
 /**
  * Static part of value sole|canto, thickness.
- * "CantoXXX_360_double" --> "double"
+ * @example "CantoXXX_360_double" --> "double"
  * @constant {string}
  */
 const SOLES_THICKNESS_DOUBLE = 'double';
 
 /**
  * Static part of value sole|canto, vira.
- * "CantoXXX_270_double" --> "270"
+ * @example "CantoXXX_270_double" --> "270"
  * @constant {number}
  */
 const SOLES_VIRA_270 = 270;
 
 /**
  * Static part of value sole|canto, vira.
- * "CantoXXX_360_double" --> "360"
+ * @example "CantoXXX_360_double" --> "360"
  * @constant {number}
  */
 const SOLES_VIRA_360 = 360;
 
 /**
  * Static part of value of vira_picado option.
- * "picado_0_360___Picado___Stormwelt" --> "Stormwelt"
+ * @example "picado_0_360___Picado___Stormwelt" --> "Stormwelt"
  * @constant {string}
  */
 const STORMWELT_PARAM = 'Stormwelt';
+
+/**
+ * Static part of value of simple material option.
+ * @example "Boxcalf_black___ToeCap___Burnish" --> "Burnish"
+ * @constant {string}
+ */
+const BURNISH_PARAM = 'Burnish';
 
 /*
  * Types of options (option image field)

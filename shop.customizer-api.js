@@ -345,6 +345,33 @@ var module = {
   },
 
   /**
+   * Returns the number of options that are restricted by another
+   * @return {number}
+   */
+  getTotalRestrictions() {
+    let restrictions = 0,
+      restrictedTypes = [
+        TYPE_SOLE_COLOR,
+        TYPE_CANTO_COLOR,
+        TYPE_BURNISH,
+      ],
+      steps = this.getStepsData();
+
+    for (let i = 0; i < steps.length; i++) {
+      let step = steps[i],
+        options = step.options;
+
+      for (let j = 0; j < options.length; j++) {
+        if (restrictedTypes.includes(options[j].type)) {
+          restrictions++;
+        }
+      }
+    }
+
+    return restrictions;
+  },
+
+  /**
    * From the parameters of an option value it returns us whether it exists or not
    * @param {string[]} params 
    * @param {string} value 

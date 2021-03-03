@@ -190,10 +190,11 @@ var module = {
      * Set threedium configuration of TYPE_BURNISH type
      * @param {object} step 
      * @param {object} option 
-     * @TODO all
      */
     getConfBurnish(step, option) {
-
+      if (!SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
+        this.addConfigOverridePart(option.selectedValue);
+      }
     },
 
     /**
@@ -511,13 +512,19 @@ var module = {
     },
 
     /**
-     * TODO
+     * Manages Burnish option
      * @param {string} step 
      * @param {string} option 
-     * @todo all
      */
     actionBurnish(step, option) {
-
+      if (SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
+        // Hide example: Burnish > Burnish_Heel
+        if (option.params.length >= 2) {
+          this.hideGroup([option.params[1]]);
+        }
+      } else {
+        this.showPart([option.selectedValue]);
+      }
     },
 
     /**
