@@ -477,6 +477,11 @@ var module = {
         var data = $(el).data('option-value'),
           hide = !SHOP.customizer.existsOptionParam(data.params, restrictParam);
 
+        // Fix, if value is empty value, no hide
+        if (data.value === EMPTY_OPTION_VALUE_PART) {
+          hide = false;
+        }
+
         if (hide) data.restricted = true;
         else data.restricted = false;
       });

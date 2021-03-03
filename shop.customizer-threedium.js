@@ -161,8 +161,7 @@ var module = {
      *   materials: {
      *     'Boxcalf_Black': ['ToeCap'],
      *   },
-     * }, 
-     * @todo extreure de cada type una funcio per separar el codi
+     * },
      */
     getConfiguration() {
       SHOP.customizer.getStepsData().forEach((step) => {
@@ -321,7 +320,6 @@ var module = {
      * Set threedium configuration of TYPE_CULET type
      * @param {object} step
      * @param {object} option
-     * @todo add overlay? la conf no ho permet de forma previa
      */
     getConfCulet(step, option) {
       this.addConfigMaterialPart(option.selectedValue, option.threediumGroupPart);
@@ -509,6 +507,15 @@ var module = {
       }
 
       this.changeMaterial(changeMaterialPartsArr, option.selectedValue);
+
+      let optBurnish = SHOP.customizer.getStepOptionByType(step, TYPE_BURNISH);
+      // param = `${BURNISH_PARAM}_${step.id}`,
+      // existsBurnish = SHOP.customizer.existsOptionParam(option.params, param);
+
+      if (optBurnish) {
+        let param = option.params.length >= 3 ? option.params[2] : '';
+        SHOP.customizer.actions.restrictOptionValues(param, optBurnish);
+      }
     },
 
     /**

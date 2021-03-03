@@ -275,10 +275,11 @@ var module = {
       let optionSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
 
       if (optionSimpleMaterial) {
-        let burnish = SHOP.customizer.existsOptionParam(optionSimpleMaterial.params, BURNISH_PARAM);
+        let param = `${BURNISH_PARAM}_${step.id}`,
+          burnish = SHOP.customizer.existsOptionParam(optionSimpleMaterial.params, param);
 
         if (burnish) {
-          this.restrictOptionValues(BURNISH_PARAM, option);
+          this.restrictOptionValues(param, option);
         }
       }
     },
