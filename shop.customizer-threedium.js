@@ -734,21 +734,20 @@ var module = {
 
     /**
      * Transform canto material to vira-picado material and stormwelt material
+     * 
+     * Transform "Canto_Rojo" to "picado_0_270_Rojo" and "Stormwelt_Rojo"
+     * Transform "Canto_Tomir_Rojo" to "picado_0_270_Rojo" and "Stormwelt_Rojo"
      * @param {object} cantoColor - option
      * @param {object} viraPicado - option
      * @return {object}
      */
     getViraPicadoMaterials(cantoColor, viraPicado) {
-      // Transform "Canto_Rojo" to "picado_0_270_Rojo" and "Stormwelt_Rojo"
-      // Fix, remove if exists sole id: transform "Canto_Tomir_Rojo" to "picado_0_270_Rojo" and "Stormwelt_Rojo"
-
-      let result = {
-        picado: null,
-        stormwelt: null,
-      };
-
       let regExp = new RegExp(`${ID_PREFIX_CANTO}_?(.*)?_(.*)`),
-        match = cantoColor.selectedValue.match(regExp);
+        match = cantoColor.selectedValue.match(regExp),
+        result = {
+          picado: null,
+          stormwelt: null,
+        };
 
       if (match.length >= 2) {
         let materialPart = match[match.length - 1];
