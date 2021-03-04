@@ -740,17 +740,18 @@ var module = {
      */
     getViraPicadoMaterials(cantoColor, viraPicado) {
       // Transform "Canto_Rojo" to "picado_0_270_Rojo" and "Stormwelt_Rojo"
+      // Fix, remove if exists sole id: transform "Canto_Tomir_Rojo" to "picado_0_270_Rojo" and "Stormwelt_Rojo"
 
       let result = {
         picado: null,
         stormwelt: null,
       };
 
-      let regExp = new RegExp(ID_PREFIX_CANTO + '_(.*)'),
+      let regExp = new RegExp(`${ID_PREFIX_CANTO}_?(.*)?_(.*)`),
         match = cantoColor.selectedValue.match(regExp);
 
-      if (match.length == 2) {
-        let materialPart = match[1];
+      if (match.length >= 2) {
+        let materialPart = match[match.length - 1];
 
         if (!SHOP.customizer.isEmptyOptionValuePart(viraPicado.selectedValue)) {
           result.picado = `${viraPicado.selectedValue}_${materialPart}`;
