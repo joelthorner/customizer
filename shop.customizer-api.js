@@ -375,12 +375,16 @@ var module = {
 
   /**
    * From the parameters of an option value it returns us whether it exists or not
-   * @param {string[]} params 
-   * @param {string} value 
+   * @param {string[]} [params]
+   * @param {string|number} [value] 
    * @return {boolean}
    */
-  existsOptionParam(params, value) {
-    if (value && params) {
+  existsOptionParam(params = [], value = '') {
+    if (typeof value === 'number') {
+      value = value.toString()
+    }
+
+    if (params.length && value.length) {
       for (let index = 0; index < params.length; index++) {
         const element = params[index];
 
