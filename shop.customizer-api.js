@@ -262,16 +262,18 @@ var module = {
    * @param {string} type
    * @return {object|null}
    */
-  getStepOptionByType(step, type) {
+  getStepOptionByType(step, type = '') {
     var result = null;
 
-    if (CUSTOMIZER_OPT_TYPES.includes(type)) {
-      for (let i = 0; i < step.options.length; i++) {
-        const element = step.options[i];
+    if (step && type.length) {
+      if (CUSTOMIZER_OPT_TYPES.includes(type)) {
+        for (let i = 0; i < step.options.length; i++) {
+          const element = step.options[i];
 
-        if (element.type === type) {
-          result = element;
-          break;
+          if (element.type === type) {
+            result = element;
+            break;
+          }
         }
       }
     }
