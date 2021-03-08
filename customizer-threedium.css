@@ -176,17 +176,14 @@
 }
 
 .option-values-grid.grid-5 {
-  -ms-grid-columns: (minmax(80px, calc(20% - 15px)))[auto-fit];
   grid-template-columns: repeat(auto-fit, minmax(80px, calc(20% - 15px)));
 }
 
 .option-values-grid.grid-4 {
-  -ms-grid-columns: (minmax(80px, calc(25% - 15px)))[auto-fit];
   grid-template-columns: repeat(auto-fit, minmax(80px, calc(25% - 15px)));
 }
 
 .option-values-grid.grid-3 {
-  -ms-grid-columns: 1fr 1fr 1fr;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
@@ -899,7 +896,6 @@
 .resume-bar-buy .resume-option-size .resume-option-values {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (35px)[auto-fit];
   grid-template-columns: repeat(auto-fit, 35px);
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;

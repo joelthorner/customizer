@@ -146,7 +146,11 @@ var module = {
      * @param {object} $target - jQuery option value target element
      */
     activeOptionValue($target) {
-      $target.parent().find('.option-value-trigger-item').removeClass('active');
+      $target
+        .closest('.step-content-option-values')
+        .find('.option-value-trigger-item')
+        .removeClass('active');
+
       $target.addClass('active');
     },
 
