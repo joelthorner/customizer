@@ -658,12 +658,12 @@ var module = {
         viraPicadoMaterials = this.getViraPicadoMaterials(optCantoColor, option);
 
       if (optSoleType) {
-        let viraPicadoValue = option.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`)),
+        let viraPicadoValue = this.getViraValue(option),
           replaceValuePart = (text) => text.replace(SOLES_VIRA_270, viraPicadoValue).replace(SOLES_VIRA_360, viraPicadoValue),
           cantoPart = replaceValuePart(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)),
           solePart = replaceValuePart(optSoleType.selectedValue),
           hideParts = [option.threediumGroupPart], // "Picado", "Soles"
-          showParts = [option.selectedValue],
+          showParts = self.isEmptyOptionValuePart(option.selectedValue) ? [] : [option.selectedValue],
           partsWithCantoMaterial = [cantoPart];
 
         // Stormwelt
@@ -673,10 +673,10 @@ var module = {
 
         // Add Sole & Canto to showParts if change 270 or 360
         let oldViraPicadoValue = optSoleType.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`)),
-          newViraPicadoValue = option.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`));
+          newViraPicadoValue = viraPicadoValue;
 
         if (newViraPicadoValue && oldViraPicadoValue) {
-          if (newViraPicadoValue[0] != oldViraPicadoValue[0]) {
+          if (newViraPicadoValue != oldViraPicadoValue[0]) {
             showParts = [...showParts, ...[cantoPart, solePart]];
             hideParts.push(optSoleType.threediumGroupPart);
 
@@ -764,6 +764,32 @@ var module = {
       }
 
       return result;
+    },
+
+    /**
+     * Find over vira-picado option weight value, 270 or 360.
+     * If it does not find the value in the selectedValue of the option, it will look for it among the parameters
+     * @param {object} option 
+     * @return {string}
+     */
+    getViraValue(option) {
+      let result = SOLES_VIRA_270,
+        regExp = new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`),
+        viraPicadoValueMatch = option.selectedValue.match(regExp);
+
+      if (viraPicadoValueMatch) {
+        result = viraPicadoValueMatch;
+      }
+
+      let isEmptyValue = SHOP.customizer.isEmptyOptionValuePart(option.selectedValue),
+        existViraParam270 = SHOP.customizer.existsOptionParam(option.params, SOLES_VIRA_270),
+        existViraParam360 = SHOP.customizer.existsOptionParam(option.params, SOLES_VIRA_360);
+
+      if (isEmptyValue && (existViraParam270 || existViraParam360)) {
+        result = existViraParam270 ? SOLES_VIRA_270 : SOLES_VIRA_360;
+      }
+
+      return result.toString();
     },
   },
 };
