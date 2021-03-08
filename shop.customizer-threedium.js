@@ -742,21 +742,24 @@ var module = {
      * @return {object}
      */
     getViraPicadoMaterials(cantoColor, viraPicado) {
-      let regExp = new RegExp(`${ID_PREFIX_CANTO}_?(.*)?_(.*)`),
-        match = cantoColor.selectedValue.match(regExp),
-        result = {
-          picado: null,
-          stormwelt: null,
-        };
+      let result = {
+        picado: null,
+        stormwelt: null,
+      };
 
-      if (match.length >= 2) {
-        let materialPart = match[match.length - 1];
+      if (cantoColor && viraPicado) {
+        let regExp = new RegExp(`${ID_PREFIX_CANTO}_?(.*)?_(.*)`),
+          match = cantoColor.selectedValue.match(regExp);
 
-        if (!SHOP.customizer.isEmptyOptionValuePart(viraPicado.selectedValue)) {
-          result.picado = `${viraPicado.selectedValue}_${materialPart}`;
-        }
-        if (SHOP.customizer.existsOptionParam(viraPicado.params, STORMWELT_PARAM)) {
-          result.stormwelt = `${STORMWELT_PARAM}_${materialPart}`;
+        if (match.length >= 2) {
+          let materialPart = match[match.length - 1];
+
+          if (!SHOP.customizer.isEmptyOptionValuePart(viraPicado.selectedValue)) {
+            result.picado = `${viraPicado.selectedValue}_${materialPart}`;
+          }
+          if (SHOP.customizer.existsOptionParam(viraPicado.params, STORMWELT_PARAM)) {
+            result.stormwelt = `${STORMWELT_PARAM}_${materialPart}`;
+          }
         }
       }
 
