@@ -157,7 +157,7 @@ var module = {
    * @param {string|number} optionId
    * @return {object|null}
    */
-  getOptionData(stepId, optionId) {
+  getOption(stepId, optionId) {
     var option = null;
 
     this.getStepData(stepId).options.forEach(element => {
@@ -422,7 +422,7 @@ var module = {
    * @param {string|number} optionId
    * @param {object} newData
    */
-  setStepOptionData(stepId, optionId, newData) {
+  setOption(stepId, optionId, newData) {
     var findedOption = null;
 
     this.getStepOptionsData(stepId).forEach(element => {

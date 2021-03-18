@@ -82,7 +82,8 @@ var module = {
      */
     selectOptionValue($target, stepId = $target.data('step-id'), data = $target.data('option-value')) {
       let self = SHOP.customizer,
-        stepOptionData = self.getOptionData(stepId, data.optionId),
+        option = self.getOption(stepId, data.optionId),
+        oldOption = { ...option },
         selectedValue = data.value,
         valueTitle = data.valueTitle;
 
@@ -98,7 +99,7 @@ var module = {
       }
 
       // Save step option data
-      self.setStepOptionData(stepId, data.optionId, {
+      self.setOption(stepId, data.optionId, {
         selected: true,
         selectedValueId: data.valueId,
         selectedValue: selectedValue,
@@ -114,7 +115,7 @@ var module = {
       self.components.activeOptionValue($target);
 
       // Threedium actions
-      self.threedium.action(stepOptionData.type, stepId, data.optionId);
+      self.threedium.action(option.type, stepId, option, oldOption);
     },
 
     /**

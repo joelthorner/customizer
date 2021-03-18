@@ -477,26 +477,66 @@ var module = {
     },
 
     /**
+     * Show part and after hide part
+     * @param {string[]} [showParts]
+     * @param {string[]} [hideParts]
+     * @param {function} [callback]
+     */
+    showPartHidePart(showParts = [], hideParts = [], callback = (error) => CustomizerError(error, 'on showPartHidePart')) {
+      showParts = showParts.filter(Boolean);
+      hideParts = hideParts.filter(Boolean);
+
+      if (showParts.length) {
+        this.showPart(showParts, (error) => {
+          CustomizerError(error, 'on showPart');
+          this.hideGroup(hideParts, callback);
+        });
+      }
+    },
+
+    /**
+     * Show a part and change material, after hide a part.
+     * @param {string[]} [showParts]
+     * @param {string[]} [hideParts]
+     * @param {string[]} [changeMaterialParts]
+     * @param {string} [material]
+     * @param {function} [callback]
+     */
+    showPartHidePartChangeMaterial(showParts = [], hideParts = [], changeMaterialParts = [], material = '', callback = (error) => CustomizerError(error, 'on showPartHidePartChangeMaterial')) {
+      showParts = showParts.filter(Boolean);
+      hideParts = hideParts.filter(Boolean);
+      changeMaterialParts = changeMaterialParts.filter(Boolean);
+
+      this.showPartHidePart(showParts, hideParts, callback);
+
+      if (changeMaterialParts.length && material.length) {
+        this.changeMaterial(changeMaterialParts, material, callback);
+      }
+    },
+
+    /**
      * Execute a function depending on the type of an option
      * @param {string} type - value of CUSTOMIZER_OPT_TYPES
      * @param {string} stepId
-     * @param {string} optionId
+     * @param {object} option - option data after user selection (updated data)
+     * @param {object} oldOption - option data before user selection
      */
-    action(type, stepId, optionId) {
+    action(type, stepId, option, oldOption) {
       let step = SHOP.customizer.getStepData(stepId),
-        option = SHOP.customizer.getOptionData(stepId, optionId),
+        // option = SHOP.customizer.getOptionData(stepId, option.id),
         methodName = SHOP.customizer.getMethodName(type, 'action');
 
       if (CUSTOMIZER_OPT_TYPES.includes(type) && typeof this[methodName] === 'function' && this.initialized)
-        this[methodName](step, option);
+        this[methodName](step, option, oldOption);
     },
 
     /**
      * Default options action type. Simple change material of part.
      * @param {string} step 
-     * @param {string} option 
+     * @param {object} option 
+     * @param {object} oldOption
      */
-    actionSimpleMaterial(step, option) {
+    actionSimpleMaterial(step, option, oldOption) {
       let changeMaterialPartsArr = [];
 
       for (let i = 0; i < step.options.length; i++) {
@@ -519,13 +559,14 @@ var module = {
     /**
      * Manages Burnish option
      * @param {string} step 
-     * @param {string} option 
+     * @param {object} option
+     * @param {object} oldOption
      */
-    actionBurnish(step, option) {
+    actionBurnish(step, option, oldOption) {
       if (SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
         // Hide example: Burnish > Burnish_Heel
         if (option.params.length >= 2) {
-          this.hideGroup([option.params[1]]);
+          this.hideGroup([oldOption.params[1]]);
         }
       } else {
         this.showPart([option.selectedValue]);
@@ -535,9 +576,10 @@ var module = {
     /**
      * Manages Medallion (Floron) option
      * @param {string} step 
-     * @param {string} option 
+     * @param {object} option
+     * @param {object} oldOption
      */
-    actionMedallion(step, option) {
+    actionMedallion(step, option, oldOption) {
       let optSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
 
       if (SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
@@ -546,8 +588,8 @@ var module = {
       } else {
         let hidePartsArr = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
         let material = optSimpleMaterial ? optSimpleMaterial.selectedValue : '';
-        hidePartsArr.push(option.threediumGroupPart);
-        this.hideGroupShowPartChangeMaterial(hidePartsArr, [option.selectedValue], [option.selectedValue], material);
+        hidePartsArr.push(oldOption.selectedValue);
+        this.showPartHidePartChangeMaterial([option.selectedValue], hidePartsArr, [option.selectedValue], material);
       }
     },
 
@@ -555,9 +597,10 @@ var module = {
      * Manages Sole (type) option
      * Restrictions: TYPE_SOLE_TYPE, restricts TYPE_SOLE_COLOR & TYPE_CANTO_COLOR
      * @param {string} step 
-     * @param {string} option 
+     * @param {object} option
+     * @param {object} oldOption
      */
-    actionSoleType(step, option) {
+    actionSoleType(step, option, oldOption) {
       let self = SHOP.customizer,
         optSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
         stepCanto = self.getStepData(ID_PREFIX_CANTO),
@@ -567,9 +610,13 @@ var module = {
         solePart = option.selectedValue,
         cantoPart = option.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
         showParts = [solePart, cantoPart],
-        solePartParams = self.getSoleTypeValueParams(option.selectedValue);
+        solePartParams = self.getSoleTypeValueParams(option.selectedValue),
 
-      this.hideGroupShowPartChangeMaterial([option.threediumGroupPart], showParts, [], soleMaterial);
+        oldSolePart = oldOption.selectedValue,
+        oldCantoPart = oldOption.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
+        hideParts = [oldSolePart, oldCantoPart];
+
+      this.showPartHidePartChangeMaterial(showParts, hideParts, [], soleMaterial);
 
       if (solePartParams) {
         self.actions.restrictOptionValues(solePartParams.id, optSoleColor);
@@ -580,9 +627,10 @@ var module = {
     /**
      * Manages Sole color option
      * @param {string} step 
-     * @param {string} option 
+     * @param {object} option
+     * @param {object} oldOption
      */
-    actionSoleColor(step, option) {
+    actionSoleColor(step, option, oldOption) {
       let optSoleType = SHOP.customizer.getStepOptionByType(step, TYPE_SOLE_TYPE);
 
       if (optSoleType) {
@@ -593,9 +641,10 @@ var module = {
     /**
      * Manages Canto color option
      * @param {string} step 
-     * @param {string} option 
+     * @param {object} option
+     * @param {object} oldOption
      */
-    actionCantoColor(step, option) {
+    actionCantoColor(step, option, oldOption) {
       let self = SHOP.customizer,
         stepSoles = self.getStepData(STEP_ID_SOLES),
         optSoleType = self.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE),
@@ -619,9 +668,10 @@ var module = {
     /**
      * Manages Canto thickness option
      * @param {string} step 
-     * @param {string} option 
+     * @param {object} option
+     * @param {object} oldOption
      */
-    actionCantoThickness(step, option) {
+    actionCantoThickness(step, option, oldOption) {
       let stepSoles = SHOP.customizer.getStepData(STEP_ID_SOLES),
         optSoleType = SHOP.customizer.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE),
         optSoleColor = SHOP.customizer.getStepOptionByType(stepSoles, TYPE_SOLE_COLOR),
@@ -631,14 +681,18 @@ var module = {
         let replaceValuePart = (text) => text.replace(SOLES_THICKNESS_NORMAL, option.selectedValue).replace(SOLES_THICKNESS_DOUBLE, option.selectedValue),
           cantoPart = replaceValuePart(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)),
           solePart = replaceValuePart(optSoleType.selectedValue),
-          showParts = [cantoPart, solePart];
+          showParts = [cantoPart, solePart],
 
-        this.hideGroupShowPart([option.threediumGroupPart], showParts, () => {
+          oldCantoPart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
+          oldSolePart = optSoleType.selectedValue,
+          hideParts = [oldCantoPart, oldSolePart];
+
+        this.showPartHidePart(showParts, hideParts, () => {
           if (optSoleColor) this.changeMaterial([solePart], optSoleColor.selectedValue);
           if (optCantoColor) this.changeMaterial([cantoPart], optCantoColor.selectedValue);
         });
 
-        SHOP.customizer.setStepOptionData(STEP_ID_SOLES, optSoleType.id, {
+        SHOP.customizer.setOption(STEP_ID_SOLES, optSoleType.id, {
           selectedValue: solePart,
         });
       }
@@ -647,9 +701,10 @@ var module = {
     /**
      * Manages Canto Vira-picado option
      * @param {string} step 
-     * @param {string} option 
+     * @param {object} option
+     * @param {object} oldOption
      */
-    actionViraPicado(step, option) {
+    actionViraPicado(step, option, oldOption) {
       let self = SHOP.customizer,
         stepSoles = self.getStepData(STEP_ID_SOLES),
         optSoleType = self.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE),
@@ -662,13 +717,30 @@ var module = {
           replaceValuePart = (text) => text.replace(SOLES_VIRA_270, viraPicadoValue).replace(SOLES_VIRA_360, viraPicadoValue),
           cantoPart = replaceValuePart(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)),
           solePart = replaceValuePart(optSoleType.selectedValue),
-          hideParts = [option.threediumGroupPart], // "Picado", "Soles"
-          showParts = self.isEmptyOptionValuePart(option.selectedValue) ? [] : [option.selectedValue],
-          partsWithCantoMaterial = [cantoPart];
+          showParts = [],
+          partsWithCantoMaterial = [cantoPart],
+
+          oldCantoPart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
+          oldSolePart = optSoleType.selectedValue,
+          hideParts = [];
 
         // Stormwelt
         if (self.existsOptionParam(option.params, STORMWELT_PARAM)) {
           showParts.push(STORMWELT_PARAM);
+        } else {
+          hideParts.push(STORMWELT_PARAM);
+        }
+
+        if (self.isEmptyOptionValuePart(option.selectedValue)) {
+          hideParts.push(option.selectedValue);
+        } else {
+          showParts.push(option.selectedValue);
+        }
+        if (self.isEmptyOptionValuePart(oldOption.selectedValue)) {
+          hideParts.push(oldOption.selectedValue);
+        } else {
+          hideParts.push(oldOption.selectedValue);
+
         }
 
         // Add Sole & Canto to showParts if change 270 or 360
@@ -678,16 +750,15 @@ var module = {
         if (newViraPicadoValue && oldViraPicadoValue) {
           if (newViraPicadoValue != oldViraPicadoValue[0]) {
             showParts = [...showParts, ...[cantoPart, solePart]];
-            hideParts.push(optSoleType.threediumGroupPart);
+            hideParts = [...hideParts, ...[oldCantoPart, oldSolePart]];
 
-            SHOP.customizer.setStepOptionData(STEP_ID_SOLES, optSoleType.id, {
+            SHOP.customizer.setOption(STEP_ID_SOLES, optSoleType.id, {
               selectedValue: solePart,
             });
           }
         }
 
-        // Sole/Canto parts update (270/360) & Vira parts update 
-        this.hideGroupShowPart(hideParts, showParts, (error) => {
+        this.showPartHidePart(showParts, hideParts, (error) => {
           CustomizerError(error, 'on actionViraPicado');
 
           if (optSoleColor) this.changeMaterial([solePart], optSoleColor.selectedValue);
@@ -700,31 +771,33 @@ var module = {
     },
 
     /**
-     * Manages Canto Vira-picado option
+     * Manages change part option
      * @param {string} step 
-     * @param {string} option 
+     * @param {object} option
+     * @param {object} oldOption
      */
-    actionChangePart(step, option) {
+    actionChangePart(step, option, oldOption) {
       let optSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
 
       if (SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
         let showParts = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
         this.hideGroupShowPart([option.threediumGroupPart], showParts);
       } else {
-        let hidePartsArr = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
+        let hideParts = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
         let material = optSimpleMaterial ? optSimpleMaterial.selectedValue : '';
 
-        hidePartsArr.push(option.threediumGroupPart);
-        this.hideGroupShowPartChangeMaterial(hidePartsArr, [option.selectedValue], [option.selectedValue], material);
+        hideParts.push(oldOption.selectedValue);
+        this.showPartHidePartChangeMaterial([option.selectedValue], hideParts, [option.selectedValue], material);
       }
     },
 
     /**
      * Manages Culet option
      * @param {string} step
-     * @param {string} option
+     * @param {object} option
+     * @param {object} oldOption
      */
-    actionCulet(step, option) {
+    actionCulet(step, option, oldOption) {
       this.changeMaterial([option.threediumGroupPart], option.selectedValue, (error) => {
         if (option.params[2]) {
           this.changeOverlay(option.threediumGroupPart, option.params[2]);

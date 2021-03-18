@@ -56,6 +56,7 @@ var module = {
               console.warn(`Invalid option value [part/group] with name "${confPart}"`);
           });
         }
+        console.log(`End each parts/groups`);
       });
 
       Unlimited3D.getAvailableMaterials((error, materials) => {
@@ -74,6 +75,7 @@ var module = {
               console.error(`Invalid option value [material name] with "${confMaterial}"`);
           }
         }
+        console.log(`End each materials`);
       });
     },
 

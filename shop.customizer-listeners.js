@@ -48,7 +48,9 @@ var module = {
      * @param {object} $this - jQuery event target element
      */
     selectOptionValue($this) {
-      SHOP.customizer.actions.selectOptionValue($this);
+      if (!$this.is('.active')) {
+        SHOP.customizer.actions.selectOptionValue($this);
+      }
     },
 
     /**
