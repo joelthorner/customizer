@@ -405,6 +405,24 @@ var module = {
     },
 
     /**
+     * Threedium method ??
+     * @param {string} overlay
+     * @param {string} textValue
+     * @param {function} [callback]
+     */
+    updateOverlay(overlay, textValue, callback = (error) => CustomizerError(error, 'on updateOverlay')) {
+      if (overlay.length) {
+        Unlimited3D.updateOverlay({
+          overlay: overlay,
+          overlayEntry: 'Text',
+          options: {
+            text: textValue,
+          }
+        }, callback);
+      }
+    },
+
+    /**
      * Threedium method https://threedium.co.uk/documentation/api#Hideparts
      * @param {string[]} parts 
      * @param {function} [callback] 
@@ -523,8 +541,10 @@ var module = {
      */
     action(type, stepId, option, oldOption) {
       let step = SHOP.customizer.getStepData(stepId),
-        // option = SHOP.customizer.getOptionData(stepId, option.id),
         methodName = SHOP.customizer.getMethodName(type, 'action');
+
+      // For types like "INSCRIPTION_3" or "INSCRIPTION_15" remove number
+      methodName = methodName.replace(/_[0-9]+/, '');
 
       if (CUSTOMIZER_OPT_TYPES.includes(type) && typeof this[methodName] === 'function' && this.initialized)
         this[methodName](step, option, oldOption);
@@ -803,6 +823,16 @@ var module = {
           this.changeOverlay(option.threediumGroupPart, option.params[2]);
         }
       });
+    },
+
+    /**
+     * Manages Inscription option (all inscription input types)
+     * @param {string} step
+     * @param {object} option
+     * @param {object} oldOption
+     */
+    actionInscription(step, option, oldOption) {
+      this.updateOverlay(option.threediumGroupPart, option.selectedValue);
     },
 
     /**

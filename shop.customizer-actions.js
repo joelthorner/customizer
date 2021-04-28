@@ -90,7 +90,6 @@ var module = {
       // Select real option value (fluid)
       if (self.isTextOption($target)) {
         self.components.syncTextOption(data.optionId, $target.val());
-        valueTitle = $target.val();
       } else if (self.isRadioOption($target)) {
         self.components.syncRadioOrCheckOption(data.optionId, data.valueId);
       } else if (self.isCheckboxOption($target)) {
