@@ -72,7 +72,7 @@ var module = {
           let maxLength = $el.attr('maxlength');
 
           language[key] = language[key].replace('%n%', maxLength);
-          return new RegExp(`^[a-zA-Z0-9]{0,${maxLength}}$`).test(value);
+          return new RegExp(`^[a-zA-Z0-9\\s]{0,${maxLength}}$`).test(value);
         },
         errorMessageKey: key,
       });
