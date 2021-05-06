@@ -270,12 +270,20 @@ var module = {
      */
     getResumeHtmlStepOption(option) {
       var img = option.selectedValueImg.length ? `<img class="value-img img-responsive" src="${option.selectedValueImg}">` : ``;
+      let img = option.selectedValueImg.length ? `<img class="value-img img-responsive" src="${option.selectedValueImg}">` : ``,
+        value = option.selectedTitle;
 
       return (option.selected) ? `
+      if (option.type === TYPE_INSCRIPTION_3 || option.type === TYPE_INSCRIPTION_15) {
+        value = option.selectedValue;
+      }
+
+      return (option.selected && option.type !== TYPE_HIDDEN_PRICE && value.length) ? `
         <div class="option">
           ${img}
           <span class="title">${option.title}</span>
           <span class="value">${option.selectedTitle}</span>
+          <span class="value">${value}</span>
         </div>` : ``;
     },
 
