@@ -276,7 +276,7 @@ var module = {
         value = option.selectedValue;
       }
 
-      return (option.selected && option.type !== TYPE_HIDDEN_PRICE && value.length) ? `
+      return (option.selected && option.type !== TYPE_HIDDEN_INSCRIPTION_PRICE && value.length) ? `
         <div class="option">
           ${img}
           <span class="title">${option.title}</span>
@@ -325,16 +325,17 @@ var module = {
     },
 
     /**
-   * Sync selected customizer option value with {$ buyformOptions ...
-   * only radio or checkbox inputs.
-   * @param {number} optionId
-   * @param {number} valueId
-   */
+     * Sync selected customizer option value with {$ buyformOptions ...
+     * only radio or checkbox inputs.
+     * @param {number} optionId
+     * @param {number} valueId
+     */
     syncRadioOrCheckOption(optionId, valueId) {
       $(`.productOption${optionId}`)
         .find(`[name="optionValue${optionId}"][value="${valueId}"]`)
         .trigger('click');
     },
+
 
     /**
      * Sync selected customizer option value with {$ buyformOptions ...
@@ -346,6 +347,16 @@ var module = {
       $(`.productOption${optionId}`)
         .find('textarea, input[type="text"]')
         .val(selectedValue);
+    },
+
+    /**
+     * Cada opció de tipus INSCRIPTION va associada a una opció de
+     * radio simple. Si l'input de text de la inscripció te llargada,
+     * s'ha de marcar la el valor de la opció relacionada al valor "Yes" (true) i si
+     * està buida, el "No" (false).
+     */
+    syncInscriptionAssocRadioOption() {
+
     },
 
     /**

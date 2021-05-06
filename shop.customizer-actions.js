@@ -89,7 +89,11 @@ var module = {
 
       // Select real option value (fluid)
       if (self.isTextOption($target)) {
-        self.components.syncTextOption(data.optionId, $target.val());
+        self.components.syncTextOption(data.optionId, selectedValue);
+
+        if (option.type === TYPE_HIDDEN_INSCRIPTION_PRICE && selectedValue.length) {
+          self.components.syncInscriptionAssocRadioOption();
+        }
       } else if (self.isRadioOption($target)) {
         self.components.syncRadioOrCheckOption(data.optionId, data.valueId);
       } else if (self.isCheckboxOption($target)) {

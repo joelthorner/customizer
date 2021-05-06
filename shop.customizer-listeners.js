@@ -113,7 +113,7 @@ var module = {
      * @param {object} $this
      */
     syncInputStepOption($this) {
-      $this.data('option-value').value = $this.val();
+      $this.data('option-value').value = $this.val().trim();
 
       let stepId = $this.data('step-id'),
         optionValueData = $this.data('option-value');
