@@ -269,11 +269,9 @@ var module = {
      * @return {string}
      */
     getResumeHtmlStepOption(option) {
-      var img = option.selectedValueImg.length ? `<img class="value-img img-responsive" src="${option.selectedValueImg}">` : ``;
       let img = option.selectedValueImg.length ? `<img class="value-img img-responsive" src="${option.selectedValueImg}">` : ``,
         value = option.selectedTitle;
 
-      return (option.selected) ? `
       if (option.type === TYPE_INSCRIPTION_3 || option.type === TYPE_INSCRIPTION_15) {
         value = option.selectedValue;
       }
@@ -282,7 +280,6 @@ var module = {
         <div class="option">
           ${img}
           <span class="title">${option.title}</span>
-          <span class="value">${option.selectedTitle}</span>
           <span class="value">${value}</span>
         </div>` : ``;
     },
