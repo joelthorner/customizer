@@ -90,10 +90,28 @@ var module = {
       // Select real option value (fluid)
       if (self.isTextOption($target)) {
         self.components.syncTextOption(data.optionId, selectedValue);
+        
+        // Refactor this
+        if (CUSTOMIZER_INSCRIPTION_TYPES.includes(option.type)) {
+          let step = self.getStepData(stepId),
+            assocOption = self.getStepOptionByType(step, TYPE_HIDDEN_INSCRIPTION_PRICE),
+            assocValue = selectedValue.length ? true : false,
+            assocValueId = null;
 
-        if (option.type === TYPE_HIDDEN_INSCRIPTION_PRICE && selectedValue.length) {
-          self.components.syncInscriptionAssocRadioOption();
+          if (assocOption) {
+            for (let i = 0; i < assocOption.values.length; i++) {
+              const value = assocOption.values[i];
+              if (self.existsOptionParam(value.params, assocValue)) {
+                assocValueId = value.id;
+              }
+            }
+
+            if (assocValueId) {
+              self.components.syncRadioOrCheckOption(assocOption.id, assocValueId);
+            }
+          }
         }
+        // End refactor this
       } else if (self.isRadioOption($target)) {
         self.components.syncRadioOrCheckOption(data.optionId, data.valueId);
       } else if (self.isCheckboxOption($target)) {

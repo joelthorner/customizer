@@ -272,7 +272,7 @@ var module = {
       let img = option.selectedValueImg.length ? `<img class="value-img img-responsive" src="${option.selectedValueImg}">` : ``,
         value = option.selectedTitle;
 
-      if (option.type === TYPE_INSCRIPTION_3 || option.type === TYPE_INSCRIPTION_15) {
+      if (CUSTOMIZER_INSCRIPTION_TYPES.includes(option.type)) {
         value = option.selectedValue;
       }
 
@@ -347,16 +347,6 @@ var module = {
       $(`.productOption${optionId}`)
         .find('textarea, input[type="text"]')
         .val(selectedValue);
-    },
-
-    /**
-     * Cada opció de tipus INSCRIPTION va associada a una opció de
-     * radio simple. Si l'input de text de la inscripció te llargada,
-     * s'ha de marcar la el valor de la opció relacionada al valor "Yes" (true) i si
-     * està buida, el "No" (false).
-     */
-    syncInscriptionAssocRadioOption() {
-
     },
 
     /**

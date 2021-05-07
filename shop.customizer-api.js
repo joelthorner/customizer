@@ -380,7 +380,7 @@ var module = {
    * @return {boolean}
    */
   existsOptionParam(params = [], value = '') {
-    if (typeof value === 'number') {
+    if (typeof value === 'number' || typeof value === 'boolean') {
       value = value.toString()
     }
 
