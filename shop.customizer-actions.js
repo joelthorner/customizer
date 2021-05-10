@@ -90,28 +90,10 @@ var module = {
       // Select real option value (fluid)
       if (self.isTextOption($target)) {
         self.components.syncTextOption(data.optionId, selectedValue);
-        
-        // Refactor this
+
         if (CUSTOMIZER_INSCRIPTION_TYPES.includes(option.type)) {
-          let step = self.getStepData(stepId),
-            assocOption = self.getStepOptionByType(step, TYPE_HIDDEN_INSCRIPTION_PRICE),
-            assocValue = selectedValue.length ? true : false,
-            assocValueId = null;
-
-          if (assocOption) {
-            for (let i = 0; i < assocOption.values.length; i++) {
-              const value = assocOption.values[i];
-              if (self.existsOptionParam(value.params, assocValue)) {
-                assocValueId = value.id;
-              }
-            }
-
-            if (assocValueId) {
-              self.components.syncRadioOrCheckOption(assocOption.id, assocValueId);
-            }
-          }
+          self.actions.updateInscriptionAssocOption(stepId, selectedValue);
         }
-        // End refactor this
       } else if (self.isRadioOption($target)) {
         self.components.syncRadioOrCheckOption(data.optionId, data.valueId);
       } else if (self.isCheckboxOption($target)) {
@@ -137,6 +119,33 @@ var module = {
 
       // Threedium actions
       self.threedium.action(option.type, stepId, option, oldOption);
+    },
+
+    /**
+     * Of an inscription type option synchronizes with the 
+     * associated single sseleccio type option. For a price increase.
+     * @param {string} stepId - Step id of option
+     * @param {string} selectedValue - Selected value from inscription option
+     */
+    updateInscriptionAssocOption(stepId, selectedValue) {
+      let self = SHOP.customizer,
+        step = self.getStepData(stepId),
+        assocOption = self.getStepOptionByType(step, TYPE_HIDDEN_INSCRIPTION_PRICE),
+        assocValue = selectedValue.length ? true : false,
+        assocValueId = null;
+
+      if (assocOption) {
+        for (let i = 0; i < assocOption.values.length; i++) {
+          const value = assocOption.values[i];
+          if (self.existsOptionParam(value.params, assocValue)) {
+            assocValueId = value.id;
+          }
+        }
+
+        if (assocValueId) {
+          self.components.syncRadioOrCheckOption(assocOption.id, assocValueId);
+        }
+      }
     },
 
     /**
