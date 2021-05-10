@@ -123,6 +123,10 @@ const TYPE_INSCRIPTION_15 = 'INSCRIPTION_15';
 
 const TYPE_HIDDEN_INSCRIPTION_PRICE = 'HIDDEN_INSCRIPTION_PRICE';
 
+/**
+ * All step types
+ * @constant {string[]}
+ */
 const CUSTOMIZER_OPT_TYPES = [
   TYPE_BURNISH,
   TYPE_MEDALLION,
@@ -139,7 +143,94 @@ const CUSTOMIZER_OPT_TYPES = [
   TYPE_HIDDEN_INSCRIPTION_PRICE,
 ];
 
+/**
+ * Text step types
+ * @constant {string[]}
+ */
 const CUSTOMIZER_INSCRIPTION_TYPES = [
   TYPE_INSCRIPTION_3,
   TYPE_INSCRIPTION_15,
 ];
+
+/**
+ * Main view, side view with a little angle
+ * @constant {number[]}
+ */
+const CAMERA_MAIN_VIEW = [0.052, 0.0987, 0.386];
+
+/**
+ * Top left view
+ * @constant {number[]}
+ */
+const CAMERA_TOP_LEFT_VIEW = [0.346, 0.393, 0.258];
+
+/**
+ * Back view
+ * @constant {number[]}
+ */
+const CAMERA_BACK_VIEW = [-0.575, 0.089, -0.035];
+
+/**
+ * Bottom (sole) view
+ * @constant {number[]}
+ */
+const CAMERA_BOTTOM_VIEW = [0.018, -0.566, -0.005];
+
+/**
+ * Lining view
+ * @constant {number[]}
+ */
+const CAMERA_LINING_VIEW = [0.150, 0.307, 0.443];
+
+/**
+ * Medallion view
+ * @constant {number[]}
+ */
+const CAMERA_MEDALLION_VIEW = [0.165, 0.287, -0.008];
+
+/**
+ * Front view
+ * @constant {number[]}
+ */
+const CAMERA_FRONT_VIEW = [0.399, 0.387, 0.200];
+
+/**
+ * Step/View declaration
+ * Each step option defines its default view 
+ * and its views by options if they are different.
+ * @constant {object}
+ */
+const STEPS_VIEW = {
+  ToeCap: {
+    default: CAMERA_MAIN_VIEW,
+    Medallions: CAMERA_MEDALLION_VIEW,
+  },
+  Vamp: {
+    default: CAMERA_MAIN_VIEW,
+  },
+  Heel: {
+    default: CAMERA_MAIN_VIEW,
+  },
+  Stitching: {
+    default: CAMERA_MAIN_VIEW,
+  },
+  Canto: {
+    default: CAMERA_TOP_LEFT_VIEW,
+    Picado: CAMERA_TOP_LEFT_VIEW,
+  },
+  PullLoop: {
+    default: CAMERA_BACK_VIEW,
+  },
+  HeelStripe: {
+    default: CAMERA_BACK_VIEW,
+  },
+  Soles: {
+    default: CAMERA_BOTTOM_VIEW,
+  },
+  Buckles: {
+    default: CAMERA_LINING_VIEW,
+  },
+  Lining: {
+    default: CAMERA_LINING_VIEW,
+  },
+}
