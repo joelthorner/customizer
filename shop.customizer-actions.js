@@ -72,6 +72,8 @@ var module = {
 
       self.components.updateContainerClassContext(stepData.id);
       self.components.slideToControl(stepData.id);
+
+      self.camera.setView(stepData.id, optionId);
     },
 
     /**

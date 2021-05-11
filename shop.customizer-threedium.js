@@ -333,6 +333,9 @@ var module = {
       }
     },
 
+    // TODO getConfInscription
+    //  and add onLoadCallbacks function with overlay 0 text length change
+
     /**
      * Add part into material key to materials threedium config object
      * @param {string} material 
@@ -385,6 +388,21 @@ var module = {
         Unlimited3D.changeMaterial({
           parts: parts,
           material: material,
+        }, callback);
+      }
+    },
+
+    /**
+     * Threedium method https://threedium.co.uk/documentation/api#Setcameraposition
+     * @param {number[]} view 
+     * @param {function} [callback]
+     */
+    setCameraPosition(view, callback = (error) => CustomizerError(error, 'on setCameraPosition')) {
+      view = view.filter(Boolean);
+
+      if (view.length) {
+        Unlimited3D.setCameraPosition({
+          position: view,
         }, callback);
       }
     },
