@@ -2,7 +2,17 @@
  * Src threedium api (Fluid.import)
  * @constant {string}
  */
-const THREEDIUM_API_SRC = 'https://distcdn.unlimited3d.com/pres/v/1.1.23/unlimited3d.min.js';
+const THREEDIUM_API_SRC = 'https://distcdn.unlimited3d.com/pres/v/1.1.28/unlimited3d.min.js';
+// const THREEDIUM_API_SRC = 'https://distcdn.unlimited3d.com/pres/latest/unlimited3d.min.js';
+
+/**
+ * Parts of the 3D model that are not configured with logicommerce options
+ * @constant {string[]}
+ */
+const NO_CONFIGURABLE_PARTS = [
+  'Sole_interior',
+  'No_lining',
+];
 
 /**
  * Static id of resume "step"
@@ -121,6 +131,8 @@ const TYPE_INSCRIPTION_3 = 'INSCRIPTION_3';
 
 const TYPE_INSCRIPTION_15 = 'INSCRIPTION_15';
 
+const TYPE_INSCRIPTION_SOLE = 'INSCRIPTION_SOLE';
+
 const TYPE_HIDDEN_INSCRIPTION_PRICE = 'HIDDEN_INSCRIPTION_PRICE';
 
 /**
@@ -140,6 +152,7 @@ const CUSTOMIZER_OPT_TYPES = [
   TYPE_CULET,
   TYPE_INSCRIPTION_3,
   TYPE_INSCRIPTION_15,
+  TYPE_INSCRIPTION_SOLE,
   TYPE_HIDDEN_INSCRIPTION_PRICE,
 ];
 
@@ -150,4 +163,5 @@ const CUSTOMIZER_OPT_TYPES = [
 const CUSTOMIZER_INSCRIPTION_TYPES = [
   TYPE_INSCRIPTION_3,
   TYPE_INSCRIPTION_15,
+  TYPE_INSCRIPTION_SOLE,
 ];

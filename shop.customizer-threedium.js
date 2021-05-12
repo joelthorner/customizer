@@ -68,10 +68,7 @@ var module = {
       parts: {
         // hide,
         // show,
-        override: [
-          // 'Culet_logo',
-          'Sole_interior',
-        ],
+        override: NO_CONFIGURABLE_PARTS,
         materials: {},
       },
     },
@@ -167,7 +164,6 @@ var module = {
       SHOP.customizer.getStepsData().forEach((step) => {
         step.options.forEach((option) => {
           let methodName = SHOP.customizer.getMethodName(option.type, 'getConf');
-
           if (CUSTOMIZER_OPT_TYPES.includes(option.type) && typeof this[methodName] === 'function') {
             this[methodName](step, option);
           }
@@ -333,8 +329,29 @@ var module = {
       }
     },
 
-    // TODO getConfInscription
-    //  and add onLoadCallbacks function with overlay 0 text length change
+    /**
+     * Set threedium configuration of TYPE_INSCRIPTION types
+     * @param {object} step
+     * @param {object} option
+     */
+    getConfInscription(step, option) {
+      let resetInscriptionOverlay = function () {
+        SHOP.customizer.threedium.updateOverlay(option.threediumGroupPart, '');
+      };
+      this.onLoadCallbacks.push(resetInscriptionOverlay);
+    },
+
+    /**
+     * Set threedium configuration of TYPE_INSCRIPTION_SOLE type
+     * @param {object} step
+     * @param {object} option
+     */
+    getConfInscriptionSole(step, option) {
+      // TODO
+      // reset text of sole overlay if are active, buff
+      
+      // Si el valor de sole te com a 3r param un valor activar aquest valor com overlay
+    },
 
     /**
      * Add part into material key to materials threedium config object
@@ -393,16 +410,41 @@ var module = {
     },
 
     /**
+     * Set camera position and target
+     * @param {object} view 
+     * @param {function} [callback]
+     */
+    setCameraPositionSetTarget(view, callback = (error) => CustomizerError(error, 'on setCameraPositionSetTarget')) {
+      if (view) {
+        this.setCameraPosition(view, (error) => {
+          CustomizerError(error, 'on setCameraPosition');
+          this.setCameraTarget(view, callback);
+        });
+      }
+    },
+
+    /**
      * Threedium method https://threedium.co.uk/documentation/api#Setcameraposition
-     * @param {number[]} view 
+     * @param {object} view
      * @param {function} [callback]
      */
     setCameraPosition(view, callback = (error) => CustomizerError(error, 'on setCameraPosition')) {
-      view = view.filter(Boolean);
-
-      if (view.length) {
+      if (view) {
         Unlimited3D.setCameraPosition({
-          position: view,
+          position: view.position,
+        }, callback);
+      }
+    },
+
+    /**
+     * Threedium method https://threedium.co.uk/documentation/api#Setcameratarget
+     * @param {object} view
+     * @param {function} [callback]
+     */
+    setCameraTarget(view, callback = (error) => CustomizerError(error, 'on setCameraTarget')) {
+      if (view) {
+        Unlimited3D.setCameraTarget({
+          target: view.target,
         }, callback);
       }
     },
@@ -560,9 +602,6 @@ var module = {
     action(type, stepId, option, oldOption) {
       let step = SHOP.customizer.getStepData(stepId),
         methodName = SHOP.customizer.getMethodName(type, 'action');
-
-      // For types like "INSCRIPTION_3" or "INSCRIPTION_15" remove number
-      methodName = methodName.replace(/_[0-9]+/, '');
 
       if (CUSTOMIZER_OPT_TYPES.includes(type) && typeof this[methodName] === 'function' && this.initialized)
         this[methodName](step, option, oldOption);

@@ -11,7 +11,12 @@ var module = {
    */
   getMethodName(value, prefix = '') {
     let camelCase = value.toLowerCase().replace(/_([a-z])/g, function (g) { return g[1].toUpperCase(); });
-    return prefix + camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
+    let methodName = prefix + camelCase.charAt(0).toUpperCase() + camelCase.slice(1);
+
+    // For types like "INSCRIPTION_3" or "INSCRIPTION_15" remove under slash + number
+    methodName = methodName.replace(/_[0-9]+/, '');
+
+    return methodName;
   },
 
   /**
