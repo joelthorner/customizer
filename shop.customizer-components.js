@@ -424,6 +424,24 @@ var module = {
     },
 
     /**
+     * Hide or show entire option inside step, (if step has multiple options)
+     * @param {number} optionId 
+     */
+    toggleOption(optionId, show) {
+      $(`.grouped-menu-item-${optionId}, .customizerStepOptionTab_${optionId}`)
+      [show ? 'removeClass' : 'addClass']('hidden');
+    },
+
+    /**
+     * Reset input or textarea from option
+     * @param {number} optionId
+     */
+    resetOptionText(optionId) {
+      $(`.customizerStepOptionTab_${optionId} .option-value-input-item .form-control`)
+        .val('');
+    },
+
+    /**
      * Returns container option element from optionId
      * @param {string|number} optionId 
      * @return {object}

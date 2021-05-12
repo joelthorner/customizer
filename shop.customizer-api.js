@@ -356,6 +356,7 @@ var module = {
         TYPE_SOLE_COLOR,
         TYPE_CANTO_COLOR,
         TYPE_BURNISH,
+        TYPE_INSCRIPTION_SOLE,
       ],
       steps = this.getStepsData();
 

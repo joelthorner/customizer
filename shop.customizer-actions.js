@@ -98,10 +98,6 @@ var module = {
         }
       } else if (self.isRadioOption($target)) {
         self.components.syncRadioOrCheckOption(data.optionId, data.valueId);
-
-        if (option.type === TYPE_INSCRIPTION_SOLE) {
-          self.actions.updateInscriptionSoleOption(stepId, selectedValue);
-        }
       } else if (self.isCheckboxOption($target)) {
         self.components.syncRadioOrCheckOption(data.optionId, data.valueId);
         selectedValue = $target.prop('checked');
@@ -152,15 +148,6 @@ var module = {
           self.components.syncRadioOrCheckOption(assocOption.id, assocValueId);
         }
       }
-    },
-
-    // TODO
-    // El que ha de fer es interectuar amb el component
-    // Si soleOpt te 3rd param es un overlay no fer res, pero si no existeix
-    // amagar la opt sencera a treves de .show
-    // sino mostrar i tornar.show a true
-    updateInscriptionSoleOption() {
-
     },
 
     /**
@@ -296,6 +283,13 @@ var module = {
       }
     },
 
+    /**
+     * For each type restriction calls dedicated restriction and return 
+     * restriction counter.
+     * @param {object} step 
+     * @param {object} option
+     * @returns {number}
+     */
     applyRestriction(step, option) {
       if (option.type === TYPE_SOLE_COLOR) {
         this.restrictionSoleColor(step, option);
@@ -309,7 +303,39 @@ var module = {
         this.restrictionBurnish(step, option);
         return 1;
       }
+      else if (option.type === TYPE_INSCRIPTION_SOLE) {
+        this.restrictionInscriptionSole(step, option);
+        return 1;
+      }
       return 0;
+    },
+
+    /**
+     * Apply the restriction of TYPE_SOLE_TYPE on TYPE_INSCRIPTION_SOLE
+     * This case show or hide entire option.
+     * @param {object} step - sole step
+     * @param {object} option - sole type option
+     */
+    restrictionInscriptionSole(step, option) {
+      let optSoleType = SHOP.customizer.getStepOptionByType(step, TYPE_SOLE_TYPE),
+        overlayName = optSoleType.params[2] ? optSoleType.params[2] : null,
+        show = overlayName ? true : false;
+
+      // 1. save data show
+      SHOP.customizer.setOption(step.id, option.id, {
+        show: show,
+      });
+
+      // 2. hide option component
+      SHOP.customizer.components.toggleOption(option.id, option.show);
+
+      // 3. reset opcio inscripció
+      if (!show) {
+        SHOP.customizer.components.resetOptionText(option.id);
+        SHOP.customizer.setOption(step.id, option.id, {
+          selectedValue: '',
+        });
+      }
     },
 
     /**

@@ -287,7 +287,7 @@ var module = {
     },
 
     /**
-     * Set threedium configuration of TYPE_CULET type
+     * Set threedium configuration of TYPE_CULET type  
      * @param {object} step
      * @param {object} option
      */
@@ -658,6 +658,7 @@ var module = {
     /**
      * Manages Sole (type) option
      * Restrictions: TYPE_SOLE_TYPE, restricts TYPE_SOLE_COLOR & TYPE_CANTO_COLOR
+     * Restrictions: TYPE_SOLE_TYPE, restricts TYPE_INSCRIPTION_SOLE
      * @param {string} step 
      * @param {object} option
      * @param {object} oldOption
@@ -667,6 +668,7 @@ var module = {
         optSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
         stepCanto = self.getStepData(ID_PREFIX_CANTO),
         optCantoColor = self.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR),
+        optInscriptionSole = self.getStepOptionByType(step, TYPE_INSCRIPTION_SOLE),
 
         soleMaterial = optSoleColor ? optSoleColor.selectedValue : '',
         solePart = option.selectedValue,
@@ -685,8 +687,7 @@ var module = {
         self.actions.restrictOptionValues(solePartParams.id, optCantoColor);
       }
 
-      // TODO
-      // Add or hide overlay segons 3rd parameter
+      self.actions.restrictionInscriptionSole(step, optInscriptionSole);
     },
 
     /**
@@ -887,7 +888,12 @@ var module = {
      * @param {object} oldOption
      */
     actionInscriptionSole(step, option, oldOption) {
-      this.updateOverlay(option.threediumGroupPart, option.selectedValue);
+      let optSoleType = SHOP.customizer.getStepOptionByType(step, TYPE_SOLE_TYPE),
+        overlayName = optSoleType.params[2] ? optSoleType.params[2] : null;
+
+      if (optSoleType && overlayName) {
+        this.updateOverlay(overlayName, option.selectedValue);
+      }
     },
 
     /**
