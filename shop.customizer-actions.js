@@ -98,6 +98,10 @@ var module = {
         }
       } else if (self.isRadioOption($target)) {
         self.components.syncRadioOrCheckOption(data.optionId, data.valueId);
+
+        if (option.type === TYPE_INSCRIPTION_SOLE) {
+          self.actions.updateInscriptionSoleOption(stepId, selectedValue);
+        }
       } else if (self.isCheckboxOption($target)) {
         self.components.syncRadioOrCheckOption(data.optionId, data.valueId);
         selectedValue = $target.prop('checked');
@@ -148,6 +152,15 @@ var module = {
           self.components.syncRadioOrCheckOption(assocOption.id, assocValueId);
         }
       }
+    },
+
+    // TODO
+    // El que ha de fer es interectuar amb el component
+    // Si soleOpt te 3rd param es un overlay no fer res, pero si no existeix
+    // amagar la opt sencera a treves de .show
+    // sino mostrar i tornar.show a true
+    updateInscriptionSoleOption() {
+
     },
 
     /**
@@ -354,6 +367,11 @@ var module = {
       );
 
       SHOP.customizer.setActiveStep(
+        $target.data('step-id'),
+        $target.data('step-option')
+      );
+
+      SHOP.customizer.camera.setView(
         $target.data('step-id'),
         $target.data('step-option')
       );

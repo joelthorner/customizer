@@ -236,38 +236,12 @@ var module = {
       // sobre Sole i Canto d'una tacada ja que son parts fraccionades entre varies opcions.
       let self = SHOP.customizer,
         stepCanto = self.getStepData(STEP_ID_CANTO),
-
-        optSoleType = option,
         optSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
         optCantoColor = self.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR),
-        optCantoThickness = self.getStepOptionByType(stepCanto, TYPE_CANTO_THICKNESS),
-        optViraPicado = self.getStepOptionByType(stepCanto, TYPE_VIRA_PICADO),
-
-        solePart = optSoleType.selectedValue,
-        cantoPart = solePart.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
+        soleCantoParts = self.getSoleAndCantoPartsFromSelectedOptions(step, option),
+        solePart = soleCantoParts.solePart,
+        cantoPart = soleCantoParts.cantoPart,
         showParts = [solePart, cantoPart];
-
-      // Change <normal|double> from Canto Thickness
-      if (optCantoThickness) {
-        for (let i = 0; i < showParts.length; i++) {
-          showParts[i] = showParts[i]
-            .replace(SOLES_THICKNESS_NORMAL, optCantoThickness.selectedValue)
-            .replace(SOLES_THICKNESS_DOUBLE, optCantoThickness.selectedValue)
-        }
-      }
-
-      // Change <270|360> from Canto Vira-Stormwelt
-      if (optViraPicado) {
-        let viraPicadoValue = optViraPicado.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`));
-
-        if (viraPicadoValue) {
-          for (let i = 0; i < showParts.length; i++) {
-            showParts[i] = showParts[i]
-              .replace(SOLES_VIRA_270, viraPicadoValue[0])
-              .replace(SOLES_VIRA_360, viraPicadoValue[0])
-          }
-        }
-      }
 
       this.addConfigOverridePart(showParts);
 
@@ -347,10 +321,21 @@ var module = {
      * @param {object} option
      */
     getConfInscriptionSole(step, option) {
-      // TODO
-      // reset text of sole overlay if are active, buff
-      
-      // Si el valor de sole te com a 3r param un valor activar aquest valor com overlay
+      let self = SHOP.customizer,
+        stepSole = step,
+        optSoleType = self.getStepOptionByType(stepSole, TYPE_SOLE_TYPE),
+        overlayName = optSoleType.params[2] ? optSoleType.params[2] : null;
+
+      if (overlayName) {
+        let addSoleInscriptionOverlay = function () {
+          let stepSole = SHOP.customizer.getStepData(STEP_ID_SOLES),
+            soleCantoParts = SHOP.customizer.getSoleAndCantoPartsFromSelectedOptions(stepSole),
+            solePart = soleCantoParts.solePart;
+
+          SHOP.customizer.threedium.changeOverlay(solePart, overlayName);
+        };
+        this.onLoadCallbacks.push(addSoleInscriptionOverlay);
+      }
     },
 
     /**
@@ -699,6 +684,9 @@ var module = {
         self.actions.restrictOptionValues(solePartParams.id, optSoleColor);
         self.actions.restrictOptionValues(solePartParams.id, optCantoColor);
       }
+
+      // TODO
+      // Add or hide overlay segons 3rd parameter
     },
 
     /**
@@ -883,12 +871,22 @@ var module = {
     },
 
     /**
-     * Manages Inscription option (all inscription input types)
+     * Manages Inscription option types TYPE_INSCRIPTION_3 and TYPE_INSCRIPTION_15
      * @param {string} step
      * @param {object} option
      * @param {object} oldOption
      */
     actionInscription(step, option, oldOption) {
+      this.updateOverlay(option.threediumGroupPart, option.selectedValue);
+    },
+
+    /**
+     * Manages Inscription option type TYPE_INSCRIPTION_SOLE
+     * @param {string} step
+     * @param {object} option
+     * @param {object} oldOption
+     */
+    actionInscriptionSole(step, option, oldOption) {
       this.updateOverlay(option.threediumGroupPart, option.selectedValue);
     },
 

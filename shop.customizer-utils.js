@@ -51,6 +51,57 @@ var module = {
   isRadioOption($element) {
     return $element.is('input[type="radio"]');
   },
+
+  /**
+   * This function returns the resulting part of Sole i Canto 
+   * according to the selected values of all the options that affect them.
+   * @param {object} soleStep - Step Sole object
+   * @param {object} [optSoleTypeParam] - option sole type from Sole step object
+   * @returns {object}
+   */
+  getSoleAndCantoPartsFromSelectedOptions(soleStep, optSoleTypeParam) {
+    let self = SHOP.customizer,
+      stepCanto = self.getStepData(STEP_ID_CANTO),
+
+      optSoleType = optSoleTypeParam ? optSoleTypeParam : self.getStepOptionByType(soleStep, TYPE_SOLE_TYPE),
+      optCantoThickness = self.getStepOptionByType(stepCanto, TYPE_CANTO_THICKNESS),
+      optViraPicado = self.getStepOptionByType(stepCanto, TYPE_VIRA_PICADO),
+
+      solePart = optSoleType.selectedValue,
+      cantoPart = solePart.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
+      result = {
+        solePart: solePart,
+        cantoPart: cantoPart
+      };
+
+    // Change <normal|double> from Canto Thickness
+    if (optCantoThickness) {
+      for (const key in result) {
+        if (Object.hasOwnProperty.call(result, key)) {
+          result[key] = result[key]
+            .replace(SOLES_THICKNESS_NORMAL, optCantoThickness.selectedValue)
+            .replace(SOLES_THICKNESS_DOUBLE, optCantoThickness.selectedValue)
+        }
+      }
+    }
+
+    // Change <270|360> from Canto Vira-Stormwelt
+    if (optViraPicado) {
+      let viraPicadoValue = optViraPicado.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`));
+
+      if (viraPicadoValue) {
+        for (const key in result) {
+          if (Object.hasOwnProperty.call(result, key)) {
+            result[key] = result[key]
+              .replace(SOLES_VIRA_270, viraPicadoValue[0])
+              .replace(SOLES_VIRA_360, viraPicadoValue[0])
+          }
+        }
+      }
+    }
+
+    return result;
+  }
 };
 
 SHOP.customizer = { ...SHOP.customizer, ...module };
