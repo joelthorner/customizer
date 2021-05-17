@@ -177,8 +177,12 @@ var module = {
      * @param {object} option 
      */
     getConfSimpleMaterial(step, option) {
-      this.addConfigMaterialPart(option.selectedValue, option.threediumGroupPart);
-      this.addConfigOverridePart(option.threediumGroupPart);
+      // Fix. If the step hasn't change_part type
+      let optChangePart = SHOP.customizer.getStepOptionByType(step, TYPE_CHANGE_PART);
+      if (!optChangePart) {
+        this.addConfigMaterialPart(option.selectedValue, option.threediumGroupPart);
+        this.addConfigOverridePart(option.threediumGroupPart);
+      }
     },
 
     /**
@@ -849,7 +853,7 @@ var module = {
         let showParts = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
         this.hideGroupShowPart([option.threediumGroupPart], showParts);
       } else {
-        let hideParts = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
+        let hideParts = optSimpleMaterial ? [oldOption.selectedValue] : [];
         let material = optSimpleMaterial ? optSimpleMaterial.selectedValue : '';
 
         hideParts.push(oldOption.selectedValue);
