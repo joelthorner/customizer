@@ -247,7 +247,7 @@ var module = {
           $validOptionValue = self.components.getFirstValidOptionValueControl($option);
         }
 
-        if ($validOptionValue) {
+        if ($validOptionValue.length) {
           let stepId = $validOptionValue.data('step-id'),
             optionValueData = $validOptionValue.data('option-value');
 
