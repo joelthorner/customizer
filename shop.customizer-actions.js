@@ -318,8 +318,7 @@ var module = {
      */
     restrictionInscriptionSole(step, option) {
       let optSoleType = SHOP.customizer.getStepOptionByType(step, TYPE_SOLE_TYPE),
-        overlayName = optSoleType.params[2] ? optSoleType.params[2] : null,
-        show = overlayName ? true : false;
+        show = !SHOP.customizer.isEmptyOptionValuePart(optSoleType.params[2]);
 
       // 1. save data show
       SHOP.customizer.setOption(step.id, option.id, {
@@ -347,7 +346,7 @@ var module = {
       let optionSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
 
       if (optionSimpleMaterial) {
-        let param = optionSimpleMaterial.params.length >= 3 ? optionSimpleMaterial.params[2] : '';
+        let param = SHOP.customizer.isEmptyOptionValuePart(optionSimpleMaterial.params[2]) ? '' : optionSimpleMaterial.params[2];
         this.restrictOptionValues(param, option);
       }
     },

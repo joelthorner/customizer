@@ -291,6 +291,7 @@ var module = {
     },
 
     /**
+     * @deprecated
      * Set threedium configuration of TYPE_CULET type  
      * @param {object} step
      * @param {object} option
@@ -299,7 +300,7 @@ var module = {
       this.addConfigMaterialPart(option.selectedValue, option.threediumGroupPart);
       this.addConfigOverridePart(option.threediumGroupPart);
 
-      if (option.params[2]) {
+      if (!SHOP.customizer.isEmptyOptionValuePart(option.params[2])) {
         let culetOverlayChange = function () {
           SHOP.customizer.threedium.changeOverlay(option.threediumGroupPart, option.params[2]);
         };
@@ -328,7 +329,7 @@ var module = {
       let self = SHOP.customizer,
         stepSole = step,
         optSoleType = self.getStepOptionByType(stepSole, TYPE_SOLE_TYPE),
-        overlayName = optSoleType.params[2] ? optSoleType.params[2] : null;
+        overlayName = self.isEmptyOptionValuePart(optSoleType.params[2]) ? null : optSoleType.params[2];
 
       if (overlayName) {
         let addSoleInscriptionOverlay = function () {
@@ -617,7 +618,7 @@ var module = {
       let optBurnish = SHOP.customizer.getStepOptionByType(step, TYPE_BURNISH);
 
       if (optBurnish) {
-        let param = option.params.length >= 3 ? option.params[2] : '';
+        let param = SHOP.customizer.isEmptyOptionValuePart(option.params[2]) ? '' : option.params[2];
         SHOP.customizer.actions.restrictOptionValues(param, optBurnish);
       }
     },
@@ -631,9 +632,7 @@ var module = {
     actionBurnish(step, option, oldOption) {
       if (SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
         // Hide example: Burnish > Burnish_Heel
-        if (option.params.length >= 2) {
-          this.hideGroup([oldOption.params[1]]);
-        }
+        this.hideGroup([oldOption.params[1]]);
       } else {
         this.showPart([option.selectedValue]);
       }
@@ -862,6 +861,7 @@ var module = {
     },
 
     /**
+     * @deprecated
      * Manages Culet option
      * @param {string} step
      * @param {object} option
@@ -893,7 +893,7 @@ var module = {
      */
     actionInscriptionSole(step, option, oldOption) {
       let optSoleType = SHOP.customizer.getStepOptionByType(step, TYPE_SOLE_TYPE),
-        overlayName = optSoleType.params[2] ? optSoleType.params[2] : null;
+        overlayName = SHOP.customizer.isEmptyOptionValuePart(optSoleType.params[2]) ? null : optSoleType.params[2];
 
       if (optSoleType && overlayName) {
         this.updateOverlay(overlayName, option.selectedValue);
