@@ -285,12 +285,12 @@ var module = {
    * Returns the parameters of the option value of type SOLE_TYPE
    * If value is not 100% valid returns null
    * Params of string value are: <part>_<id>_<vira>_<thicknes>
-   * Regexp: (Sole|Canto)_([a-zA-Z]+)_(270|360)_(normal|double)
+   * Regexp: (Sole|Canto)_([a-zA-Z]+)_(270|360)_(normal|double|triple)
    * @param {string} value
    * @return {object|null}
    */
   getSoleTypeValueParams(value) {
-    let rgxp = new RegExp(`(${ID_PREFIX_SOLE}|${ID_PREFIX_CANTO})_([a-zA-Z]+)_(${SOLES_VIRA_270}|${SOLES_VIRA_360})_(${SOLES_THICKNESS_NORMAL}|${SOLES_THICKNESS_DOUBLE})`),
+    let rgxp = new RegExp(`(${ID_PREFIX_SOLE}|${ID_PREFIX_CANTO})_([a-zA-Z]+)_(${SOLES_VIRA_270}|${SOLES_VIRA_360})_(${SOLES_THICKNESS_NORMAL}|${SOLES_THICKNESS_DOUBLE}|${SOLES_THICKNESS_TRIPLE})`),
       matchResult = value.match(rgxp);
 
     if (matchResult)

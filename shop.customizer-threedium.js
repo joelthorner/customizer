@@ -747,9 +747,8 @@ var module = {
         optCantoColor = SHOP.customizer.getStepOptionByType(step, TYPE_CANTO_COLOR);
 
       if (optSoleType) {
-        let replaceValuePart = (text) => text.replace(SOLES_THICKNESS_NORMAL, option.selectedValue).replace(SOLES_THICKNESS_DOUBLE, option.selectedValue),
-          cantoPart = replaceValuePart(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)),
-          solePart = replaceValuePart(optSoleType.selectedValue),
+        let cantoPart = SHOP.customizer.replaceThickness(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO), option.selectedValue),
+          solePart = SHOP.customizer.replaceThickness(optSoleType.selectedValue, option.selectedValue),
           showParts = [cantoPart, solePart],
 
           oldCantoPart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),

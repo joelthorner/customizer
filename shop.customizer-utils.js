@@ -53,6 +53,20 @@ var module = {
   },
 
   /**
+   * Replace from string the soles thickness parts to new value.
+   * Example: CantoXXX_360_normal --> CantoXXX_360_triple
+   * @param {string} text
+   * @param {string} replacePart
+   * @returns {string}
+   */
+  replaceThickness(text, replacePart) {
+    return text
+      .replace(SOLES_THICKNESS_NORMAL, replacePart)
+      .replace(SOLES_THICKNESS_DOUBLE, replacePart)
+      .replace(SOLES_THICKNESS_TRIPLE, replacePart);
+  },
+
+  /**
    * This function returns the resulting part of Sole i Canto 
    * according to the selected values of all the options that affect them.
    * @param {object} soleStep - Step Sole object
@@ -74,13 +88,11 @@ var module = {
         cantoPart: cantoPart
       };
 
-    // Change <normal|double> from Canto Thickness
+    // Change <normal|double|triple> from Canto Thickness
     if (optCantoThickness) {
       for (const key in result) {
         if (Object.hasOwnProperty.call(result, key)) {
-          result[key] = result[key]
-            .replace(SOLES_THICKNESS_NORMAL, optCantoThickness.selectedValue)
-            .replace(SOLES_THICKNESS_DOUBLE, optCantoThickness.selectedValue)
+          result[key] = SHOP.customizer.replaceThickness(result[key], optCantoThickness.selectedValue);
         }
       }
     }

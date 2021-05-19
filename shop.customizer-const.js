@@ -74,6 +74,13 @@ const SOLES_THICKNESS_NORMAL = 'normal';
 const SOLES_THICKNESS_DOUBLE = 'double';
 
 /**
+ * Static part of value sole|canto, thickness.
+ * @example "CantoXXX_360_triple" --> "triple"
+ * @constant {string}
+ */
+const SOLES_THICKNESS_TRIPLE = 'triple';
+
+/**
  * Static part of value sole|canto, vira.
  * @example "CantoXXX_270_double" --> "270"
  * @constant {number}
