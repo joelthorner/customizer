@@ -2,8 +2,7 @@
  * Src threedium api (Fluid.import)
  * @constant {string}
  */
-const THREEDIUM_API_SRC = 'https://distcdn.unlimited3d.com/pres/v/1.1.23/unlimited3d.min.js';
-// const THREEDIUM_API_SRC = 'https://distcdn.unlimited3d.com/pres/latest/unlimited3d.min.js';
+const THREEDIUM_API_SRC = 'https://distcdn.unlimited3d.com/pres/v/{VERSION}/unlimited3d.min.js';
 
 /**
  * Parts of the 3D model that are not configured with logicommerce options

@@ -105,7 +105,8 @@ var module = {
      * This method import threedium api js and call init on callback.
      */
     import() {
-      Fluid.require.js(THREEDIUM_API_SRC, this.init);
+      let src = THREEDIUM_API_SRC.replace('{VERSION}', THREEDIUM_API_VERSION);
+      Fluid.require.js(src, this.init);
     },
 
     /**
