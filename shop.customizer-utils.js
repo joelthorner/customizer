@@ -24,7 +24,7 @@ var module = {
    * @param {string} value 
    * @return {boolean}
    */
-  isEmptyOptionValuePart(value) {
+  isNoneValue(value) {
     return value ? value === EMPTY_OPTION_VALUE_PART : false;
   },
 

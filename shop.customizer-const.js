@@ -5,16 +5,6 @@
 const THREEDIUM_API_SRC = 'https://distcdn.unlimited3d.com/pres/v/{VERSION}/unlimited3d.min.js';
 
 /**
- * Parts of the 3D model that are not configured with logicommerce options
- * @constant {string[]}
- */
-const NO_CONFIGURABLE_PARTS = [
-  'Sole_interior',
-  'no_Lining',
-  'Culet',
-];
-
-/**
  * Static id of resume "step"
  * @constant {string}
  */
@@ -108,6 +98,23 @@ const STORMWELT_PARAM = 'Stormwelt';
  */
 const BURNISH_PARAM = 'Burnish';
 
+const CULET_PART = 'Culet';
+
+const SOLE_INTERIOR_PART = 'Sole_interior';
+
+const NO_LINING_PART = 'no_Lining';
+
+
+/**
+ * Parts of the 3D model that are not configured with logicommerce options
+ * @constant {string[]}
+ */
+const NO_CONFIGURABLE_PARTS = [
+  CULET_PART,
+  SOLE_INTERIOR_PART,
+  // NO_LINING_PART,
+];
+
 /*
  * Types of options (option image field)
  * Define how that option will behave within a step and in the customizer.
@@ -140,6 +147,8 @@ const TYPE_INSCRIPTION_SOLE = 'INSCRIPTION_SOLE';
 
 const TYPE_HIDDEN_INSCRIPTION_PRICE = 'HIDDEN_INSCRIPTION_PRICE';
 
+const TYPE_VAMP = 'VAMP';
+
 /**
  * All step types
  * @constant {string[]}
@@ -158,6 +167,7 @@ const CUSTOMIZER_OPT_TYPES = [
   TYPE_INSCRIPTION_15,
   TYPE_INSCRIPTION_SOLE,
   TYPE_HIDDEN_INSCRIPTION_PRICE,
+  TYPE_VAMP,
 ];
 
 /**

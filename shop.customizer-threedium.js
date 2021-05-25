@@ -192,7 +192,7 @@ var module = {
      * @param {object} option 
      */
     getConfBurnish(step, option) {
-      if (!SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
+      if (!SHOP.customizer.isNoneValue(option.selectedValue)) {
         this.addConfigOverridePart(option.selectedValue);
       }
     },
@@ -205,7 +205,7 @@ var module = {
     getConfMedallion(step, option) {
       let optSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
 
-      if (!SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
+      if (!SHOP.customizer.isNoneValue(option.selectedValue)) {
         this.addConfigOverridePart(option.selectedValue);
 
         if (optSimpleMaterial) {
@@ -222,7 +222,7 @@ var module = {
     getConfChangePart(step, option) {
       let optSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
 
-      if (!SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
+      if (!SHOP.customizer.isNoneValue(option.selectedValue)) {
         this.addConfigOverridePart(option.selectedValue);
 
         if (optSimpleMaterial) {
@@ -282,7 +282,7 @@ var module = {
       }
 
       // Add picado and stormwelt parts
-      if (!SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
+      if (!SHOP.customizer.isNoneValue(option.selectedValue)) {
         showParts.push(option.selectedValue);
       }
       if (SHOP.customizer.existsOptionParam(option.params, STORMWELT_PARAM)) {
@@ -298,9 +298,42 @@ var module = {
      */
     getConfInscription(step, option) {
       let resetInscriptionOverlay = function () {
-        SHOP.customizer.threedium.updateOverlay(option.threediumGroupPart, '');
+        SHOP.customizer.threedium.updateOverlayText(option.threediumGroupPart, '');
       };
       this.onLoadCallbacks.push(resetInscriptionOverlay);
+    },
+
+    /**
+     * Set threedium configuration of TYPE_VAMP type
+     * @param {object} step
+     * @param {object} option
+     */
+    getConfVamp(step, option) {
+      // Change material part
+      this.addConfigMaterialPart(option.selectedValue, option.threediumGroupPart);
+      this.addConfigOverridePart(option.threediumGroupPart);
+
+      // Change culet material
+      let culetMaterial = SHOP.customizer.isNoneValue(option.params[2]) ? null : option.params[2];
+      if (culetMaterial) {
+        this.addConfigMaterialPart(culetMaterial, CULET_PART);
+      }
+
+      // Change culet overlay
+      let culetOverlay = SHOP.customizer.isNoneValue(option.params[3]) ? null : option.params[3];
+      let culetOverlayEntry = SHOP.customizer.isNoneValue(option.params[4]) ? null : option.params[4];
+
+      if (culetOverlay) {
+        // No va el init :C
+        let updateCuletOverlay = function () {
+          SHOP.customizer.threedium.changeOverlay(CULET_PART, culetOverlay, () => {
+            if (culetOverlayEntry) {
+              SHOP.customizer.threedium.exchangeOverlayEntries(CULET_PART, culetOverlay, culetOverlayEntry);
+            }
+          });
+        };
+        this.onLoadCallbacks.push(updateCuletOverlay);
+      }
     },
 
     /**
@@ -312,7 +345,7 @@ var module = {
       let self = SHOP.customizer,
         stepSole = step,
         optSoleType = self.getStepOptionByType(stepSole, TYPE_SOLE_TYPE),
-        overlayName = self.isEmptyOptionValuePart(optSoleType.params[2]) ? null : optSoleType.params[2];
+        overlayName = self.isNoneValue(optSoleType.params[2]) ? null : optSoleType.params[2];
 
       if (overlayName) {
         let addSoleInscriptionOverlay = function () {
@@ -425,33 +458,92 @@ var module = {
     /**
      * Threedium method https://threedium.co.uk/documentation/api#SetOverlayToPart
      * @param {string} part 
-     * @param {string} overlayName 
+     * @param {string} overlayName
+     * @param {string} [oldOverlayName] 
      * @param {function} [callback]
      */
-    changeOverlay(part, overlayName, callback = (error) => CustomizerError(error, 'on changeOverlay')) {
+    changeOverlay(part, overlayName, oldOverlayName = '', callback = (error) => CustomizerError(error, 'on changeOverlay')) {
       if (part.length && overlayName.length) {
-        Unlimited3D.setOverlayToPart({
-          overlay: overlayName,
-          part: part,
-        }, callback);
+        if (oldOverlayName.length) {
+          Unlimited3D.removeOverlayFromPart({
+            overlay: oldOverlayName,
+            part: part,
+          }, (error) => {
+            CustomizerError(error, 'on changeOverlay')
+
+            Unlimited3D.setOverlayToPart({
+              overlay: overlayName,
+              part: part,
+            }, callback);
+          });
+        } else { 
+          Unlimited3D.setOverlayToPart({
+            overlay: overlayName,
+            part: part,
+          }, callback);
+        }
       }
     },
 
     /**
-     * Threedium method ??
+     * Update overlay text
+     * Threedium method https://threedium.co.uk/documentation/api#Updateoverlay
      * @param {string} overlay
      * @param {string} textValue
      * @param {function} [callback]
      */
-    updateOverlay(overlay, textValue, callback = (error) => CustomizerError(error, 'on updateOverlay')) {
+    updateOverlayText(overlay, textValue, callback = (error) => CustomizerError(error, 'on updateOverlayText')) {
       if (overlay.length) {
         Unlimited3D.updateOverlay({
           overlay: overlay,
           overlayEntry: 'Text',
           options: {
             text: textValue,
-          }
+          },
         }, callback);
+      }
+    },
+
+    /**
+     * Update overlay entry
+     * Threedium method https://threedium.co.uk/documentation/api#Updateoverlay
+     * @param {string} overlay
+     * @param {string} overlayEntry
+     * @param {boolean} enabled
+     * @param {function} [callback]
+     */
+    updateOverlayEntry(overlay, overlayEntry, enabled, callback = (error) => CustomizerError(error, 'on updateOverlayEntry')) {
+      if (overlay.length) {
+        Unlimited3D.updateOverlay({
+          overlay: overlay,
+          overlayEntry: overlayEntry,
+          options: {
+            enabled: enabled,
+          },
+        }, callback);
+      }
+    },
+
+    /**
+     * From an overlay it disable all the overlay entries and enable a specific one.
+     * @param {string} part
+     * @param {string} overlay
+     * @param {string} selectedOverlayEntry
+     */
+    exchangeOverlayEntries(part, overlay, selectedOverlayEntry) {
+      if (part.length && overlay.length && selectedOverlayEntry.length) {
+        Unlimited3D.getPartOverlays({
+          part: part,
+        }, (error, result) => {
+          CustomizerError(error, 'on exchangeOverlayEntries');
+
+          if (result && result[0] && result[0].entries) {
+            for (let index = 0; index < result[0].entries.length; index++) {
+              const entry = result[0].entries[index];
+              SHOP.customizer.threedium.updateOverlayEntry(overlay, entry.name, (entry.name == selectedOverlayEntry));
+            }
+          }
+        });
       }
     },
 
@@ -601,8 +693,33 @@ var module = {
       let optBurnish = SHOP.customizer.getStepOptionByType(step, TYPE_BURNISH);
 
       if (optBurnish) {
-        let param = SHOP.customizer.isEmptyOptionValuePart(option.params[2]) ? '' : option.params[2];
+        let param = SHOP.customizer.isNoneValue(option.params[2]) ? '' : option.params[2];
         SHOP.customizer.actions.restrictOptionValues(param, optBurnish);
+      }
+    },
+
+    actionVamp(step, option, oldOption) {
+      // Change Vamp material
+      this.changeMaterial([option.threediumGroupPart], option.selectedValue);
+
+      // Change culet material
+      let culetMaterial = SHOP.customizer.isNoneValue(option.params[2]) ? null : option.params[2];
+      if (culetMaterial) {
+        this.changeMaterial([CULET_PART], culetMaterial);
+      }
+
+      // Change culet overlay
+      let oldCuletOverlay = SHOP.customizer.isNoneValue(oldOption.params[3]) ? null : oldOption.params[3],
+        // oldCuletOverlayEntry = SHOP.customizer.isNoneValue(oldOption.params[4]) ? null : oldOption.params[4],
+        culetOverlay = SHOP.customizer.isNoneValue(option.params[3]) ? null : option.params[3],
+        culetOverlayEntry = SHOP.customizer.isNoneValue(option.params[4]) ? null : option.params[4];
+
+      if (culetOverlay) {
+        this.changeOverlay(CULET_PART, culetOverlay, oldCuletOverlay, () => {
+          if (culetOverlayEntry) {
+            this.exchangeOverlayEntries(CULET_PART, culetOverlay, culetOverlayEntry);
+          }
+        });
       }
     },
 
@@ -613,7 +730,7 @@ var module = {
      * @param {object} oldOption
      */
     actionBurnish(step, option, oldOption) {
-      if (SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
+      if (SHOP.customizer.isNoneValue(option.selectedValue)) {
         // Hide example: Burnish > Burnish_Heel
         this.hideGroup([oldOption.params[1]]);
       } else {
@@ -630,7 +747,7 @@ var module = {
     actionMedallion(step, option, oldOption) {
       let optSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
 
-      if (SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
+      if (SHOP.customizer.isNoneValue(option.selectedValue)) {
         let showParts = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
         this.hideGroupShowPart([option.threediumGroupPart], showParts);
       } else {
@@ -782,12 +899,12 @@ var module = {
           hideParts.push(STORMWELT_PARAM);
         }
 
-        if (self.isEmptyOptionValuePart(option.selectedValue)) {
+        if (self.isNoneValue(option.selectedValue)) {
           hideParts.push(option.selectedValue);
         } else {
           showParts.push(option.selectedValue);
         }
-        if (self.isEmptyOptionValuePart(oldOption.selectedValue)) {
+        if (self.isNoneValue(oldOption.selectedValue)) {
           hideParts.push(oldOption.selectedValue);
         } else {
           hideParts.push(oldOption.selectedValue);
@@ -830,7 +947,7 @@ var module = {
     actionChangePart(step, option, oldOption) {
       let optSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
 
-      if (SHOP.customizer.isEmptyOptionValuePart(option.selectedValue)) {
+      if (SHOP.customizer.isNoneValue(option.selectedValue)) {
         let showParts = optSimpleMaterial ? [optSimpleMaterial.threediumGroupPart] : [];
         this.hideGroupShowPart([option.threediumGroupPart], showParts);
       } else {
@@ -849,7 +966,7 @@ var module = {
      * @param {object} oldOption
      */
     actionInscription(step, option, oldOption) {
-      this.updateOverlay(option.threediumGroupPart, option.selectedValue);
+      this.updateOverlayText(option.threediumGroupPart, option.selectedValue);
     },
 
     /**
@@ -860,10 +977,10 @@ var module = {
      */
     actionInscriptionSole(step, option, oldOption) {
       let optSoleType = SHOP.customizer.getStepOptionByType(step, TYPE_SOLE_TYPE),
-        overlayName = SHOP.customizer.isEmptyOptionValuePart(optSoleType.params[2]) ? null : optSoleType.params[2];
+        overlayName = SHOP.customizer.isNoneValue(optSoleType.params[2]) ? null : optSoleType.params[2];
 
       if (optSoleType && overlayName) {
-        this.updateOverlay(overlayName, option.selectedValue);
+        this.updateOverlayText(overlayName, option.selectedValue);
       }
     },
 
@@ -889,7 +1006,7 @@ var module = {
         if (match.length >= 2) {
           let materialPart = match[match.length - 1];
 
-          if (!SHOP.customizer.isEmptyOptionValuePart(viraPicado.selectedValue)) {
+          if (!SHOP.customizer.isNoneValue(viraPicado.selectedValue)) {
             result.picado = `${viraPicado.selectedValue}_${materialPart}`;
           }
           if (SHOP.customizer.existsOptionParam(viraPicado.params, STORMWELT_PARAM)) {
@@ -916,7 +1033,7 @@ var module = {
         result = viraPicadoValueMatch;
       }
 
-      let isEmptyValue = SHOP.customizer.isEmptyOptionValuePart(option.selectedValue),
+      let isEmptyValue = SHOP.customizer.isNoneValue(option.selectedValue),
         existViraParam270 = SHOP.customizer.existsOptionParam(option.params, SOLES_VIRA_270),
         existViraParam360 = SHOP.customizer.existsOptionParam(option.params, SOLES_VIRA_360);
 
