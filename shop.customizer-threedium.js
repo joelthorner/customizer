@@ -292,24 +292,6 @@ var module = {
     },
 
     /**
-     * @deprecated
-     * Set threedium configuration of TYPE_CULET type  
-     * @param {object} step
-     * @param {object} option
-     */
-    getConfCulet(step, option) {
-      this.addConfigMaterialPart(option.selectedValue, option.threediumGroupPart);
-      this.addConfigOverridePart(option.threediumGroupPart);
-
-      if (!SHOP.customizer.isEmptyOptionValuePart(option.params[2])) {
-        let culetOverlayChange = function () {
-          SHOP.customizer.threedium.changeOverlay(option.threediumGroupPart, option.params[2]);
-        };
-        this.onLoadCallbacks.push(culetOverlayChange);
-      }
-    },
-
-    /**
      * Set threedium configuration of TYPE_INSCRIPTION types
      * @param {object} step
      * @param {object} option
@@ -858,21 +840,6 @@ var module = {
         hideParts.push(oldOption.selectedValue);
         this.showPartHidePartChangeMaterial([option.selectedValue], hideParts, [option.selectedValue], material);
       }
-    },
-
-    /**
-     * @deprecated
-     * Manages Culet option
-     * @param {string} step
-     * @param {object} option
-     * @param {object} oldOption
-     */
-    actionCulet(step, option, oldOption) {
-      this.changeMaterial([option.threediumGroupPart], option.selectedValue, (error) => {
-        if (option.params[2]) {
-          this.changeOverlay(option.threediumGroupPart, option.params[2]);
-        }
-      });
     },
 
     /**

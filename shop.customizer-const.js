@@ -10,7 +10,8 @@ const THREEDIUM_API_SRC = 'https://distcdn.unlimited3d.com/pres/v/{VERSION}/unli
  */
 const NO_CONFIGURABLE_PARTS = [
   'Sole_interior',
-  'No_lining',
+  'no_Lining',
+  'Culet',
 ];
 
 /**
@@ -131,8 +132,6 @@ const TYPE_VIRA_PICADO = 'VIRA_PICADO';
 
 const TYPE_CHANGE_PART = 'CHANGE_PART';
 
-const TYPE_CULET = 'CULET';
-
 const TYPE_INSCRIPTION_3 = 'INSCRIPTION_3';
 
 const TYPE_INSCRIPTION_15 = 'INSCRIPTION_15';
@@ -155,7 +154,6 @@ const CUSTOMIZER_OPT_TYPES = [
   TYPE_CANTO_THICKNESS,
   TYPE_VIRA_PICADO,
   TYPE_CHANGE_PART,
-  TYPE_CULET,
   TYPE_INSCRIPTION_3,
   TYPE_INSCRIPTION_15,
   TYPE_INSCRIPTION_SOLE,
