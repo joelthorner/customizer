@@ -729,6 +729,14 @@ var module = {
           }
         });
       }
+
+      // Burnish
+      let optBurnish = SHOP.customizer.getStepOptionByType(step, TYPE_BURNISH);
+
+      if (optBurnish) {
+        let param = SHOP.customizer.isNoneValue(option.params[5]) ? '' : option.params[5];
+        SHOP.customizer.actions.restrictOptionValues(param, optBurnish);
+      }
     },
 
     /**
@@ -738,29 +746,48 @@ var module = {
      * @param {object} oldOption
      */
     actionBurnish(step, option, oldOption) {
-      if (SHOP.customizer.isNoneValue(option.selectedValue)) {
-        if (step.id === STEP_ID_HEEL) {
-          this.hideGroup([BURNISH_HEEL_PART]);
-
-        } else if (step.id === STEP_ID_TOECAP) {
-          this.hideGroup([BURNISH_TOECAP_PART]);
-
-        } else if (step.id === STEP_ID_VAMP) {
-          let stepHeel = SHOP.customizer.getStepData(STEP_ID_HEEL),
-            stepToeCap = SHOP.customizer.getStepData(STEP_ID_TOECAP);
-
-          if (stepHeel && !stepToeCap) {
-            this.hideGroup([BURNISH_TOECAP_PART]);
-          } else if (stepToeCap && !stepHeel) {
-            this.hideGroup([BURNISH_HEEL_PART]);
-          } else if (!stepHeel && !stepToeCap) {
+      if (step.id === STEP_ID_VAMP) {
+        if (SHOP.customizer.isNoneValue(option.selectedValue)) {
+          if (SHOP.customizer.isBothValue(oldOption.selectedValue)) {
             this.hideGroup([BURNISH_HEEL_PART, BURNISH_TOECAP_PART]);
+          } else {
+            this.hideGroup([oldOption.selectedValue]);
+          }
+        } else if (SHOP.customizer.isBothValue(option.selectedValue)) {
+          if (oldOption.selectedValue === BURNISH_HEEL_PART) {
+            this.showPart([BURNISH_TOECAP_PART]);
+          } else if (oldOption.selectedValue === BURNISH_TOECAP_PART) {
+            this.showPart([BURNISH_HEEL_PART]);
+          } else {
+            this.showPart([BURNISH_TOECAP_PART, BURNISH_HEEL_PART]);
+          }
+        } else {
+          if (SHOP.customizer.isBothValue(oldOption.selectedValue)) {
+            if (option.selectedValue === BURNISH_HEEL_PART) {
+              this.hideGroup([BURNISH_TOECAP_PART]);
+            } else if (option.selectedValue === BURNISH_TOECAP_PART) {
+              this.hideGroup([BURNISH_HEEL_PART]);
+            }
+          } else if (SHOP.customizer.isNoneValue(oldOption.selectedValue)) {
+            this.showPart([option.selectedValue]);
+          } else {
+            this.hideGroupShowPart([oldOption.selectedValue], [option.selectedValue]);
           }
         }
-      } else if (SHOP.customizer.isBothValue(option.selectedValue)) {
-        this.showPart([BURNISH_HEEL_PART, BURNISH_TOECAP_PART]);
-      } else {
-        this.showPart([option.selectedValue]);
+      }
+      else if (step.id === STEP_ID_HEEL) {
+        if (SHOP.customizer.isNoneValue(option.selectedValue)) {
+          this.hideGroup([BURNISH_HEEL_PART]);
+        } else {
+          this.showPart([option.selectedValue]);
+        }
+      }
+      else if (step.id === STEP_ID_TOECAP) {
+        if (SHOP.customizer.isNoneValue(option.selectedValue)) {
+          this.hideGroup([BURNISH_TOECAP_PART]);
+        } else {
+          this.showPart([option.selectedValue]);
+        }
       }
     },
 
