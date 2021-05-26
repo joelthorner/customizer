@@ -326,7 +326,7 @@ var module = {
       if (culetOverlay) {
         // No va el init :C
         let updateCuletOverlay = function () {
-          SHOP.customizer.threedium.changeOverlay(CULET_PART, culetOverlay, () => {
+          SHOP.customizer.threedium.changeOverlay(CULET_PART, culetOverlay, '', () => {
             if (culetOverlayEntry) {
               SHOP.customizer.threedium.exchangeOverlayEntries(CULET_PART, culetOverlay, culetOverlayEntry);
             }
@@ -698,6 +698,12 @@ var module = {
       }
     },
 
+    /**
+     * Manages Vamp option
+     * @param {string} step
+     * @param {object} option
+     * @param {object} oldOption
+     */
     actionVamp(step, option, oldOption) {
       // Change Vamp material
       this.changeMaterial([option.threediumGroupPart], option.selectedValue);
@@ -710,7 +716,6 @@ var module = {
 
       // Change culet overlay
       let oldCuletOverlay = SHOP.customizer.isNoneValue(oldOption.params[3]) ? null : oldOption.params[3],
-        // oldCuletOverlayEntry = SHOP.customizer.isNoneValue(oldOption.params[4]) ? null : oldOption.params[4],
         culetOverlay = SHOP.customizer.isNoneValue(option.params[3]) ? null : option.params[3],
         culetOverlayEntry = SHOP.customizer.isNoneValue(option.params[4]) ? null : option.params[4];
 

@@ -98,10 +98,22 @@ const STORMWELT_PARAM = 'Stormwelt';
  */
 const BURNISH_PARAM = 'Burnish';
 
+/**
+ * Culet is a interior sole 3D model part
+ * @constant {string}
+ */
 const CULET_PART = 'Culet';
 
+/**
+ * Sole_interior is a interior sole 3D model part
+ * @constant {string}
+ */
 const SOLE_INTERIOR_PART = 'Sole_interior';
 
+/**
+ * no_Lining is a interior sole 3D model part
+ * @constant {string}
+ */
 const NO_LINING_PART = 'no_Lining';
 
 
@@ -112,7 +124,7 @@ const NO_LINING_PART = 'no_Lining';
 const NO_CONFIGURABLE_PARTS = [
   CULET_PART,
   SOLE_INTERIOR_PART,
-  // NO_LINING_PART,
+  NO_LINING_PART,
 ];
 
 /*
