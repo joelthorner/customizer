@@ -22,6 +22,8 @@ const RESUME_SIZE_TYPE = 'size';
  */
 const EMPTY_OPTION_VALUE_PART = 'NONE';
 
+const BOTH_OPTION_VALUE_PART = 'BOTH';
+
 /**
  * Prefix of Soles option values id (selected value part)
  * @example "SoleXXX_360_double" --> "Sole"
@@ -48,6 +50,12 @@ const STEP_ID_SOLES = 'Soles';
  * @constant {string}
  */
 const STEP_ID_CANTO = 'Canto';
+
+const STEP_ID_HEEL = 'Heel';
+
+const STEP_ID_TOECAP = 'ToeCap';
+
+const STEP_ID_VAMP = 'Vamp';
 
 /**
  * Static part of value sole|canto, thickness.
@@ -115,6 +123,10 @@ const SOLE_INTERIOR_PART = 'Sole_interior';
  * @constant {string}
  */
 const NO_LINING_PART = 'no_Lining';
+
+const BURNISH_HEEL_PART = 'Burnish_Heel';
+
+const BURNISH_TOECAP_PART = 'Burnish_ToeCap';
 
 
 /**

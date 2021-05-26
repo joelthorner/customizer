@@ -20,12 +20,21 @@ var module = {
   },
 
   /**
-   * Return true if option value <Value> is empty string value
+   * Return true if option value <Value> is EMPTY_OPTION_VALUE_PART string value
    * @param {string} value 
    * @return {boolean}
    */
   isNoneValue(value) {
     return value ? value === EMPTY_OPTION_VALUE_PART : false;
+  },
+
+  /**
+   * Return true if option value <Value> is BOTH_OPTION_VALUE_PART string value
+   * @param {string} value 
+   * @return {boolean}
+   */
+  isBothValue(value) {
+    return value ? value === BOTH_OPTION_VALUE_PART : false;
   },
 
   /**

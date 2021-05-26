@@ -343,10 +343,15 @@ var module = {
      * @param {object} option
      */
     restrictionBurnish(step, option) {
-      let optionSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL);
+      let optionSimpleMaterial = SHOP.customizer.getStepOptionByType(step, TYPE_SIMPLE_MATERIAL),
+        optionVamp = SHOP.customizer.getStepOptionByType(step, TYPE_VAMP);
 
       if (optionSimpleMaterial) {
         let param = SHOP.customizer.isNoneValue(optionSimpleMaterial.params[2]) ? '' : optionSimpleMaterial.params[2];
+        this.restrictOptionValues(param, option);
+      }
+      if (optionVamp) {
+        let param = SHOP.customizer.isNoneValue(optionVamp.params[5]) ? '' : optionVamp.params[5];
         this.restrictOptionValues(param, option);
       }
     },

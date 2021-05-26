@@ -192,7 +192,10 @@ var module = {
      * @param {object} option 
      */
     getConfBurnish(step, option) {
-      if (!SHOP.customizer.isNoneValue(option.selectedValue)) {
+      if (SHOP.customizer.isBothValue(option.selectedValue)) {
+        this.addConfigOverridePart([BURNISH_TOECAP_PART, BURNISH_HEEL_PART]);
+      }
+      else if (!SHOP.customizer.isNoneValue(option.selectedValue)) {
         this.addConfigOverridePart(option.selectedValue);
       }
     },
@@ -476,7 +479,7 @@ var module = {
               part: part,
             }, callback);
           });
-        } else { 
+        } else {
           Unlimited3D.setOverlayToPart({
             overlay: overlayName,
             part: part,
@@ -736,8 +739,26 @@ var module = {
      */
     actionBurnish(step, option, oldOption) {
       if (SHOP.customizer.isNoneValue(option.selectedValue)) {
-        // Hide example: Burnish > Burnish_Heel
-        this.hideGroup([oldOption.params[1]]);
+        if (step.id === STEP_ID_HEEL) {
+          this.hideGroup([BURNISH_HEEL_PART]);
+
+        } else if (step.id === STEP_ID_TOECAP) {
+          this.hideGroup([BURNISH_TOECAP_PART]);
+
+        } else if (step.id === STEP_ID_VAMP) {
+          let stepHeel = SHOP.customizer.getStepData(STEP_ID_HEEL),
+            stepToeCap = SHOP.customizer.getStepData(STEP_ID_TOECAP);
+
+          if (stepHeel && !stepToeCap) {
+            this.hideGroup([BURNISH_TOECAP_PART]);
+          } else if (stepToeCap && !stepHeel) {
+            this.hideGroup([BURNISH_HEEL_PART]);
+          } else if (!stepHeel && !stepToeCap) {
+            this.hideGroup([BURNISH_HEEL_PART, BURNISH_TOECAP_PART]);
+          }
+        }
+      } else if (SHOP.customizer.isBothValue(option.selectedValue)) {
+        this.showPart([BURNISH_HEEL_PART, BURNISH_TOECAP_PART]);
       } else {
         this.showPart([option.selectedValue]);
       }
