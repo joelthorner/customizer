@@ -22,6 +22,10 @@ const RESUME_SIZE_TYPE = 'size';
  */
 const EMPTY_OPTION_VALUE_PART = 'NONE';
 
+/**
+ * 'Both' value of option value internal id
+ * @constant {string}
+ */
 const BOTH_OPTION_VALUE_PART = 'BOTH';
 
 /**
@@ -51,10 +55,22 @@ const STEP_ID_SOLES = 'Soles';
  */
 const STEP_ID_CANTO = 'Canto';
 
+/**
+ * Static id of Heel Step
+ * @constant {string}
+ */
 const STEP_ID_HEEL = 'Heel';
 
+/**
+ * Static id of ToeCap Step
+ * @constant {string}
+ */
 const STEP_ID_TOECAP = 'ToeCap';
 
+/**
+ * Static id of Vamp Step
+ * @constant {string}
+ */
 const STEP_ID_VAMP = 'Vamp';
 
 /**
@@ -124,8 +140,16 @@ const SOLE_INTERIOR_PART = 'Sole_interior';
  */
 const NO_LINING_PART = 'no_Lining';
 
+/**
+ * Burnish_Heel is a back burnish part
+ * @constant {string}
+ */
 const BURNISH_HEEL_PART = 'Burnish_Heel';
 
+/**
+ * Burnish_ToeCap is a front burnish part
+ * @constant {string}
+ */
 const BURNISH_TOECAP_PART = 'Burnish_ToeCap';
 
 

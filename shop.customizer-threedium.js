@@ -324,16 +324,11 @@ var module = {
 
       // Change culet overlay
       let culetOverlay = SHOP.customizer.isNoneValue(option.params[3]) ? null : option.params[3];
-      let culetOverlayEntry = SHOP.customizer.isNoneValue(option.params[4]) ? null : option.params[4];
 
       if (culetOverlay) {
         // No va el init :C
         let updateCuletOverlay = function () {
-          SHOP.customizer.threedium.changeOverlay(CULET_PART, culetOverlay, '', () => {
-            if (culetOverlayEntry) {
-              SHOP.customizer.threedium.exchangeOverlayEntries(CULET_PART, culetOverlay, culetOverlayEntry);
-            }
-          });
+          SHOP.customizer.threedium.changeOverlay(CULET_PART, culetOverlay, '');
         };
         this.onLoadCallbacks.push(updateCuletOverlay);
       }
@@ -532,6 +527,7 @@ var module = {
      * @param {string} part
      * @param {string} overlay
      * @param {string} selectedOverlayEntry
+     * @deprecated
      */
     exchangeOverlayEntries(part, overlay, selectedOverlayEntry) {
       if (part.length && overlay.length && selectedOverlayEntry.length) {
@@ -719,22 +715,17 @@ var module = {
 
       // Change culet overlay
       let oldCuletOverlay = SHOP.customizer.isNoneValue(oldOption.params[3]) ? null : oldOption.params[3],
-        culetOverlay = SHOP.customizer.isNoneValue(option.params[3]) ? null : option.params[3],
-        culetOverlayEntry = SHOP.customizer.isNoneValue(option.params[4]) ? null : option.params[4];
+        culetOverlay = SHOP.customizer.isNoneValue(option.params[3]) ? null : option.params[3];
 
       if (culetOverlay) {
-        this.changeOverlay(CULET_PART, culetOverlay, oldCuletOverlay, () => {
-          if (culetOverlayEntry) {
-            this.exchangeOverlayEntries(CULET_PART, culetOverlay, culetOverlayEntry);
-          }
-        });
+        this.changeOverlay(CULET_PART, culetOverlay, oldCuletOverlay);
       }
 
       // Burnish
       let optBurnish = SHOP.customizer.getStepOptionByType(step, TYPE_BURNISH);
 
       if (optBurnish) {
-        let param = SHOP.customizer.isNoneValue(option.params[5]) ? '' : option.params[5];
+        let param = SHOP.customizer.isNoneValue(option.params[4]) ? '' : option.params[4];
         SHOP.customizer.actions.restrictOptionValues(param, optBurnish);
       }
     },

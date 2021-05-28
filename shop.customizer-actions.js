@@ -351,7 +351,7 @@ var module = {
         this.restrictOptionValues(param, option);
       }
       if (optionVamp) {
-        let param = SHOP.customizer.isNoneValue(optionVamp.params[5]) ? '' : optionVamp.params[5];
+        let param = SHOP.customizer.isNoneValue(optionVamp.params[4]) ? '' : optionVamp.params[4];
         this.restrictOptionValues(param, option);
       }
     },
