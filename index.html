@@ -81,7 +81,7 @@
 <body>
   <header class="navbar navbar-light bg-faded">
     <div class="container">
-      v1.1.4
+      v1.1.5
 
       <a class="float-right" data-toggle="modal" href="#changelog">
         Últimos cambios
@@ -937,35 +937,35 @@
                       <td><code>Culet_golden</code> or <code>NONE</code></td>
                       <td>Nombre del overlay associado a ese material del culet.</td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                       <td>5</td>
                       <td>Culet overlay entry</td>
                       <td><code>Simple_golden</code> or <code>NONE</code></td>
                       <td>Nombre de la entrada del overlay associado a ese material del culet.</td>
-                    </tr>
+                    </tr> -->
                     <tr>
-                      <td>6</td>
+                      <td>5</td>
                       <td>Burnish</td>
                       <td><code>Burnish_Vamp</code> or <code>NONE</code></td>
                       <td>Aqui se indica si el material permite un possible bruñido en el mismo step.</td>
                     </tr>
                     <tr>
-                      <td>7</td>
+                      <td>6</td>
                       <td>Material "sin Forro"</td>
                       <td><code>Boxcalf_Black</code> or <code>NONE</code></td>
                       <td>En un zapato con la parte no_Lining (Sin forro) este serà el material a aplicar, siempre y cuando no exista la parte Heel (Talón). Si Talón existe aquí va un NONE.</td>
                     </tr>
                     <tr>
-                      <td>8</td>
+                      <td>7</td>
                       <td>Id de producto</td>
                       <td><code>1-010003-999-0000</code></td>
                       <td>Id de producto, para crear un identificador único</td>
                     </tr>
                   </tbody>
                   <caption>
-                  Ejemplo zapato con puntera y talón:<br><code class="split">Boxcalf_Black___Vamp___Cordoban_Bourbon___Culet_golden___Simple_golden___NONE___NONE___1-010003-999-0000</code><br><br>
-                  Ejemplo zapato sin puntera pero con talón:<br><code class="split">Boxcalf_Black___Vamp___Cordoban_Bourbon___Culet_golden___Simple_golden___Burnish_Vamp___NONE___1-010003-999-0000</code><br><br>
-                  Ejemplo zapato sin forro:<br><code class="split">Boxcalf_Black___Vamp___Cordoban_Bourbon___Culet_golden___Simple_golden___NONE___Boxcalf_Black_Reverse___1-010003-999-0000</code><br>
+                  Ejemplo zapato con puntera y talón:<br><code class="split">Boxcalf_Black___Vamp___Cordoban_Bourbon___Culet_golden___NONE___NONE___1-010003-999-0000</code><br><br>
+                  Ejemplo zapato sin puntera pero con talón:<br><code class="split">Boxcalf_Black___Vamp___Cordoban_Bourbon___Culet_golden___Burnish_Vamp___NONE___1-010003-999-0000</code><br><br>
+                  Ejemplo zapato sin forro:<br><code class="split">Boxcalf_Black___Vamp___Cordoban_Bourbon___Culet_golden___NONE___Boxcalf_Black_Reverse___1-010003-999-0000</code><br>
                   </caption>
                 </table>
               </div>
@@ -3003,6 +3003,11 @@
           <div class="container">
             <div class="row justify-content-center">
               <div class="col-12">
+                <h5 class="h6 mt-3"> <span class="p-2"> Version 1.1.5</span> - 28/05/2021</h5>
+                <ul class="mt-3">
+                  <li class="text-muted ml-3">Eliminado culet overlay entry del step Vamp</li>
+                </ul>
+
                 <h5 class="h6 mt-3"> <span class="p-2"> Version 1.1.4</span> - 27/05/2021</h5>
                 <ul class="mt-3">
                   <li class="text-muted ml-3">Añadido el parametro de "Sin forro" a Talón->Piel</li>
