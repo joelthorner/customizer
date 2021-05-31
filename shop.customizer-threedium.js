@@ -484,14 +484,15 @@ var module = {
     /**
      * This function returns the resulting part of Sole i Canto 
      * according to the selected values of all the options that affect them.
-     * @param {object} soleStep - Step Sole object
+     * @param {object} [soleStepParam] - Step Sole object
      * @param {object} [optSoleTypeParam] - option sole type from Sole step object
      * @returns {object}
      */
-    getSoleAndCantoPartsFromSelectedOptions(soleStep, optSoleTypeParam) {
+    getSoleAndCantoPartsFromSelectedOptions(soleStepParam, optSoleTypeParam) {
       let self = SHOP.customizer,
         stepCanto = self.getStepData(STEP_ID_CANTO),
 
+        soleStep = soleStepParam ? soleStepParam : self.getStepData(STEP_ID_SOLES),
         optSoleType = optSoleTypeParam ? optSoleTypeParam : self.getStepOptionByType(soleStep, TYPE_SOLE_TYPE),
         optCantoThickness = self.getStepOptionByType(stepCanto, TYPE_CANTO_THICKNESS),
         optViraPicado = self.getStepOptionByType(stepCanto, TYPE_VIRA_PICADO),

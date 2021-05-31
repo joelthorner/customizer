@@ -237,26 +237,28 @@ var module = {
    * @param {object} oldOption
    */
   actionCantoThickness(step, option, oldOption) {
-    let stepSoles = SHOP.customizer.getStepData(STEP_ID_SOLES),
-      optSoleType = SHOP.customizer.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE),
-      optSoleColor = SHOP.customizer.getStepOptionByType(stepSoles, TYPE_SOLE_COLOR),
-      optCantoColor = SHOP.customizer.getStepOptionByType(step, TYPE_CANTO_COLOR);
+    let self = SHOP.customizer,
+      stepSoles = self.getStepData(STEP_ID_SOLES),
+      optSoleType = self.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE),
+      optSoleColor = self.getStepOptionByType(stepSoles, TYPE_SOLE_COLOR),
+      optCantoColor = self.getStepOptionByType(step, TYPE_CANTO_COLOR);
 
     if (optSoleType) {
-      let cantoPart = this.replaceThickness(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO), option.selectedValue),
-        solePart = this.replaceThickness(optSoleType.selectedValue, option.selectedValue),
-        showParts = [cantoPart, solePart],
+      let soleCantoParts = this.getSoleAndCantoPartsFromSelectedOptions(),
+        solePart = soleCantoParts.solePart,
+        cantoPart = soleCantoParts.cantoPart,
+        showParts = [solePart, cantoPart],
 
-        oldCantoPart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
-        oldSolePart = optSoleType.selectedValue,
-        hideParts = [oldCantoPart, oldSolePart];
+        oldSolePart = this.replaceThickness(solePart, oldOption.selectedValue),
+        oldCantoPart = this.replaceThickness(cantoPart, oldOption.selectedValue),
+        hideParts = [oldSolePart, oldCantoPart];
 
       this.showPartHidePart(showParts, hideParts, () => {
         if (optSoleColor) this.changeMaterial([solePart], optSoleColor.selectedValue);
         if (optCantoColor) this.changeMaterial([cantoPart], optCantoColor.selectedValue);
       });
 
-      SHOP.customizer.setOption(STEP_ID_SOLES, optSoleType.id, {
+      self.setOption(STEP_ID_SOLES, optSoleType.id, {
         selectedValue: solePart,
       });
     }
