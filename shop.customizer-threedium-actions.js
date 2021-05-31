@@ -169,12 +169,12 @@ var module = {
       soleMaterial = optSoleColor ? optSoleColor.selectedValue : '',
       solePartParams = self.getSoleTypeValueParams(option.selectedValue),
 
-      soleCantoParts = self.getSoleAndCantoPartsFromSelectedOptions(step, option),
+      soleCantoParts = self.threedium.getSoleAndCantoPartsFromSelectedOptions(step, option),
       solePart = soleCantoParts.solePart,
       cantoPart = soleCantoParts.cantoPart,
       showParts = [solePart, cantoPart],
 
-      oldSoleCantoParts = self.getSoleAndCantoPartsFromSelectedOptions(step, oldOption),
+      oldSoleCantoParts = self.threedium.getSoleAndCantoPartsFromSelectedOptions(step, oldOption),
       oldSolePart = oldSoleCantoParts.solePart,
       oldCantoPart = oldSoleCantoParts.cantoPart,
       hideParts = [oldSolePart, oldCantoPart];
@@ -243,8 +243,8 @@ var module = {
       optCantoColor = SHOP.customizer.getStepOptionByType(step, TYPE_CANTO_COLOR);
 
     if (optSoleType) {
-      let cantoPart = SHOP.customizer.replaceThickness(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO), option.selectedValue),
-        solePart = SHOP.customizer.replaceThickness(optSoleType.selectedValue, option.selectedValue),
+      let cantoPart = this.replaceThickness(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO), option.selectedValue),
+        solePart = this.replaceThickness(optSoleType.selectedValue, option.selectedValue),
         showParts = [cantoPart, solePart],
 
         oldCantoPart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),

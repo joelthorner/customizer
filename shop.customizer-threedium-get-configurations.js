@@ -103,7 +103,7 @@ var module = {
       stepCanto = self.getStepData(STEP_ID_CANTO),
       optSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
       optCantoColor = self.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR),
-      soleCantoParts = self.getSoleAndCantoPartsFromSelectedOptions(step, option),
+      soleCantoParts = self.threedium.getSoleAndCantoPartsFromSelectedOptions(step, option),
       solePart = soleCantoParts.solePart,
       cantoPart = soleCantoParts.cantoPart,
       showParts = [solePart, cantoPart];
@@ -205,7 +205,7 @@ var module = {
     if (overlayName) {
       let addSoleInscriptionOverlay = function () {
         let stepSole = SHOP.customizer.getStepData(STEP_ID_SOLES),
-          soleCantoParts = SHOP.customizer.getSoleAndCantoPartsFromSelectedOptions(stepSole),
+          soleCantoParts = SHOP.customizer.threedium.getSoleAndCantoPartsFromSelectedOptions(stepSole),
           solePart = soleCantoParts.solePart;
 
         SHOP.customizer.threedium.changeOverlay(solePart, overlayName);
