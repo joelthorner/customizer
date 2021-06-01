@@ -5,66 +5,45 @@
 
 /**
  * Main view, side view with a little angle
- * @constant {number[]}
+ * @constant {string}
  */
-const CAMERA_MAIN_VIEW = {
-  position: [0.059, 0.114, 0.470],
-  target: [0.012, 0.017, -0.065],
-};
+const TRANSITION_MAIN_VIEW = 'Transition_Main_View';
 
 /**
  * Top left view
- * @constant {number[]}
+ * @constant {string}
  */
-const CAMERA_TOP_LEFT_VIEW = {
-  position: [0.346, 0.393, 0.258],
-  target: [0.008, 0, -0.042],
-};
+const TRANSITION_TOP_LEFT_VIEW = 'Transition_Top_Left_View';
 
 /**
  * Back view
- * @constant {number[]}
+ * @constant {string}
  */
-const CAMERA_BACK_VIEW = {
-  position: [-0.575, 0.073, -0.033],
-  target: [0.011, 0.018, 0.003],
-};
+const TRANSITION_BACK_VIEW = 'Transition_Back_View';
 
 /**
  * Bottom (sole) view
- * @constant {number[]}
+ * @constant {string}
  */
-const CAMERA_BOTTOM_VIEW = {
-  position: [0.018, -0.566, -0.005],
-  target: [0.011, 0.018, -0.003],
-};
+const TRANSITION_BOTTOM_VIEW = 'Transition_Bottom_View';
 
 /**
  * Lining view
- * @constant {number[]}
+ * @constant {string}
  */
-const CAMERA_LINING_VIEW = {
-  position: [0.150, 0.307, 0.443],
-  target: [0.011, 0.018, -0.003],
-};
+const TRANSITION_LINING_VIEW = 'Transition_Lining_View';
 
 /**
  * Medallion view
- * @constant {number[]}
+ * @constant {string}
  */
-const CAMERA_MEDALLION_VIEW = {
-  position: [0.209, 0.259, -0.012],
-  target: [0.104, -0.032, -0.004],
-};
+const TRANSITION_MEDALLION_VIEW = 'Transition_Medallion_View';
 
 /**
  * Front view
- * @constant {number[]}
+ * @constant {string}
  */
-const CAMERA_FRONT_VIEW = {
-  position: [0.324, 0.446, 0.186],
-  target: [0.030, 0.027, -0.018],
-};
+const TRANSITION_FRONT_VIEW = 'Transition_Front_View';
 
 /**
  * Step/View declaration
@@ -74,45 +53,45 @@ const CAMERA_FRONT_VIEW = {
  */
 const STEPS_VIEW = {
   ToeCap: {
-    default: CAMERA_MAIN_VIEW,
-    Medallions: CAMERA_MEDALLION_VIEW, // TODO change target
+    default: TRANSITION_MAIN_VIEW,
+    Medallions: TRANSITION_MEDALLION_VIEW,
   },
   Vamp: {
-    default: CAMERA_MAIN_VIEW,
+    default: TRANSITION_MAIN_VIEW,
   },
   Heel: {
-    default: CAMERA_MAIN_VIEW,
+    default: TRANSITION_MAIN_VIEW,
   },
   Stitching: {
-    default: CAMERA_MAIN_VIEW,
+    default: TRANSITION_MAIN_VIEW,
   },
   Canto: {
-    default: CAMERA_TOP_LEFT_VIEW,
-    // Picado: CAMERA_TOP_LEFT_VIEW,
+    default: TRANSITION_TOP_LEFT_VIEW,
+    // Picado: TRANSITION_TOP_LEFT_VIEW,
   },
   PullLoop: {
-    default: CAMERA_BACK_VIEW,
+    default: TRANSITION_BACK_VIEW,
   },
   HeelStripe: {
-    default: CAMERA_BACK_VIEW,
+    default: TRANSITION_BACK_VIEW,
   },
   Soles: {
-    default: CAMERA_BOTTOM_VIEW,
+    default: TRANSITION_BOTTOM_VIEW,
   },
   Buckles: {
-    default: CAMERA_LINING_VIEW,
+    default: TRANSITION_LINING_VIEW,
   },
   Lining: {
-    default: CAMERA_LINING_VIEW,
+    default: TRANSITION_LINING_VIEW,
   },
   Eyelets: {
-    default: CAMERA_FRONT_VIEW,
+    default: TRANSITION_FRONT_VIEW,
   },
   Hooks: {
-    default: CAMERA_FRONT_VIEW,
+    default: TRANSITION_FRONT_VIEW,
   },
   Shoelaces: {
-    default: CAMERA_FRONT_VIEW,
+    default: TRANSITION_FRONT_VIEW,
   },
 }
 
@@ -135,7 +114,7 @@ var module = {
 
         if (stepViews) {
           let optionView = this.getOptionView(optionData.params, stepViews);
-          SHOP.customizer.threedium.setCameraPositionSetTarget(optionView);
+          SHOP.customizer.threedium.activeTransitionView(optionView);
         }
       }
     },

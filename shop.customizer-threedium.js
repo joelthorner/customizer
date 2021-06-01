@@ -168,6 +168,7 @@ var module = {
      * Set camera position and target
      * @param {object} view 
      * @param {function} [callback]
+     * @deprecated
      */
     setCameraPositionSetTarget(view, callback = (error) => CustomizerError(error, 'on setCameraPositionSetTarget')) {
       if (view) {
@@ -182,6 +183,7 @@ var module = {
      * Threedium method https://threedium.co.uk/documentation/api#Setcameraposition
      * @param {object} view
      * @param {function} [callback]
+     * @deprecated
      */
     setCameraPosition(view, callback = (error) => CustomizerError(error, 'on setCameraPosition')) {
       if (view) {
@@ -195,11 +197,25 @@ var module = {
      * Threedium method https://threedium.co.uk/documentation/api#Setcameratarget
      * @param {object} view
      * @param {function} [callback]
+     * @deprecated
      */
     setCameraTarget(view, callback = (error) => CustomizerError(error, 'on setCameraTarget')) {
       if (view) {
         Unlimited3D.setCameraTarget({
           target: view.target,
+        }, callback);
+      }
+    },
+
+    /**
+     * Threedium method https://threedium.co.uk/documentation/api#Activatetransition
+     * @param {string} transitionName
+     * @param {function} [callback]
+     */
+    activeTransitionView(transitionName, callback = (error) => CustomizerError(error, 'on activeTransitionView')) {
+      if (transitionName.length) {
+        Unlimited3D.activateTransition({
+          transition: transitionName,
         }, callback);
       }
     },
