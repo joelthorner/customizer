@@ -218,7 +218,7 @@ var module = {
             overlay: oldOverlayName,
             part: part,
           }, (error) => {
-            CustomizerError(error, 'on changeOverlay')
+            CustomizerError(error, 'on changeOverlay');
 
             Unlimited3D.setOverlayToPart({
               overlay: overlayName,
@@ -245,7 +245,7 @@ var module = {
       if (overlay.length) {
         Unlimited3D.updateOverlay({
           overlay: overlay,
-          overlayEntry: 'Text',
+          overlayEntry: `${overlay}_Text`,
           options: {
             text: textValue,
           },

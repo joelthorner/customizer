@@ -56,18 +56,22 @@ var module = {
     // Change Vamp material
     this.changeMaterial([option.threediumGroupPart], option.selectedValue);
 
-    // Change culet material
-    let culetMaterial = SHOP.customizer.isNoneValue(option.params[2]) ? null : option.params[2];
-    if (culetMaterial) {
-      this.changeMaterial([CULET_PART], culetMaterial);
-    }
+    
 
     // Change culet overlay
     let oldCuletOverlay = SHOP.customizer.isNoneValue(oldOption.params[3]) ? null : oldOption.params[3],
       culetOverlay = SHOP.customizer.isNoneValue(option.params[3]) ? null : option.params[3];
 
     if (culetOverlay) {
-      this.changeOverlay(CULET_PART, culetOverlay, oldCuletOverlay);
+      this.changeOverlay(CULET_PART, culetOverlay, oldCuletOverlay, (error) => {
+        CustomizerError(error, 'on changeOverlay of Vamp on actionVamp function');
+
+        // Change culet material
+        let culetMaterial = SHOP.customizer.isNoneValue(option.params[2]) ? null : option.params[2];
+        if (culetMaterial) {
+          this.changeMaterial([CULET_PART], culetMaterial);
+        }
+      });
     }
 
     // Burnish
@@ -204,7 +208,7 @@ var module = {
   },
 
   /**
-   * Manages Canto color option
+   * Manages Canto color option 
    * @param {string} step 
    * @param {object} option
    * @param {object} oldOption
