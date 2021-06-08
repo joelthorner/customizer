@@ -42,6 +42,29 @@ var module = {
   },
 
   /**
+   * Return first step
+   * @returns {object|null}
+   */
+  getFirstStep() {
+    return this.data.steps.length ? this.data.steps[0] : null;
+  },
+
+  /**
+   * Return first option step
+   * @param {string} stepId
+   * @returns {object|null}
+   */
+  getFirstOptionStep(stepId) {
+    let step = this.getStepData(stepId);
+
+    if (step) {
+      return step.options.length ? step.options[0] : null;
+    }
+
+    return null;
+  },
+
+  /**
    * Return data for SHOP.customizer.data.steps property
    * @return {object[]}
    */
@@ -96,7 +119,7 @@ var module = {
     for (var i = 0; i < options.length; i++) {
       if (options[i].id == optionId) {
         var nextOption = options[i + 1];
-        if (nextOption) option = nextOption;
+        if (nextOption && nextOption.show === true) option = nextOption;
       }
     }
 
@@ -134,7 +157,7 @@ var module = {
     for (var i = 0; i < options.length; i++) {
       if (options[i].id == optionId) {
         var prevOption = options[i - 1];
-        if (prevOption) option = prevOption;
+        if (prevOption && prevOption.show === true) option = prevOption;
       }
     }
 
