@@ -22,6 +22,7 @@ var module = {
       this.threedium.import();
       this.listeners.init();
       this.debug.init();
+      this.camera.init();
 
       SHOP.module.sizeGuideMenu.init();
     }
