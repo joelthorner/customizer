@@ -317,23 +317,26 @@ var module = {
      * @param {object} option - sole type option
      */
     restrictionInscriptionSole(step, option) {
-      let optSoleType = SHOP.customizer.getStepOptionByType(step, TYPE_SOLE_TYPE),
-        show = !SHOP.customizer.isNoneValue(optSoleType.params[2]);
+      let optSoleType = SHOP.customizer.getStepOptionByType(step, TYPE_SOLE_TYPE);
 
-      // 1. save data show
-      SHOP.customizer.setOption(step.id, option.id, {
-        show: show,
-      });
+      if (optSoleType) {
+        let show = !SHOP.customizer.isNoneValue(optSoleType.params[2]);
 
-      // 2. hide option component
-      SHOP.customizer.components.toggleOption(option.id, option.show);
-
-      // 3. reset opcio inscripció
-      if (!show) {
-        SHOP.customizer.components.resetOptionText(option.id);
+        // 1. save data show
         SHOP.customizer.setOption(step.id, option.id, {
-          selectedValue: '',
+          show: show,
         });
+
+        // 2. hide option component
+        SHOP.customizer.components.toggleOption(option.id, option.show);
+
+        // 3. reset opcio inscripció
+        if (!show) {
+          SHOP.customizer.components.resetOptionText(option.id);
+          SHOP.customizer.setOption(step.id, option.id, {
+            selectedValue: '',
+          });
+        }
       }
     },
 
@@ -363,11 +366,14 @@ var module = {
      */
     restrictionSoleColor(step, option) {
       let optionSoleColor = option,
-        optionSoleType = SHOP.customizer.getStepOptionByType(step, TYPE_SOLE_TYPE),
-        solePartParams = SHOP.customizer.getSoleTypeValueParams(optionSoleType.selectedValue);
+        optionSoleType = SHOP.customizer.getStepOptionByType(step, TYPE_SOLE_TYPE);
 
-      if (solePartParams) {
-        this.restrictOptionValues(solePartParams.id, optionSoleColor);
+      if (optionSoleType) {
+        let solePartParams = SHOP.customizer.getSoleTypeValueParams(optionSoleType.selectedValue);
+
+        if (solePartParams) {
+          this.restrictOptionValues(solePartParams.id, optionSoleColor);
+        }
       }
     },
 
@@ -378,11 +384,14 @@ var module = {
     restrictionCantoColor(option) {
       let optionCantoColor = option,
         stepSole = SHOP.customizer.getStepData(STEP_ID_SOLES),
-        optionSoleType = SHOP.customizer.getStepOptionByType(stepSole, TYPE_SOLE_TYPE),
-        solePartParams = SHOP.customizer.getSoleTypeValueParams(optionSoleType.selectedValue);
+        optionSoleType = SHOP.customizer.getStepOptionByType(stepSole, TYPE_SOLE_TYPE);
 
-      if (solePartParams) {
-        this.restrictOptionValues(solePartParams.id, optionCantoColor);
+      if (optionSoleType) {
+        let solePartParams = SHOP.customizer.getSoleTypeValueParams(optionSoleType.selectedValue);
+
+        if (solePartParams) {
+          this.restrictOptionValues(solePartParams.id, optionCantoColor);
+        }
       }
     },
 
