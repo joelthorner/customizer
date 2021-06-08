@@ -101,6 +101,21 @@ var module = {
    */
   camera: {
     /**
+     * Save last transition applied
+     * @type {string}
+     */
+    lastTransitionApplied: '',
+
+    init() {
+      let firstStep = SHOP.customizer.getFirstStep(),
+        firstOptionStep = SHOP.customizer.getFirstOptionStep(firstStep.id),
+        stepViews = this.getStepViews(firstStep.id),
+        optionView = this.getOptionView(firstOptionStep.params, stepViews);
+
+      this.lastTransitionApplied = optionView;
+    },
+
+    /**
      * Set camera view
      * @param {string} stepId 
      * @param {string} optionId
@@ -114,7 +129,11 @@ var module = {
 
         if (stepViews) {
           let optionView = this.getOptionView(optionData.params, stepViews);
-          SHOP.customizer.threedium.activeTransitionView(optionView);
+
+          if (this.lastTransitionApplied != optionView) {
+            SHOP.customizer.threedium.activeTransitionView(optionView);
+            this.lastTransitionApplied = optionView;
+          }
         }
       }
     },
