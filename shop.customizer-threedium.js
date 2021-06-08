@@ -216,6 +216,7 @@ var module = {
       if (transitionName.length) {
         Unlimited3D.activateTransition({
           transition: transitionName,
+          target: 'Camera Editor',
         }, callback);
       }
     },
