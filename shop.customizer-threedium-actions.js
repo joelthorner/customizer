@@ -166,7 +166,7 @@ var module = {
   actionSoleType(step, option, oldOption) {
     let self = SHOP.customizer,
       optSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
-      stepCanto = self.getStepData(ID_PREFIX_CANTO),
+      stepCanto = self.getStepData(ID_PREFIX_EDGE),
       optCantoColor = self.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR),
       optInscriptionSole = self.getStepOptionByType(step, TYPE_INSCRIPTION_SOLE),
 
@@ -221,7 +221,7 @@ var module = {
       viraPicadoMaterials = this.getViraPicadoMaterials(option, optViraPicado);
 
     if (optSoleType) {
-      let cantoPart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO);
+      let cantoPart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE);
       this.changeMaterial([cantoPart], option.selectedValue);
     }
 
@@ -285,12 +285,12 @@ var module = {
     if (optSoleType) {
       let viraPicadoValue = this.getViraValue(option),
         replaceValuePart = (text) => text.replace(SOLES_VIRA_270, viraPicadoValue).replace(SOLES_VIRA_360, viraPicadoValue),
-        cantoPart = replaceValuePart(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO)),
+        cantoPart = replaceValuePart(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE)),
         solePart = replaceValuePart(optSoleType.selectedValue),
         showParts = [],
         partsWithCantoMaterial = [cantoPart],
 
-        oldCantoPart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
+        oldCantoPart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE),
         oldSolePart = optSoleType.selectedValue,
         hideParts = [];
 

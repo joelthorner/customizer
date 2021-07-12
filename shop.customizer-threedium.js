@@ -440,7 +440,7 @@ var module = {
       };
 
       if (cantoColor && viraPicado) {
-        let regExp = new RegExp(`${ID_PREFIX_CANTO}_?(.*)?_(.*)`),
+        let regExp = new RegExp(`${ID_PREFIX_EDGE}_?(.*)?_(.*)`),
           match = cantoColor.selectedValue.match(regExp);
 
         if (match.length >= 2) {
@@ -486,7 +486,7 @@ var module = {
 
     /**
      * Replace from string the soles thickness parts to new value.
-     * Example: CantoXXX_360_normal --> CantoXXX_360_triple
+     * Example: Edge_Leather_PISO-0001_270_TH-00	 --> CantoXXX_360_triple
      * @param {string} text
      * @param {string} replacePart
      * @returns {string}
@@ -507,7 +507,7 @@ var module = {
      */
     getSoleAndCantoPartsFromSelectedOptions(soleStepParam, optSoleTypeParam) {
       let self = SHOP.customizer,
-        stepCanto = self.getStepData(STEP_ID_CANTO),
+        stepCanto = self.getStepData(STEP_ID_EDGE),
 
         soleStep = soleStepParam ? soleStepParam : self.getStepData(STEP_ID_SOLES),
         optSoleType = optSoleTypeParam ? optSoleTypeParam : self.getStepOptionByType(soleStep, TYPE_SOLE_TYPE),
@@ -515,7 +515,7 @@ var module = {
         optViraPicado = self.getStepOptionByType(stepCanto, TYPE_VIRA_PICADO),
 
         solePart = optSoleType.selectedValue,
-        cantoPart = solePart.replace(ID_PREFIX_SOLE, ID_PREFIX_CANTO),
+        cantoPart = solePart.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE),
         result = {
           solePart: solePart,
           cantoPart: cantoPart

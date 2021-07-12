@@ -100,7 +100,7 @@ var module = {
     // Per donar una part bona a la configuració s'agafen totes les parts i materials aplicats
     // sobre Sole i Canto d'una tacada ja que son parts fraccionades entre varies opcions.
     let self = SHOP.customizer,
-      stepCanto = self.getStepData(STEP_ID_CANTO),
+      stepCanto = self.getStepData(STEP_ID_EDGE),
       optSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
       optCantoColor = self.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR),
       soleCantoParts = self.threedium.getSoleAndCantoPartsFromSelectedOptions(step, option),

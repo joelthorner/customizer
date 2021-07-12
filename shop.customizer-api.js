@@ -313,7 +313,7 @@ var module = {
    * @return {object|null}
    */
   getSoleTypeValueParams(value) {
-    let rgxp = new RegExp(`(${ID_PREFIX_SOLE}|${ID_PREFIX_CANTO})_([a-zA-Z]+)_(${SOLES_VIRA_270}|${SOLES_VIRA_360})_(${SOLES_THICKNESS_NORMAL}|${SOLES_THICKNESS_DOUBLE}|${SOLES_THICKNESS_TRIPLE})`),
+    let rgxp = new RegExp(`(${ID_PREFIX_SOLE}|${ID_PREFIX_EDGE})_([a-zA-Z]+)_(${SOLES_VIRA_270}|${SOLES_VIRA_360})_(${SOLES_THICKNESS_NORMAL}|${SOLES_THICKNESS_DOUBLE}|${SOLES_THICKNESS_TRIPLE})`),
       matchResult = value.match(rgxp);
 
     if (matchResult)
