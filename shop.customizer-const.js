@@ -62,10 +62,10 @@ const STEP_ID_CANTO = 'Canto';
 const STEP_ID_HEEL = 'Heel';
 
 /**
- * Static id of ToeCap Step
+ * Static id of Toe Step
  * @constant {string}
  */
-const STEP_ID_TOECAP = 'ToeCap';
+const STEP_ID_TOE = 'Toe';
 
 /**
  * Static id of Vamp Step
@@ -117,7 +117,7 @@ const STORMWELT_PARAM = 'Stormwelt';
 
 /**
  * Static part of value of simple material option.
- * @example "Boxcalf_black___ToeCap___Burnish" --> "Burnish"
+ * @example "Boxcalf_black___Toe___Burnish" --> "Burnish"
  * @constant {string}
  */
 const BURNISH_PARAM = 'Burnish';
@@ -147,10 +147,10 @@ const NO_LINING_PART = 'no_Lining';
 const BURNISH_HEEL_PART = 'Burnish_Heel';
 
 /**
- * Burnish_ToeCap is a front burnish part
+ * Burnish_Toe is a front burnish part
  * @constant {string}
  */
-const BURNISH_TOECAP_PART = 'Burnish_ToeCap';
+const BURNISH_TOE_PART = 'Burnish_Toe';
 
 
 /**

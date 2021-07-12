@@ -52,7 +52,7 @@ const TRANSITION_FRONT_VIEW = 'Transition_Front_View';
  * @constant {object}
  */
 const STEPS_VIEW = {
-  ToeCap: {
+  STEP_ID_TOE: {
     default: TRANSITION_MAIN_VIEW,
     Medallions: TRANSITION_MEDALLION_VIEW,
   },

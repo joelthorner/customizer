@@ -14,7 +14,7 @@ var module = {
    *   hide: ['PartName'],
    *   override: ['PartName'],
    *   materials: {
-   *     'Boxcalf_Black': ['ToeCap'],
+   *     'Boxcalf_Black': ['Toe'],
    *   },
    * },
    */
@@ -50,7 +50,7 @@ var module = {
    */
   getConfBurnish(step, option) {
     if (SHOP.customizer.isBothValue(option.selectedValue)) {
-      this.addConfigOverridePart([BURNISH_TOECAP_PART, BURNISH_HEEL_PART]);
+      this.addConfigOverridePart([BURNISH_TOE_PART, BURNISH_HEEL_PART]);
     }
     else if (!SHOP.customizer.isNoneValue(option.selectedValue)) {
       this.addConfigOverridePart(option.selectedValue);
