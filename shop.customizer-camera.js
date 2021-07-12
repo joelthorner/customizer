@@ -56,41 +56,41 @@ const STEPS_VIEW = {
     default: TRANSITION_MAIN_VIEW,
     Medallions: TRANSITION_MEDALLION_VIEW,
   },
-  Vamp: {
+  STEP_ID_VAMP: {
     default: TRANSITION_MAIN_VIEW,
   },
-  Heel: {
+  STEP_ID_HEEL: {
     default: TRANSITION_MAIN_VIEW,
   },
-  Stitching: {
+  STEP_ID_STITCHING: {
     default: TRANSITION_MAIN_VIEW,
   },
-  Canto: {
+  STEP_ID_EDGE: {
     default: TRANSITION_TOP_LEFT_VIEW,
     // Picado: TRANSITION_TOP_LEFT_VIEW,
   },
-  PullLoop: {
+  STEP_ID_PULL_LOOP: {
     default: TRANSITION_BACK_VIEW,
   },
-  HeelStripe: {
+  STEP_ID_PULL_HEEL_STRIPE: {
     default: TRANSITION_BACK_VIEW,
   },
-  Soles: {
+  STEP_ID_SOLES: {
     default: TRANSITION_BOTTOM_VIEW,
   },
-  Buckles: {
+  STEP_ID_PULL_BUCKLES: {
     default: TRANSITION_LINING_VIEW,
   },
-  Lining: {
+  STEP_ID_PULL_LINING: {
     default: TRANSITION_LINING_VIEW,
   },
-  Eyelets: {
+  STEP_ID_PULL_EYELETS: {
     default: TRANSITION_FRONT_VIEW,
   },
-  Hooks: {
+  STEP_ID_PULL_HOOKS: {
     default: TRANSITION_FRONT_VIEW,
   },
-  Shoelaces: {
+  STEP_ID_PULL_SHOELACES: {
     default: TRANSITION_FRONT_VIEW,
   },
 }

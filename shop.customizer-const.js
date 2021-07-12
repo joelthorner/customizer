@@ -37,11 +37,11 @@ const ID_PREFIX_SOLE = 'Sole';
 
 /**
  * Prefix of Soles option values id (selected value part)
- * @example "CantoXXX_360_double" --> "Canto"
- * "Canto_Rojo" --> "Canto"
+ * @example "EdgeXXX_360_double" --> "Edge"
+ * "Edge_Rojo" --> "Edge"
  * @constant {string}
  */
-const ID_PREFIX_CANTO = 'Canto';
+const ID_PREFIX_EDGE = 'Edge';
 
 /**
  * Static id of Soles Step
@@ -50,10 +50,10 @@ const ID_PREFIX_CANTO = 'Canto';
 const STEP_ID_SOLES = 'Soles';
 
 /**
- * Static id of Canto Step
+ * Static id of Edge Step
  * @constant {string}
  */
-const STEP_ID_CANTO = 'Canto';
+const STEP_ID_EDGE = 'Edge';
 
 /**
  * Static id of Heel Step
@@ -73,51 +73,60 @@ const STEP_ID_TOE = 'Toe';
  */
 const STEP_ID_VAMP = 'Vamp';
 
-/**
- * Static part of value sole|canto, thickness.
- * @example "CantoXXX_360_normal" --> "normal"
- * @constant {string}
- */
-const SOLES_THICKNESS_NORMAL = 'normal';
+const STEP_ID_STITCHING = 'Stitching';
+
+const STEP_ID_PULL_LOOP = 'PullLoop';
+
+const STEP_ID_PULL_HEEL_STRIPE = 'HeelStripe';
+
+const STEP_ID_PULL_BUCKLES = 'Buckles';
+
+const STEP_ID_PULL_LINING = 'Lining';
+
+const STEP_ID_PULL_EYELETS = 'Eyelets';
+
+const STEP_ID_PULL_HOOKS = 'Hooks';
+
+const STEP_ID_PULL_SHOELACES = 'Shoelaces';
 
 /**
- * Static part of value sole|canto, thickness.
- * @example "CantoXXX_360_double" --> "double"
+ * Thickness part of Sole/Edge. Normal value.
  * @constant {string}
  */
-const SOLES_THICKNESS_DOUBLE = 'double';
+const SOLES_THICKNESS_NORMAL = 'TH-00';
 
 /**
- * Static part of value sole|canto, thickness.
- * @example "CantoXXX_360_triple" --> "triple"
+ * Thickness part of Sole/Edge. Double value.
  * @constant {string}
  */
-const SOLES_THICKNESS_TRIPLE = 'triple';
+const SOLES_THICKNESS_DOUBLE = 'TH-15';
 
 /**
- * Static part of value sole|canto, vira.
- * @example "CantoXXX_270_double" --> "270"
+ * Thickness part of Sole/Edge. Triple value.
+ * @constant {string}
+ */
+const SOLES_THICKNESS_TRIPLE = 'TH-30';
+
+/**
+ * Weight part of Sole/Edge.
  * @constant {number}
  */
 const SOLES_VIRA_270 = 270;
 
 /**
- * Static part of value sole|canto, vira.
- * @example "CantoXXX_360_double" --> "360"
+ * Weight part of Sole/Edge.
  * @constant {number}
  */
 const SOLES_VIRA_360 = 360;
 
 /**
  * Static part of value of vira_picado option.
- * @example "picado_0_360___Picado___Stormwelt" --> "Stormwelt"
  * @constant {string}
  */
 const STORMWELT_PARAM = 'Stormwelt';
 
 /**
  * Static part of value of simple material option.
- * @example "Boxcalf_black___Toe___Burnish" --> "Burnish"
  * @constant {string}
  */
 const BURNISH_PARAM = 'Burnish';
