@@ -199,18 +199,21 @@ var module = {
   getConfInscriptionSole(step, option) {
     let self = SHOP.customizer,
       stepSole = step,
-      optSoleType = self.getStepOptionByType(stepSole, TYPE_SOLE_TYPE),
-      overlayName = self.isNoneValue(optSoleType.params[2]) ? null : optSoleType.params[2];
+      optSoleType = self.getStepOptionByType(stepSole, TYPE_SOLE_TYPE);
 
-    if (overlayName) {
-      let addSoleInscriptionOverlay = function () {
-        let stepSole = SHOP.customizer.getStepData(STEP_ID_SOLES),
-          soleCantoParts = SHOP.customizer.threedium.getSoleAndCantoPartsFromSelectedOptions(stepSole),
-          solePart = soleCantoParts.solePart;
+    if (optSoleType) {
+      let overlayName = self.isNoneValue(optSoleType.params[2]) ? null : optSoleType.params[2];
 
-        SHOP.customizer.threedium.changeOverlay(solePart, overlayName);
-      };
-      this.onLoadCallbacks.push(addSoleInscriptionOverlay);
+      if (overlayName) {
+        let addSoleInscriptionOverlay = function () {
+          let stepSole = SHOP.customizer.getStepData(STEP_ID_SOLES),
+            soleCantoParts = SHOP.customizer.threedium.getSoleAndCantoPartsFromSelectedOptions(stepSole),
+            solePart = soleCantoParts.solePart;
+
+          SHOP.customizer.threedium.changeOverlay(solePart, overlayName);
+        };
+        this.onLoadCallbacks.push(addSoleInscriptionOverlay);
+      }
     }
   },
 
