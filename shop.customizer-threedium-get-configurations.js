@@ -102,7 +102,7 @@ var module = {
     let self = SHOP.customizer,
       stepCanto = self.getStepData(STEP_ID_EDGE),
       optSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
-      optCantoColor = self.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR),
+      optCantoColor = self.getStepOptionByType(stepCanto, TYPE_EDGE_COLOR),
       soleCantoParts = self.threedium.getSoleAndCantoPartsFromSelectedOptions(step, option),
       solePart = soleCantoParts.solePart,
       cantoPart = soleCantoParts.cantoPart,
@@ -128,7 +128,7 @@ var module = {
   getConfViraPicado(step, option) {
     let self = SHOP.customizer,
       showParts = [],
-      optCantoColor = self.getStepOptionByType(step, TYPE_CANTO_COLOR),
+      optCantoColor = self.getStepOptionByType(step, TYPE_EDGE_COLOR),
       viraPicadoMaterials = this.getViraPicadoMaterials(optCantoColor, option);
 
     // Apply canto material to vira-picado & stormwelt

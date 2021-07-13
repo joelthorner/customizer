@@ -434,7 +434,7 @@ var module = {
      * @param {object} viraPicado - option
      * @return {object}
      */
-    getViraPicadoMaterials(cantoColor, viraPicado) {
+    old_getViraPicadoMaterials(cantoColor, viraPicado) {
       let result = {
         picado: null,
         stormwelt: null,
@@ -457,6 +457,30 @@ var module = {
       }
 
       return result;
+    },
+
+    /**
+     * Get picado and stormwelt materials by canto color option and picado part name
+     * @param {object} cantoColor - option
+     * @param {object} viraPicado - option
+     * @return {object}
+     */
+     getViraPicadoMaterials(cantoColor, viraPicado) {
+      let materials = {
+        picado: null,
+        stormwelt: null,
+      };
+
+      if (cantoColor && viraPicado) {
+        if (cantoColor.params[3]) {
+          materials.picado = `${viraPicado.selectedValue}_${cantoColor.params[3]}`;
+        }
+        if (cantoColor.params[4]) {
+          materials.stormwelt = cantoColor.params[4];
+        }
+      }
+
+      return materials;
     },
 
     /**
@@ -512,7 +536,7 @@ var module = {
 
         soleStep = soleStepParam ? soleStepParam : self.getStepData(STEP_ID_SOLES),
         optSoleType = optSoleTypeParam ? optSoleTypeParam : self.getStepOptionByType(soleStep, TYPE_SOLE_TYPE),
-        optCantoThickness = self.getStepOptionByType(stepCanto, TYPE_CANTO_THICKNESS),
+        optCantoThickness = self.getStepOptionByType(stepCanto, TYPE_EDGE_THICKNESS),
         optViraPicado = self.getStepOptionByType(stepCanto, TYPE_VIRA_PICADO),
 
         solePart = optSoleType.selectedValue,

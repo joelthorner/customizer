@@ -295,7 +295,7 @@ var module = {
         this.restrictionSoleColor(step, option);
         return 1;
       }
-      else if (option.type === TYPE_CANTO_COLOR) {
+      else if (option.type === TYPE_EDGE_COLOR) {
         this.restrictionCantoColor(option);
         return 1;
       }
@@ -378,7 +378,7 @@ var module = {
     },
 
     /**
-     * Apply the restriction of TYPE_SOLE_TYPE on TYPE_CANTO_COLOR
+     * Apply the restriction of TYPE_SOLE_TYPE on TYPE_EDGE_COLOR
      * @param {object} option 
      */
     restrictionCantoColor(option) {

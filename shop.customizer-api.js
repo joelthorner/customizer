@@ -377,7 +377,7 @@ var module = {
     let restrictions = 0,
       restrictedTypes = [
         TYPE_SOLE_COLOR,
-        TYPE_CANTO_COLOR,
+        TYPE_EDGE_COLOR,
         TYPE_BURNISH,
         TYPE_INSCRIPTION_SOLE,
       ],

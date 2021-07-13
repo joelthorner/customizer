@@ -157,7 +157,7 @@ var module = {
 
   /**
    * Manages Sole (type) option
-   * Restrictions: TYPE_SOLE_TYPE, restricts TYPE_SOLE_COLOR & TYPE_CANTO_COLOR
+   * Restrictions: TYPE_SOLE_TYPE, restricts TYPE_SOLE_COLOR & TYPE_EDGE_COLOR
    * Restrictions: TYPE_SOLE_TYPE, restricts TYPE_INSCRIPTION_SOLE
    * @param {string} step 
    * @param {object} option
@@ -167,7 +167,7 @@ var module = {
     let self = SHOP.customizer,
       optSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
       stepCanto = self.getStepData(ID_PREFIX_EDGE),
-      optCantoColor = self.getStepOptionByType(stepCanto, TYPE_CANTO_COLOR),
+      optCantoColor = self.getStepOptionByType(stepCanto, TYPE_EDGE_COLOR),
       optInscriptionSole = self.getStepOptionByType(step, TYPE_INSCRIPTION_SOLE),
 
       soleMaterial = optSoleColor ? optSoleColor.selectedValue : '',
@@ -245,7 +245,7 @@ var module = {
       stepSoles = self.getStepData(STEP_ID_SOLES),
       optSoleType = self.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE),
       optSoleColor = self.getStepOptionByType(stepSoles, TYPE_SOLE_COLOR),
-      optCantoColor = self.getStepOptionByType(step, TYPE_CANTO_COLOR);
+      optCantoColor = self.getStepOptionByType(step, TYPE_EDGE_COLOR);
 
     if (optSoleType) {
       let soleCantoParts = this.getSoleAndCantoPartsFromSelectedOptions(),
@@ -279,7 +279,7 @@ var module = {
       stepSoles = self.getStepData(STEP_ID_SOLES),
       optSoleType = self.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE),
       optSoleColor = self.getStepOptionByType(stepSoles, TYPE_SOLE_COLOR),
-      optCantoColor = self.getStepOptionByType(step, TYPE_CANTO_COLOR),
+      optCantoColor = self.getStepOptionByType(step, TYPE_EDGE_COLOR),
       viraPicadoMaterials = this.getViraPicadoMaterials(optCantoColor, option);
 
     if (optSoleType) {
