@@ -230,7 +230,7 @@ var module = {
       this.changeMaterial([optViraPicado.selectedValue], viraPicadoMaterials.picado);
     }
     if (viraPicadoMaterials.stormwelt) {
-      this.changeMaterial([STORMWELT_PARAM], viraPicadoMaterials.stormwelt);
+      this.changeMaterial([STORMWELT], viraPicadoMaterials.stormwelt);
     }
   },
 
@@ -295,10 +295,10 @@ var module = {
         hideParts = [];
 
       // Stormwelt
-      if (self.existsOptionParam(option.params, STORMWELT_PARAM)) {
-        showParts.push(STORMWELT_PARAM);
+      if (self.existsOptionParam(option.params, STORMWELT)) {
+        showParts.push(STORMWELT);
       } else {
-        hideParts.push(STORMWELT_PARAM);
+        hideParts.push(STORMWELT);
       }
 
       if (self.isNoneValue(option.selectedValue)) {
@@ -335,7 +335,7 @@ var module = {
         if (optCantoColor) this.changeMaterial(partsWithCantoMaterial, optCantoColor.selectedValue);
 
         if (viraPicadoMaterials.picado) this.changeMaterial([option.selectedValue], viraPicadoMaterials.picado);
-        if (viraPicadoMaterials.stormwelt) this.changeMaterial([STORMWELT_PARAM], viraPicadoMaterials.stormwelt);
+        if (viraPicadoMaterials.stormwelt) this.changeMaterial([STORMWELT], viraPicadoMaterials.stormwelt);
       });
     }
   },

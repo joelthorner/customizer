@@ -73,21 +73,53 @@ const STEP_ID_TOE = 'Toe';
  */
 const STEP_ID_VAMP = 'Vamp';
 
+/**
+ * Static id of Stitching Step
+ * @constant {string}
+ */
 const STEP_ID_STITCHING = 'Stitching';
 
+/**
+ * Static id of PullLoop Step
+ * @constant {string}
+ */
 const STEP_ID_PULL_LOOP = 'PullLoop';
 
-const STEP_ID_PULL_HEEL_STRIPE = 'HeelStripe';
+/**
+ * Static id of HeelStripe Step
+ * @constant {string}
+ */
+const STEP_ID_HEEL_STRIPE = 'HeelStripe';
 
-const STEP_ID_PULL_BUCKLES = 'Buckles';
+/**
+ * Static id of Buckles Step
+ * @constant {string}
+ */
+const STEP_ID_BUCKLES = 'Buckles';
 
-const STEP_ID_PULL_LINING = 'Lining';
+/**
+ * Static id of Lining Step
+ * @constant {string}
+ */
+const STEP_ID_LINING = 'Lining';
 
-const STEP_ID_PULL_EYELETS = 'Eyelets';
+/**
+ * Static id of Eyelets Step
+ * @constant {string}
+ */
+const STEP_ID_EYELETS = 'Eyelets';
 
-const STEP_ID_PULL_HOOKS = 'Hooks';
+/**
+ * Static id of Hooks Step
+ * @constant {string}
+ */
+const STEP_ID_HOOKS = 'Hooks';
 
-const STEP_ID_PULL_SHOELACES = 'Shoelaces';
+/**
+ * Static id of Shoelaces Step
+ * @constant {string}
+ */
+const STEP_ID_SHOELACES = 'Shoelaces';
 
 /**
  * Thickness part of Sole/Edge. Normal value.
@@ -123,13 +155,13 @@ const SOLES_VIRA_360 = 360;
  * Static part of value of vira_picado option.
  * @constant {string}
  */
-const STORMWELT_PARAM = 'Stormwelt';
+const STORMWELT = 'Stormwelt';
 
 /**
  * Static part of value of simple material option.
  * @constant {string}
  */
-const BURNISH_PARAM = 'Burnish';
+const BURNISH = 'Burnish';
 
 /**
  * Culet is a interior sole 3D model part
@@ -160,6 +192,12 @@ const BURNISH_HEEL_PART = 'Burnish_Heel';
  * @constant {string}
  */
 const BURNISH_TOE_PART = 'Burnish_Toe';
+
+/**
+ * Medallions threedium group
+ * @constant {string}
+ */
+const MEDALLIONS_PART = 'Medallions';
 
 
 /**

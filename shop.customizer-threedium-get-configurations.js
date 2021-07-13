@@ -137,7 +137,7 @@ var module = {
         this.addConfigMaterialPart(viraPicadoMaterials.picado, option.selectedValue);
       }
       if (viraPicadoMaterials.stormwelt) {
-        this.addConfigMaterialPart(viraPicadoMaterials.stormwelt, STORMWELT_PARAM);
+        this.addConfigMaterialPart(viraPicadoMaterials.stormwelt, STORMWELT);
       }
     }
 
@@ -145,8 +145,8 @@ var module = {
     if (!SHOP.customizer.isNoneValue(option.selectedValue)) {
       showParts.push(option.selectedValue);
     }
-    if (SHOP.customizer.existsOptionParam(option.params, STORMWELT_PARAM)) {
-      showParts.push(STORMWELT_PARAM);
+    if (SHOP.customizer.existsOptionParam(option.params, STORMWELT)) {
+      showParts.push(STORMWELT);
     }
     this.addConfigOverridePart(showParts);
   },

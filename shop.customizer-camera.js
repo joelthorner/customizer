@@ -52,45 +52,45 @@ const TRANSITION_FRONT_VIEW = 'Transition_Front_View';
  * @constant {object}
  */
 const STEPS_VIEW = {
-  STEP_ID_TOE: {
+  [STEP_ID_TOE]: {
     default: TRANSITION_MAIN_VIEW,
-    Medallions: TRANSITION_MEDALLION_VIEW,
+    [MEDALLIONS_PART]: TRANSITION_MEDALLION_VIEW,
   },
-  STEP_ID_VAMP: {
-    default: TRANSITION_MAIN_VIEW,
-  },
-  STEP_ID_HEEL: {
+  [STEP_ID_VAMP]: {
     default: TRANSITION_MAIN_VIEW,
   },
-  STEP_ID_STITCHING: {
+  [STEP_ID_HEEL]: {
     default: TRANSITION_MAIN_VIEW,
   },
-  STEP_ID_EDGE: {
+  [STEP_ID_STITCHING]: {
+    default: TRANSITION_MAIN_VIEW,
+  },
+  [STEP_ID_EDGE]: {
     default: TRANSITION_TOP_LEFT_VIEW,
     // Picado: TRANSITION_TOP_LEFT_VIEW,
   },
-  STEP_ID_PULL_LOOP: {
+  [STEP_ID_PULL_LOOP]: {
     default: TRANSITION_BACK_VIEW,
   },
-  STEP_ID_PULL_HEEL_STRIPE: {
+  [STEP_ID_HEEL_STRIPE]: {
     default: TRANSITION_BACK_VIEW,
   },
-  STEP_ID_SOLES: {
+  [STEP_ID_SOLES]: {
     default: TRANSITION_BOTTOM_VIEW,
   },
-  STEP_ID_PULL_BUCKLES: {
+  [STEP_ID_BUCKLES]: {
     default: TRANSITION_LINING_VIEW,
   },
-  STEP_ID_PULL_LINING: {
+  [STEP_ID_LINING]: {
     default: TRANSITION_LINING_VIEW,
   },
-  STEP_ID_PULL_EYELETS: {
+  [STEP_ID_EYELETS]: {
     default: TRANSITION_FRONT_VIEW,
   },
-  STEP_ID_PULL_HOOKS: {
+  [STEP_ID_HOOKS]: {
     default: TRANSITION_FRONT_VIEW,
   },
-  STEP_ID_PULL_SHOELACES: {
+  [STEP_ID_SHOELACES]: {
     default: TRANSITION_FRONT_VIEW,
   },
 }

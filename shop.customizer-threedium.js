@@ -425,6 +425,7 @@ var module = {
     },
 
     /**
+     * @deprecated
      * Transform canto material to vira-picado material and stormwelt material
      * 
      * Transform "Canto_Rojo" to "picado_0_270_Rojo" and "Stormwelt_Rojo"
@@ -449,8 +450,8 @@ var module = {
           if (!SHOP.customizer.isNoneValue(viraPicado.selectedValue)) {
             result.picado = `${viraPicado.selectedValue}_${materialPart}`;
           }
-          if (SHOP.customizer.existsOptionParam(viraPicado.params, STORMWELT_PARAM)) {
-            result.stormwelt = `${STORMWELT_PARAM}_${materialPart}`;
+          if (SHOP.customizer.existsOptionParam(viraPicado.params, STORMWELT)) {
+            result.stormwelt = `${STORMWELT}_${materialPart}`;
           }
         }
       }
@@ -486,7 +487,7 @@ var module = {
 
     /**
      * Replace from string the soles thickness parts to new value.
-     * Example: Edge_Leather_PISO-0001_270_TH-00	 --> CantoXXX_360_triple
+     * Example: Edge_Leather_PISO-0001_270_TH-00 --> Edge_Leather_PISO-0001_270_TH-15
      * @param {string} text
      * @param {string} replacePart
      * @returns {string}
