@@ -296,7 +296,7 @@ var module = {
         return 1;
       }
       else if (option.type === TYPE_EDGE_COLOR) {
-        this.restrictionCantoColor(option);
+        this.restrictionEdgeColor(option);
         return 1;
       }
       else if (option.type === TYPE_BURNISH) {
@@ -381,8 +381,8 @@ var module = {
      * Apply the restriction of TYPE_SOLE_TYPE on TYPE_EDGE_COLOR
      * @param {object} option 
      */
-    restrictionCantoColor(option) {
-      let optionCantoColor = option,
+    restrictionEdgeColor(option) {
+      let optionEdgeColor = option,
         stepSole = SHOP.customizer.getStepData(STEP_ID_SOLES),
         optionSoleType = SHOP.customizer.getStepOptionByType(stepSole, TYPE_SOLE_TYPE);
 
@@ -390,7 +390,7 @@ var module = {
         let solePartParams = SHOP.customizer.getSoleTypeValueParams(optionSoleType.selectedValue);
 
         if (solePartParams) {
-          this.restrictOptionValues(solePartParams.id, optionCantoColor);
+          this.restrictOptionValues(solePartParams.id, optionEdgeColor);
         }
       }
     },

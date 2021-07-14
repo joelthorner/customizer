@@ -460,23 +460,23 @@ var module = {
     },
 
     /**
-     * Get picado and stormwelt materials by canto color option and picado part name
-     * @param {object} cantoColor - option
+     * Get picado and stormwelt materials by Edge color option and picado part name
+     * @param {object} EdgeColor - option
      * @param {object} viraPicado - option
      * @return {object}
      */
-     getViraPicadoMaterials(cantoColor, viraPicado) {
+     getViraPicadoMaterials(EdgeColor, viraPicado) {
       let materials = {
         picado: null,
         stormwelt: null,
       };
 
-      if (cantoColor && viraPicado) {
-        if (cantoColor.params[3]) {
-          materials.picado = `${viraPicado.selectedValue}_${cantoColor.params[3]}`;
+      if (EdgeColor && viraPicado) {
+        if (EdgeColor.params[3]) {
+          materials.picado = `${viraPicado.selectedValue}_${EdgeColor.params[3]}`;
         }
-        if (cantoColor.params[4]) {
-          materials.stormwelt = cantoColor.params[4];
+        if (EdgeColor.params[4]) {
+          materials.stormwelt = EdgeColor.params[4];
         }
       }
 
@@ -524,38 +524,38 @@ var module = {
     },
 
     /**
-     * This function returns the resulting part of Sole i Canto 
+     * This function returns the resulting part of Sole i Edge 
      * according to the selected values of all the options that affect them.
      * @param {object} [soleStepParam] - Step Sole object
      * @param {object} [optSoleTypeParam] - option sole type from Sole step object
      * @returns {object}
      */
-    getSoleAndCantoPartsFromSelectedOptions(soleStepParam, optSoleTypeParam) {
+    getSoleAndEdgePartsFromSelectedOptions(soleStepParam, optSoleTypeParam) {
       let self = SHOP.customizer,
-        stepCanto = self.getStepData(STEP_ID_EDGE),
+        stepEdge = self.getStepData(STEP_ID_EDGE),
 
         soleStep = soleStepParam ? soleStepParam : self.getStepData(STEP_ID_SOLES),
         optSoleType = optSoleTypeParam ? optSoleTypeParam : self.getStepOptionByType(soleStep, TYPE_SOLE_TYPE),
-        optCantoThickness = self.getStepOptionByType(stepCanto, TYPE_EDGE_THICKNESS),
-        optViraPicado = self.getStepOptionByType(stepCanto, TYPE_VIRA_PICADO),
+        optEdgeThickness = self.getStepOptionByType(stepEdge, TYPE_EDGE_THICKNESS),
+        optViraPicado = self.getStepOptionByType(stepEdge, TYPE_VIRA_PICADO),
 
         solePart = optSoleType.selectedValue,
-        cantoPart = solePart.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE),
+        EdgePart = solePart.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE),
         result = {
           solePart: solePart,
-          cantoPart: cantoPart
+          EdgePart: EdgePart
         };
 
-      // Change <normal|double|triple> from Canto Thickness
-      if (optCantoThickness) {
+      // Change <normal|double|triple> from Edge Thickness
+      if (optEdgeThickness) {
         for (const key in result) {
           if (Object.hasOwnProperty.call(result, key)) {
-            result[key] = this.replaceThickness(result[key], optCantoThickness.selectedValue);
+            result[key] = this.replaceThickness(result[key], optEdgeThickness.selectedValue);
           }
         }
       }
 
-      // Change <270|360> from Canto Vira-Stormwelt
+      // Change <270|360> from Edge Vira-Stormwelt
       if (optViraPicado) {
         let viraPicadoValue = optViraPicado.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`));
 

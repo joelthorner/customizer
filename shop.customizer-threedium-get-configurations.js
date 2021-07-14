@@ -98,15 +98,15 @@ var module = {
    */
   getConfSoleType(step, option) {
     // Per donar una part bona a la configuració s'agafen totes les parts i materials aplicats
-    // sobre Sole i Canto d'una tacada ja que son parts fraccionades entre varies opcions.
+    // sobre Sole i Edge d'una tacada ja que son parts fraccionades entre varies opcions.
     let self = SHOP.customizer,
-      stepCanto = self.getStepData(STEP_ID_EDGE),
+      stepEdge = self.getStepData(STEP_ID_EDGE),
       optSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
-      optCantoColor = self.getStepOptionByType(stepCanto, TYPE_EDGE_COLOR),
-      soleCantoParts = self.threedium.getSoleAndCantoPartsFromSelectedOptions(step, option),
-      solePart = soleCantoParts.solePart,
-      cantoPart = soleCantoParts.cantoPart,
-      showParts = [solePart, cantoPart];
+      optEdgeColor = self.getStepOptionByType(stepEdge, TYPE_EDGE_COLOR),
+      soleEdgeParts = self.threedium.getSoleAndEdgePartsFromSelectedOptions(step, option),
+      solePart = soleEdgeParts.solePart,
+      EdgePart = soleEdgeParts.EdgePart,
+      showParts = [solePart, EdgePart];
 
     this.addConfigOverridePart(showParts);
 
@@ -114,9 +114,9 @@ var module = {
       let material = optSoleColor ? optSoleColor.selectedValue : '';
       this.addConfigMaterialPart(material, solePart);
     }
-    if (optCantoColor) {
-      let material = optCantoColor ? optCantoColor.selectedValue : '';
-      this.addConfigMaterialPart(material, cantoPart);
+    if (optEdgeColor) {
+      let material = optEdgeColor ? optEdgeColor.selectedValue : '';
+      this.addConfigMaterialPart(material, EdgePart);
     }
   },
 
@@ -128,11 +128,11 @@ var module = {
   getConfViraPicado(step, option) {
     let self = SHOP.customizer,
       showParts = [],
-      optCantoColor = self.getStepOptionByType(step, TYPE_EDGE_COLOR),
-      viraPicadoMaterials = this.getViraPicadoMaterials(optCantoColor, option);
+      optEdgeColor = self.getStepOptionByType(step, TYPE_EDGE_COLOR),
+      viraPicadoMaterials = this.getViraPicadoMaterials(optEdgeColor, option);
 
-    // Apply canto material to vira-picado & stormwelt
-    if (optCantoColor) {
+    // Apply Edge material to vira-picado & stormwelt
+    if (optEdgeColor) {
       if (viraPicadoMaterials.picado) {
         this.addConfigMaterialPart(viraPicadoMaterials.picado, option.selectedValue);
       }
@@ -207,8 +207,8 @@ var module = {
       if (overlayName) {
         let addSoleInscriptionOverlay = function () {
           let stepSole = SHOP.customizer.getStepData(STEP_ID_SOLES),
-            soleCantoParts = SHOP.customizer.threedium.getSoleAndCantoPartsFromSelectedOptions(stepSole),
-            solePart = soleCantoParts.solePart;
+            soleEdgeParts = SHOP.customizer.threedium.getSoleAndEdgePartsFromSelectedOptions(stepSole),
+            solePart = soleEdgeParts.solePart;
 
           SHOP.customizer.threedium.changeOverlay(solePart, overlayName);
         };

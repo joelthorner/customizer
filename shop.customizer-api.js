@@ -305,10 +305,11 @@ var module = {
   },
 
   /**
+   * @deprecated
    * Returns the parameters of the option value of type SOLE_TYPE
    * If value is not 100% valid returns null
    * Params of string value are: <part>_<id>_<vira>_<thicknes>
-   * Regexp: (Sole|Canto)_([a-zA-Z]+)_(270|360)_(normal|double|triple)
+   * Regexp: (Sole|Edge)_([a-zA-Z]+)_(270|360)_(normal|double|triple)
    * @param {string} value
    * @return {object|null}
    */

@@ -166,28 +166,28 @@ var module = {
   actionSoleType(step, option, oldOption) {
     let self = SHOP.customizer,
       optSoleColor = self.getStepOptionByType(step, TYPE_SOLE_COLOR),
-      stepCanto = self.getStepData(ID_PREFIX_EDGE),
-      optCantoColor = self.getStepOptionByType(stepCanto, TYPE_EDGE_COLOR),
+      stepEdge = self.getStepData(ID_PREFIX_EDGE),
+      optEdgeColor = self.getStepOptionByType(stepEdge, TYPE_EDGE_COLOR),
       optInscriptionSole = self.getStepOptionByType(step, TYPE_INSCRIPTION_SOLE),
 
       soleMaterial = optSoleColor ? optSoleColor.selectedValue : '',
       solePartParams = self.getSoleTypeValueParams(option.selectedValue),
 
-      soleCantoParts = self.threedium.getSoleAndCantoPartsFromSelectedOptions(step, option),
-      solePart = soleCantoParts.solePart,
-      cantoPart = soleCantoParts.cantoPart,
-      showParts = [solePart, cantoPart],
+      soleEdgeParts = self.threedium.getSoleAndEdgePartsFromSelectedOptions(step, option),
+      solePart = soleEdgeParts.solePart,
+      EdgePart = soleEdgeParts.EdgePart,
+      showParts = [solePart, EdgePart],
 
-      oldSoleCantoParts = self.threedium.getSoleAndCantoPartsFromSelectedOptions(step, oldOption),
-      oldSolePart = oldSoleCantoParts.solePart,
-      oldCantoPart = oldSoleCantoParts.cantoPart,
-      hideParts = [oldSolePart, oldCantoPart];
+      oldSoleEdgeParts = self.threedium.getSoleAndEdgePartsFromSelectedOptions(step, oldOption),
+      oldSolePart = oldSoleEdgeParts.solePart,
+      oldEdgePart = oldSoleEdgeParts.EdgePart,
+      hideParts = [oldSolePart, oldEdgePart];
 
     this.showPartHidePartChangeMaterial(showParts, hideParts, [], soleMaterial);
 
     if (solePartParams) {
       self.actions.restrictOptionValues(solePartParams.id, optSoleColor);
-      self.actions.restrictOptionValues(solePartParams.id, optCantoColor);
+      self.actions.restrictOptionValues(solePartParams.id, optEdgeColor);
     }
 
     self.actions.restrictionInscriptionSole(step, optInscriptionSole);
@@ -208,12 +208,12 @@ var module = {
   },
 
   /**
-   * Manages Canto color option 
+   * Manages Edge color option 
    * @param {string} step 
    * @param {object} option
    * @param {object} oldOption
    */
-  actionCantoColor(step, option, oldOption) {
+  actionEdgeColor(step, option, oldOption) {
     let self = SHOP.customizer,
       stepSoles = self.getStepData(STEP_ID_SOLES),
       optSoleType = self.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE),
@@ -221,11 +221,11 @@ var module = {
       viraPicadoMaterials = this.getViraPicadoMaterials(option, optViraPicado);
 
     if (optSoleType) {
-      let cantoPart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE);
-      this.changeMaterial([cantoPart], option.selectedValue);
+      let EdgePart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE);
+      this.changeMaterial([EdgePart], option.selectedValue);
     }
 
-    // Apply canto material to vira-picado & stormwelt
+    // Apply Edge material to vira-picado & stormwelt
     if (viraPicadoMaterials.picado) {
       this.changeMaterial([optViraPicado.selectedValue], viraPicadoMaterials.picado);
     }
@@ -235,31 +235,31 @@ var module = {
   },
 
   /**
-   * Manages Canto thickness option
+   * Manages Edge thickness option
    * @param {string} step 
    * @param {object} option
    * @param {object} oldOption
    */
-  actionCantoThickness(step, option, oldOption) {
+  actionEdgeThickness(step, option, oldOption) {
     let self = SHOP.customizer,
       stepSoles = self.getStepData(STEP_ID_SOLES),
       optSoleType = self.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE),
       optSoleColor = self.getStepOptionByType(stepSoles, TYPE_SOLE_COLOR),
-      optCantoColor = self.getStepOptionByType(step, TYPE_EDGE_COLOR);
+      optEdgeColor = self.getStepOptionByType(step, TYPE_EDGE_COLOR);
 
     if (optSoleType) {
-      let soleCantoParts = this.getSoleAndCantoPartsFromSelectedOptions(),
-        solePart = soleCantoParts.solePart,
-        cantoPart = soleCantoParts.cantoPart,
-        showParts = [solePart, cantoPart],
+      let soleEdgeParts = this.getSoleAndEdgePartsFromSelectedOptions(),
+        solePart = soleEdgeParts.solePart,
+        EdgePart = soleEdgeParts.EdgePart,
+        showParts = [solePart, EdgePart],
 
         oldSolePart = this.replaceThickness(solePart, oldOption.selectedValue),
-        oldCantoPart = this.replaceThickness(cantoPart, oldOption.selectedValue),
-        hideParts = [oldSolePart, oldCantoPart];
+        oldEdgePart = this.replaceThickness(EdgePart, oldOption.selectedValue),
+        hideParts = [oldSolePart, oldEdgePart];
 
       this.showPartHidePart(showParts, hideParts, () => {
         if (optSoleColor) this.changeMaterial([solePart], optSoleColor.selectedValue);
-        if (optCantoColor) this.changeMaterial([cantoPart], optCantoColor.selectedValue);
+        if (optEdgeColor) this.changeMaterial([EdgePart], optEdgeColor.selectedValue);
       });
 
       self.setOption(STEP_ID_SOLES, optSoleType.id, {
@@ -269,7 +269,7 @@ var module = {
   },
 
   /**
-   * Manages Canto Vira-picado option
+   * Manages Edge Vira-picado option
    * @param {string} step 
    * @param {object} option
    * @param {object} oldOption
@@ -279,18 +279,18 @@ var module = {
       stepSoles = self.getStepData(STEP_ID_SOLES),
       optSoleType = self.getStepOptionByType(stepSoles, TYPE_SOLE_TYPE),
       optSoleColor = self.getStepOptionByType(stepSoles, TYPE_SOLE_COLOR),
-      optCantoColor = self.getStepOptionByType(step, TYPE_EDGE_COLOR),
-      viraPicadoMaterials = this.getViraPicadoMaterials(optCantoColor, option);
+      optEdgeColor = self.getStepOptionByType(step, TYPE_EDGE_COLOR),
+      viraPicadoMaterials = this.getViraPicadoMaterials(optEdgeColor, option);
 
     if (optSoleType) {
       let viraPicadoValue = this.getViraValue(option),
         replaceValuePart = (text) => text.replace(SOLES_VIRA_270, viraPicadoValue).replace(SOLES_VIRA_360, viraPicadoValue),
-        cantoPart = replaceValuePart(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE)),
+        EdgePart = replaceValuePart(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE)),
         solePart = replaceValuePart(optSoleType.selectedValue),
         showParts = [],
-        partsWithCantoMaterial = [cantoPart],
+        partsWithEdgeMaterial = [EdgePart],
 
-        oldCantoPart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE),
+        oldEdgePart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE),
         oldSolePart = optSoleType.selectedValue,
         hideParts = [];
 
@@ -313,14 +313,14 @@ var module = {
 
       }
 
-      // Add Sole & Canto to showParts if change 270 or 360
+      // Add Sole & Edge to showParts if change 270 or 360
       let oldViraPicadoValue = optSoleType.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`)),
         newViraPicadoValue = viraPicadoValue;
 
       if (newViraPicadoValue && oldViraPicadoValue) {
         if (newViraPicadoValue != oldViraPicadoValue[0]) {
-          showParts = [...showParts, ...[cantoPart, solePart]];
-          hideParts = [...hideParts, ...[oldCantoPart, oldSolePart]];
+          showParts = [...showParts, ...[EdgePart, solePart]];
+          hideParts = [...hideParts, ...[oldEdgePart, oldSolePart]];
 
           SHOP.customizer.setOption(STEP_ID_SOLES, optSoleType.id, {
             selectedValue: solePart,
@@ -332,7 +332,7 @@ var module = {
         CustomizerError(error, 'on actionViraPicado');
 
         if (optSoleColor) this.changeMaterial([solePart], optSoleColor.selectedValue);
-        if (optCantoColor) this.changeMaterial(partsWithCantoMaterial, optCantoColor.selectedValue);
+        if (optEdgeColor) this.changeMaterial(partsWithEdgeMaterial, optEdgeColor.selectedValue);
 
         if (viraPicadoMaterials.picado) this.changeMaterial([option.selectedValue], viraPicadoMaterials.picado);
         if (viraPicadoMaterials.stormwelt) this.changeMaterial([STORMWELT], viraPicadoMaterials.stormwelt);
