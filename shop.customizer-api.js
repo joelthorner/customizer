@@ -330,6 +330,7 @@ var module = {
         thicknes: match[5],
       };
 
+    console.error(`The value "${value}" does not comply with the established nomenclature: "${regExp}"`);
     return null;
   },
 
