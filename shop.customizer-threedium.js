@@ -505,13 +505,13 @@ var module = {
         optViraPicado = self.getStepOptionByType(stepEdge, TYPE_VIRA_PICADO),
 
         solePart = optSoleType.selectedValue,
-        EdgePart = solePart.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE),
+        edgePart = solePart.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE),
         result = {
           solePart: solePart,
-          EdgePart: EdgePart
+          edgePart: edgePart
         };
 
-      // Change <normal|double|triple> from Edge Thickness
+      // Change <SOLES_THICKNESS_NORMAL|SOLES_THICKNESS_DOUBLE|SOLES_THICKNESS_TRIPLE> from Edge Thickness
       if (optEdgeThickness) {
         for (const key in result) {
           if (Object.hasOwnProperty.call(result, key)) {
@@ -520,7 +520,7 @@ var module = {
         }
       }
 
-      // Change <270|360> from Edge Vira-Stormwelt
+      // Change <SOLES_VIRA_270|SOLES_VIRA_360> from Edge Vira-Stormwelt
       if (optViraPicado) {
         let viraPicadoValue = optViraPicado.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`));
 

@@ -175,12 +175,12 @@ var module = {
 
       soleEdgeParts = self.threedium.getSoleAndEdgePartsFromSelectedOptions(step, option),
       solePart = soleEdgeParts.solePart,
-      EdgePart = soleEdgeParts.EdgePart,
-      showParts = [solePart, EdgePart],
+      edgePart = soleEdgeParts.edgePart,
+      showParts = [solePart, edgePart],
 
       oldSoleEdgeParts = self.threedium.getSoleAndEdgePartsFromSelectedOptions(step, oldOption),
       oldSolePart = oldSoleEdgeParts.solePart,
-      oldEdgePart = oldSoleEdgeParts.EdgePart,
+      oldEdgePart = oldSoleEdgeParts.edgePart,
       hideParts = [oldSolePart, oldEdgePart];
 
     if (soleMaterial.length) {
@@ -227,8 +227,8 @@ var module = {
       viraPicadoMaterials = this.getViraPicadoMaterials(option, optViraPicado);
 
     if (optSoleType) {
-      let EdgePart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE);
-      this.changeMaterial([EdgePart], option.selectedValue);
+      let edgePart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE);
+      this.changeMaterial([edgePart], option.selectedValue);
     }
 
     // Apply Edge material to vira-picado & stormwelt
@@ -256,16 +256,16 @@ var module = {
     if (optSoleType) {
       let soleEdgeParts = this.getSoleAndEdgePartsFromSelectedOptions(),
         solePart = soleEdgeParts.solePart,
-        EdgePart = soleEdgeParts.EdgePart,
-        showParts = [solePart, EdgePart],
+        edgePart = soleEdgeParts.edgePart,
+        showParts = [solePart, edgePart],
 
         oldSolePart = this.replaceThickness(solePart, oldOption.selectedValue),
-        oldEdgePart = this.replaceThickness(EdgePart, oldOption.selectedValue),
+        oldEdgePart = this.replaceThickness(edgePart, oldOption.selectedValue),
         hideParts = [oldSolePart, oldEdgePart];
 
       this.showPartHidePart(showParts, hideParts, () => {
         if (optSoleColor) this.changeMaterial([solePart], optSoleColor.selectedValue);
-        if (optEdgeColor) this.changeMaterial([EdgePart], optEdgeColor.selectedValue);
+        if (optEdgeColor) this.changeMaterial([edgePart], optEdgeColor.selectedValue);
       });
 
       self.setOption(STEP_ID_SOLES, optSoleType.id, {
@@ -291,10 +291,10 @@ var module = {
     if (optSoleType) {
       let viraPicadoValue = this.getViraValue(option),
         replaceValuePart = (text) => text.replace(SOLES_VIRA_270, viraPicadoValue).replace(SOLES_VIRA_360, viraPicadoValue),
-        EdgePart = replaceValuePart(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE)),
+        edgePart = replaceValuePart(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE)),
         solePart = replaceValuePart(optSoleType.selectedValue),
         showParts = [],
-        partsWithEdgeMaterial = [EdgePart],
+        partsWithEdgeMaterial = [edgePart],
 
         oldEdgePart = optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE),
         oldSolePart = optSoleType.selectedValue,

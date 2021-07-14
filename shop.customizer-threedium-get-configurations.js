@@ -105,8 +105,8 @@ var module = {
       optEdgeColor = self.getStepOptionByType(stepEdge, TYPE_EDGE_COLOR),
       soleEdgeParts = self.threedium.getSoleAndEdgePartsFromSelectedOptions(step, option),
       solePart = soleEdgeParts.solePart,
-      EdgePart = soleEdgeParts.EdgePart,
-      showParts = [solePart, EdgePart];
+      edgePart = soleEdgeParts.edgePart,
+      showParts = [solePart, edgePart];
 
     this.addConfigOverridePart(showParts);
 
@@ -116,7 +116,7 @@ var module = {
     }
     if (optEdgeColor) {
       let material = optEdgeColor ? optEdgeColor.selectedValue : '';
-      this.addConfigMaterialPart(material, EdgePart);
+      this.addConfigMaterialPart(material, edgePart);
     }
   },
 

@@ -30,15 +30,14 @@ const BOTH_OPTION_VALUE_PART = 'BOTH';
 
 /**
  * Prefix of Soles option values id (selected value part)
- * @example "SoleXXX_360_double" --> "Sole"
+ * @example "Sole_Leather_PISO-0001_270_TH-00" --> "Sole"
  * @constant {string}
  */
 const ID_PREFIX_SOLE = 'Sole';
 
 /**
  * Prefix of Soles option values id (selected value part)
- * @example "EdgeXXX_360_double" --> "Edge"
- * "Edge_Rojo" --> "Edge"
+ * @example "Edge_Leather_PISO-0001_270_TH-00" --> "Edge"
  * @constant {string}
  */
 const ID_PREFIX_EDGE = 'Edge';
