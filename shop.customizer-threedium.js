@@ -425,58 +425,23 @@ var module = {
     },
 
     /**
-     * @deprecated
-     * Transform canto material to vira-picado material and stormwelt material
-     * 
-     * Transform "Canto_Rojo" to "picado_0_270_Rojo" and "Stormwelt_Rojo"
-     * Transform "Canto_Tomir_Rojo" to "picado_0_270_Rojo" and "Stormwelt_Rojo"
-     * @param {object} cantoColor - option
-     * @param {object} viraPicado - option
-     * @return {object}
-     */
-    old_getViraPicadoMaterials(cantoColor, viraPicado) {
-      let result = {
-        picado: null,
-        stormwelt: null,
-      };
-
-      if (cantoColor && viraPicado) {
-        let regExp = new RegExp(`${ID_PREFIX_EDGE}_?(.*)?_(.*)`),
-          match = cantoColor.selectedValue.match(regExp);
-
-        if (match.length >= 2) {
-          let materialPart = match[match.length - 1];
-
-          if (!SHOP.customizer.isNoneValue(viraPicado.selectedValue)) {
-            result.picado = `${viraPicado.selectedValue}_${materialPart}`;
-          }
-          if (SHOP.customizer.existsOptionParam(viraPicado.params, STORMWELT)) {
-            result.stormwelt = `${STORMWELT}_${materialPart}`;
-          }
-        }
-      }
-
-      return result;
-    },
-
-    /**
      * Get picado and stormwelt materials by Edge color option and picado part name
-     * @param {object} EdgeColor - option
+     * @param {object} edgeColor - option
      * @param {object} viraPicado - option
      * @return {object}
      */
-     getViraPicadoMaterials(EdgeColor, viraPicado) {
+     getViraPicadoMaterials(edgeColor, viraPicado) {
       let materials = {
         picado: null,
         stormwelt: null,
       };
 
-      if (EdgeColor && viraPicado) {
-        if (EdgeColor.params[3]) {
-          materials.picado = `${viraPicado.selectedValue}_${EdgeColor.params[3]}`;
+      if (edgeColor && viraPicado) {
+        if (edgeColor.params[3]) {
+          materials.picado = `${viraPicado.selectedValue}_${edgeColor.params[3]}`;
         }
-        if (EdgeColor.params[4]) {
-          materials.stormwelt = EdgeColor.params[4];
+        if (edgeColor.params[4]) {
+          materials.stormwelt = edgeColor.params[4];
         }
       }
 
