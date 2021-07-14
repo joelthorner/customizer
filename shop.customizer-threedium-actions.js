@@ -56,7 +56,7 @@ var module = {
     // Change Vamp material
     this.changeMaterial([option.threediumGroupPart], option.selectedValue);
 
-    
+
 
     // Change culet overlay
     let oldCuletOverlay = SHOP.customizer.isNoneValue(oldOption.params[3]) ? null : oldOption.params[3],
@@ -183,14 +183,20 @@ var module = {
       oldEdgePart = oldSoleEdgeParts.EdgePart,
       hideParts = [oldSolePart, oldEdgePart];
 
-    this.showPartHidePartChangeMaterial(showParts, hideParts, [], soleMaterial);
-
-    if (solePartParams) {
-      self.actions.restrictOptionValues(solePartParams.id, optSoleColor);
-      self.actions.restrictOptionValues(solePartParams.id, optEdgeColor);
+    if (soleMaterial.length) {
+      this.showPartHidePartChangeMaterial(showParts, hideParts, [], soleMaterial);
+    } else {
+      this.showPartHidePart(showParts, hideParts);
     }
 
-    self.actions.restrictionInscriptionSole(step, optInscriptionSole);
+    if (solePartParams) {
+      if (optSoleColor) self.actions.restrictOptionValues(solePartParams.id, optSoleColor);
+      if (optEdgeColor) self.actions.restrictOptionValues(solePartParams.id, optEdgeColor);
+    }
+
+    if (optInscriptionSole) {
+      self.actions.restrictionInscriptionSole(step, optInscriptionSole);
+    }
   },
 
   /**
