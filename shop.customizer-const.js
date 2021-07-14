@@ -210,38 +210,88 @@ const NO_CONFIGURABLE_PARTS = [
   NO_LINING_PART,
 ];
 
-/*
- * Types of options (option image field)
- * Define how that option will behave within a step and in the customizer.
- * http://10.254.1.55:8090/display/~joel.torner/Carmina+Threedium+personalitzador
+/**
+ * Option type, which defines its behavior in the customizer. Option type "Burnish".
+ * @constant {string}
  */
-
 const TYPE_BURNISH = 'BURNISH';
 
+/**
+ * Option type, which defines its behavior in the customizer. Option type "Toe/Medallion".
+ * @constant {string}
+ */
 const TYPE_MEDALLION = 'MEDALLION';
 
+/**
+ * Option type, which defines its behavior in the customizer. Option type "Simple material".
+ * @constant {string}
+ */
 const TYPE_SIMPLE_MATERIAL = 'SIMPLE_MATERIAL';
 
+/**
+ * Option type, which defines its behavior in the customizer. Option type "Sole/Type".
+ * @constant {string}
+ */
 const TYPE_SOLE_TYPE = 'SOLE_TYPE';
 
+/**
+ * Option type, which defines its behavior in the customizer. Option type "Sole/Color".
+ * @constant {string}
+ */
 const TYPE_SOLE_COLOR = 'SOLE_COLOR';
 
+/**
+ * Option type, which defines its behavior in the customizer. Option type "Edge/Color".
+ * @constant {string}
+ */
 const TYPE_EDGE_COLOR = 'EDGE_COLOR';
 
+/**
+ * Option type, which defines its behavior in the customizer. Option type "Edge/Thickness".
+ * @constant {string}
+ */
 const TYPE_EDGE_THICKNESS = 'EDGE_THICKNESS';
 
+/**
+ * Option type, which defines its behavior in the customizer. Option type "Edge/ViraPicado".
+ * @constant {string}
+ */
 const TYPE_VIRA_PICADO = 'VIRA_PICADO';
 
+/**
+ * Option type, which defines its behavior in the customizer. Option type "Change part".
+ * @constant {string}
+ */
 const TYPE_CHANGE_PART = 'CHANGE_PART';
 
+/**
+ * Option type, which defines its behavior in the customizer. Option type "Inscription max len 3".
+ * @constant {string}
+ */
 const TYPE_INSCRIPTION_3 = 'INSCRIPTION_3';
 
+/**
+ * Option type, which defines its behavior in the customizer. Option type "Inscription max len 15".
+ * @constant {string}
+ */
 const TYPE_INSCRIPTION_15 = 'INSCRIPTION_15';
 
+/**
+ * Option type, which defines its behavior in the customizer. Option type "Sole/Inscription".
+ * @constant {string}
+ */
 const TYPE_INSCRIPTION_SOLE = 'INSCRIPTION_SOLE';
 
+/**
+ * Option type, which defines its behavior in the customizer. Option type "Inscription price".
+ * @constant {string}
+ */
 const TYPE_HIDDEN_INSCRIPTION_PRICE = 'HIDDEN_INSCRIPTION_PRICE';
 
+/**
+ * Option type, which defines its behavior in the customizer. Option type "Vamp".
+ * @constant {string}
+ */
 const TYPE_VAMP = 'VAMP';
 
 /**
