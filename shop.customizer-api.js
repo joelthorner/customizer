@@ -305,24 +305,29 @@ var module = {
   },
 
   /**
-   * @deprecated
    * Returns the parameters of the option value of type SOLE_TYPE
    * If value is not 100% valid returns null
-   * Params of string value are: <part>_<id>_<vira>_<thicknes>
-   * Regexp: (Sole|Edge)_([a-zA-Z]+)_(270|360)_(normal|double|triple)
-   * @param {string} value
+   * Params of string value are: <partName>_<soleId>_<soleSapId>_<vira>_<thicknes>
+   * @param {string} value - option selected value
    * @return {object|null}
    */
   getSoleTypeValueParams(value) {
-    let rgxp = new RegExp(`(${ID_PREFIX_SOLE}|${ID_PREFIX_EDGE})_([a-zA-Z]+)_(${SOLES_VIRA_270}|${SOLES_VIRA_360})_(${SOLES_THICKNESS_NORMAL}|${SOLES_THICKNESS_DOUBLE}|${SOLES_THICKNESS_TRIPLE})`),
-      matchResult = value.match(rgxp);
+    let _prefix = `(${ID_PREFIX_SOLE}|${ID_PREFIX_EDGE})`,
+      _soleId = `([a-zA-Z]+)`,
+      _soleIdSap = `([a-zA-Z\\-0-9]+)`, // no allow "_" never here!
+      _soleVira = `(${SOLES_VIRA_270}|${SOLES_VIRA_360})`,
+      _solethickness = `(${SOLES_THICKNESS_NORMAL}|${SOLES_THICKNESS_DOUBLE}|${SOLES_THICKNESS_TRIPLE})`,
 
-    if (matchResult)
+      regExp = `${_prefix}_${_soleId}_${_soleIdSap}_${_soleVira}_${_solethickness}`,
+      regExpObj = new RegExp(regExp),
+      match = value.match(regExpObj);
+
+    if (match && match.length === 6)
       return {
-        part: matchResult[1],
-        id: matchResult[2],
-        vira: matchResult[3],
-        thicknes: matchResult[4],
+        part: match[1],
+        id: match[2],
+        vira: match[4],
+        thicknes: match[5],
       };
 
     return null;
