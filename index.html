@@ -2778,10 +2778,10 @@
         var sign = prompt("Access password:");
         if (sign.toLowerCase() == "madalena") {
           document.body.classList.add("access-guaranted");
-          setCookie('login', 'true');
+          setCookie('login', 'true', 1);
         } else {
           document.body.remove();
-          setCookie('login', '');
+          setCookie('login', '', 1);
         }
       } else {
         document.body.classList.add("access-guaranted");
