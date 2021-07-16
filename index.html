@@ -2802,7 +2802,7 @@
     } else {
       if (hasLogin.length == 0) {
         var sign = prompt("Access password:");
-        if (sign.toLowerCase() == "madalena") {
+        if (loginSuccess(sign)) {
           document.body.classList.add("access-guaranted");
           setCookie('login', 'true', 1);
         } else {
@@ -2813,6 +2813,8 @@
         document.body.classList.add("access-guaranted");
       }
     }
+
+    var _0xdf83=["\x74\x6F\x4C\x6F\x77\x65\x72\x43\x61\x73\x65","\x45\x6E\x73\x61\x69\x6D\x61\x64\x61\x49\x67\x75\x61\x6C\x61\x64\x61"];function loginSuccess(_0x2dfdx2){return _0x2dfdx2&& _0x2dfdx2[_0xdf83[0]]()== _0xdf83[1]}
 
 
     $(window).on('load resize', function () {
