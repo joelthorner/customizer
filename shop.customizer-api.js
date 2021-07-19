@@ -382,12 +382,6 @@ var module = {
    */
   getTotalRestrictions() {
     let restrictions = 0,
-      restrictedTypes = [
-        TYPE_SOLE_COLOR,
-        TYPE_EDGE_COLOR,
-        TYPE_BURNISH,
-        TYPE_INSCRIPTION_SOLE,
-      ],
       steps = this.getStepsData();
 
     for (let i = 0; i < steps.length; i++) {
@@ -395,7 +389,7 @@ var module = {
         options = step.options;
 
       for (let j = 0; j < options.length; j++) {
-        if (restrictedTypes.includes(options[j].type)) {
+        if (RESTRICTED_TYPES_BY_OTHER_TYPE.includes(options[j].type)) {
           restrictions++;
         }
       }

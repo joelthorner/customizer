@@ -323,3 +323,15 @@ const CUSTOMIZER_INSCRIPTION_TYPES = [
   TYPE_INSCRIPTION_15,
   TYPE_INSCRIPTION_SOLE,
 ];
+
+/**
+ * Restricted option types by other option type
+ * @constant {string[]}
+ */
+const RESTRICTED_TYPES_BY_OTHER_TYPE = [
+  TYPE_SOLE_COLOR,
+  TYPE_EDGE_COLOR,
+  TYPE_BURNISH,
+  TYPE_INSCRIPTION_SOLE,
+  TYPE_SIMPLE_MATERIAL_RESTRICTED,
+];
