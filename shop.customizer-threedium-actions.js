@@ -325,7 +325,7 @@ var module = {
 
       if (newViraPicadoValue && oldViraPicadoValue) {
         if (newViraPicadoValue != oldViraPicadoValue[0]) {
-          showParts = [...showParts, ...[EdgePart, solePart]];
+          showParts = [...showParts, ...[edgePart, solePart]];
           hideParts = [...hideParts, ...[oldEdgePart, oldSolePart]];
 
           SHOP.customizer.setOption(STEP_ID_SOLES, optSoleType.id, {
