@@ -44,6 +44,14 @@ var module = {
   },
 
   /**
+   * Set threedium configuration of TYPE_SIMPLE_MATERIAL_RESTRICTED type
+   * @augments getConfSimpleMaterial
+   */
+   getConfSimpleMaterialRestricted(step, option) {
+    this.getConfSimpleMaterial(step, option);
+  },
+
+  /**
    * Set threedium configuration of TYPE_BURNISH type
    * @param {object} step 
    * @param {object} option 
@@ -89,6 +97,14 @@ var module = {
         this.addConfigMaterialPart(optSimpleMaterial.selectedValue, option.selectedValue);
       }
     }
+  },
+
+  /**
+   * Set threedium configuration of TYPE_CHANGE_PART_RESTRICTION type
+   * @augments getConfChangePart
+   */
+   getConfChangePartRestriction(step, option) {
+    this.getConfChangePart(step, option);
   },
 
   /**

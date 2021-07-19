@@ -210,85 +210,97 @@ const NO_CONFIGURABLE_PARTS = [
 ];
 
 /**
- * Option type, which defines its behavior in the customizer. Option type "Burnish".
+ * Option type "Burnish".
  * @constant {string}
  */
 const TYPE_BURNISH = 'BURNISH';
 
 /**
- * Option type, which defines its behavior in the customizer. Option type "Toe/Medallion".
+ * Option type "Toe/Medallion".
  * @constant {string}
  */
 const TYPE_MEDALLION = 'MEDALLION';
 
 /**
- * Option type, which defines its behavior in the customizer. Option type "Simple material".
+ * Option type "Simple material".
  * @constant {string}
  */
 const TYPE_SIMPLE_MATERIAL = 'SIMPLE_MATERIAL';
 
 /**
- * Option type, which defines its behavior in the customizer. Option type "Sole/Type".
+ * Option type "Simple material" restricted by TYPE_CHANGE_PART_RESTRICTION.
+ * @constant {string}
+ */
+const TYPE_SIMPLE_MATERIAL_RESTRICTED = 'SIMPLE_MATERIAL_RESTRICTED';
+
+/**
+ * Option type "Sole/Type".
  * @constant {string}
  */
 const TYPE_SOLE_TYPE = 'SOLE_TYPE';
 
 /**
- * Option type, which defines its behavior in the customizer. Option type "Sole/Color".
+ * Option type "Sole/Color".
  * @constant {string}
  */
 const TYPE_SOLE_COLOR = 'SOLE_COLOR';
 
 /**
- * Option type, which defines its behavior in the customizer. Option type "Edge/Color".
+ * Option type "Edge/Color".
  * @constant {string}
  */
 const TYPE_EDGE_COLOR = 'EDGE_COLOR';
 
 /**
- * Option type, which defines its behavior in the customizer. Option type "Edge/Thickness".
+ * Option type "Edge/Thickness".
  * @constant {string}
  */
 const TYPE_EDGE_THICKNESS = 'EDGE_THICKNESS';
 
 /**
- * Option type, which defines its behavior in the customizer. Option type "Edge/ViraPicado".
+ * Option type "Edge/ViraPicado".
  * @constant {string}
  */
 const TYPE_VIRA_PICADO = 'VIRA_PICADO';
 
 /**
- * Option type, which defines its behavior in the customizer. Option type "Change part".
+ * Option type "Change part".
  * @constant {string}
  */
 const TYPE_CHANGE_PART = 'CHANGE_PART';
 
 /**
- * Option type, which defines its behavior in the customizer. Option type "Inscription max len 3".
+ * Option type "Change part". Restricts TYPE_SIMPLE_MATERIAL_RESTRICTED
+ * @constant {string}
+ */
+const TYPE_CHANGE_PART_RESTRICTION = 'CHANGE_PART_RESTRICTION';
+
+/**
+ * Option type "Inscription max len 3".
  * @constant {string}
  */
 const TYPE_INSCRIPTION_3 = 'INSCRIPTION_3';
 
 /**
- * Option type, which defines its behavior in the customizer. Option type "Inscription max len 15".
+ * Option type "Inscription max len 15".
  * @constant {string}
  */
 const TYPE_INSCRIPTION_15 = 'INSCRIPTION_15';
 
 /**
- * Option type, which defines its behavior in the customizer. Option type "Sole/Inscription".
+ * Option type "Sole/Inscription".
  * @constant {string}
  */
 const TYPE_INSCRIPTION_SOLE = 'INSCRIPTION_SOLE';
 
 /**
- * Option type, which defines its behavior in the customizer. Option type "Inscription price".
+ * Option type "Inscription price".
  * @constant {string}
  */
 const TYPE_HIDDEN_INSCRIPTION_PRICE = 'HIDDEN_INSCRIPTION_PRICE';
 
 /**
- * Option type, which defines its behavior in the customizer. Option type "Vamp".
+ * Option type "Vamp".
  * @constant {string}
  */
 const TYPE_VAMP = 'VAMP';
@@ -301,12 +313,14 @@ const CUSTOMIZER_OPT_TYPES = [
   TYPE_BURNISH,
   TYPE_MEDALLION,
   TYPE_SIMPLE_MATERIAL,
+  TYPE_SIMPLE_MATERIAL_RESTRICTED,
   TYPE_SOLE_TYPE,
   TYPE_SOLE_COLOR,
   TYPE_EDGE_COLOR,
   TYPE_EDGE_THICKNESS,
   TYPE_VIRA_PICADO,
   TYPE_CHANGE_PART,
+  TYPE_CHANGE_PART_RESTRICTION,
   TYPE_INSCRIPTION_3,
   TYPE_INSCRIPTION_15,
   TYPE_INSCRIPTION_SOLE,

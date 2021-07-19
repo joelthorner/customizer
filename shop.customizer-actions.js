@@ -307,6 +307,10 @@ var module = {
         this.restrictionInscriptionSole(step, option);
         return 1;
       }
+      else if (option.type === TYPE_SIMPLE_MATERIAL_RESTRICTED) {
+        this.restrictionSimpleMaterialRestricted(step, option);
+        return 1;
+      }
       return 0;
     },
 
@@ -374,6 +378,21 @@ var module = {
         if (solePartParams) {
           this.restrictOptionValues(solePartParams.id, optionSoleColor);
         }
+      }
+    },
+
+    /**
+     * Apply the restriction of TYPE_CHANGE_PART_RESTRICTION on TYPE_SIMPLE_MATERIAL_RESTRICTED
+     * @param {object} step
+     * @param {object} option 
+     */
+    restrictionSimpleMaterialRestricted(step, option) {
+      let optionSimpleMaterial = option,
+        optionChangePart = SHOP.customizer.getStepOptionByType(step, TYPE_CHANGE_PART_RESTRICTION);
+
+      if (optionChangePart) {
+        let param = SHOP.customizer.isNoneValue(optionSimpleMaterial.params[2]) ? '' : optionSimpleMaterial.params[2];
+        this.restrictOptionValues(param, option);
       }
     },
 
