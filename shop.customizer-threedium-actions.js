@@ -91,47 +91,74 @@ var module = {
    */
   actionBurnish(step, option, oldOption) {
     if (step.id === STEP_ID_VAMP) {
-      if (SHOP.customizer.isNoneValue(option.selectedValue)) {
-        if (SHOP.customizer.isBothValue(oldOption.selectedValue)) {
-          this.hideGroup([BURNISH_HEEL_PART, BURNISH_TOE_PART]);
-        } else {
-          this.hideGroup([oldOption.selectedValue]);
-        }
-      } else if (SHOP.customizer.isBothValue(option.selectedValue)) {
-        if (oldOption.selectedValue === BURNISH_HEEL_PART) {
-          this.showPart([BURNISH_TOE_PART]);
-        } else if (oldOption.selectedValue === BURNISH_TOE_PART) {
-          this.showPart([BURNISH_HEEL_PART]);
-        } else {
-          this.showPart([BURNISH_TOE_PART, BURNISH_HEEL_PART]);
-        }
-      } else {
-        if (SHOP.customizer.isBothValue(oldOption.selectedValue)) {
-          if (option.selectedValue === BURNISH_HEEL_PART) {
-            this.hideGroup([BURNISH_TOE_PART]);
-          } else if (option.selectedValue === BURNISH_TOE_PART) {
-            this.hideGroup([BURNISH_HEEL_PART]);
-          }
-        } else if (SHOP.customizer.isNoneValue(oldOption.selectedValue)) {
-          this.showPart([option.selectedValue]);
-        } else {
-          this.hideGroupShowPart([oldOption.selectedValue], [option.selectedValue]);
-        }
-      }
+      this.actionBurnish_vamp(option, oldOption);
     }
     else if (step.id === STEP_ID_HEEL) {
-      if (SHOP.customizer.isNoneValue(option.selectedValue)) {
-        this.hideGroup([BURNISH_HEEL_PART]);
-      } else {
-        this.showPart([option.selectedValue]);
-      }
+      this.actionBurnish_heel(option, oldOption);
     }
     else if (step.id === STEP_ID_TOE) {
-      if (SHOP.customizer.isNoneValue(option.selectedValue)) {
-        this.hideGroup([BURNISH_TOE_PART]);
+      this.actionBurnish_toe(option, oldOption);
+    }
+  },
+
+  /**
+   * Manages Burnish option if step is TYPE_VAMP
+   * @param {object} option
+   * @param {object} oldOption
+   */
+  actionBurnish_vamp(option, oldOption) {
+    if (SHOP.customizer.isNoneValue(option.selectedValue)) {
+      if (SHOP.customizer.isBothValue(oldOption.selectedValue)) {
+        this.hideGroup([BURNISH_HEEL_PART, BURNISH_TOE_PART]);
       } else {
-        this.showPart([option.selectedValue]);
+        this.hideGroup([oldOption.selectedValue]);
       }
+    } else if (SHOP.customizer.isBothValue(option.selectedValue)) {
+      if (oldOption.selectedValue === BURNISH_HEEL_PART) {
+        this.showPart([BURNISH_TOE_PART]);
+      } else if (oldOption.selectedValue === BURNISH_TOE_PART) {
+        this.showPart([BURNISH_HEEL_PART]);
+      } else {
+        this.showPart([BURNISH_TOE_PART, BURNISH_HEEL_PART]);
+      }
+    } else {
+      if (SHOP.customizer.isBothValue(oldOption.selectedValue)) {
+        if (option.selectedValue === BURNISH_HEEL_PART) {
+          this.hideGroup([BURNISH_TOE_PART]);
+        } else if (option.selectedValue === BURNISH_TOE_PART) {
+          this.hideGroup([BURNISH_HEEL_PART]);
+        }
+      } else if (SHOP.customizer.isNoneValue(oldOption.selectedValue)) {
+        this.showPart([option.selectedValue]);
+      } else {
+        this.hideGroupShowPart([oldOption.selectedValue], [option.selectedValue]);
+      }
+    }
+  },
+
+  /**
+   * Manages Burnish option if step is TYPE_HEEL
+   * @param {object} option
+   * @param {object} oldOption
+   */
+  actionBurnish_heel(option, oldOption) {
+    if (SHOP.customizer.isNoneValue(option.selectedValue)) {
+      this.hideGroup([BURNISH_HEEL_PART]);
+    } else {
+      this.showPart([option.selectedValue]);
+    }
+  },
+
+  /**
+   * Manages Burnish option if step is TYPE_TOE
+   * @param {object} option
+   * @param {object} oldOption
+   */
+  actionBurnish_toe(option, oldOption) {
+    if (SHOP.customizer.isNoneValue(option.selectedValue)) {
+      this.hideGroup([BURNISH_TOE_PART]);
+    } else {
+      this.showPart([option.selectedValue]);
     }
   },
 
