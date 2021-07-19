@@ -672,7 +672,7 @@
                   <td>2</td>
                   <td>Parte del modelo</td>
                   <td><code>Burnish_Toe</code> or <code>Burnish</code></td>
-                  <td>"Burnish" para el valor de "Sin bruñido y "Burnish_Toe" para todos los demás valores.</td>
+                  <td>"Burnish_Toe" para el valor de "Sin bruñido y "Burnish" para todos los demás valores.</td>
                 </tr>
                 <tr>
                   <td>3</td>
@@ -682,8 +682,8 @@
                 </tr>
               </tbody>
               <caption>
-              Ejemplo completo valor "sin bruñido": <code class="split">NONE___Burnish___1-010003-999-0000</code><br>
-              Ejemplo completo valor "con bruñido": <code class="split">Burnish_Toe___Burnish_Toe___1-010003-999-0000</code>
+              Ejemplo completo valor "sin bruñido": <code class="split">NONE___Burnish_Toe___1-010003-999-0000</code><br>
+              Ejemplo completo valor "con bruñido": <code class="split">Burnish_Toe___Burnish___1-010003-999-0000</code>
               </caption>
             </table>
           </section>
@@ -912,7 +912,7 @@
                   <td>2</td>
                   <td>Parte del modelo</td>
                   <td><code>Burnish_Vamp</code> or <code>Burnish</code></td>
-                  <td>"Burnish" para el valor de "Sin bruñido y "Burnish_Vamp" para todos los demás valores.</td>
+                  <td>"Burnish_Vamp" para el valor de "Sin bruñido y "Burnish" para todos los demás valores.</td>
                 </tr>
                 <tr>
                   <td>3</td>
@@ -922,10 +922,10 @@
                 </tr>
               </tbody>
               <caption>
-              Ejemplo "Sin bruñido": <code class="split">NONE___Burnish___1-010003-999-0000</code><br>
-              Ejemplo "Con bruñido talón": <code class="split">Burnish_Heel___Burnish_Vamp___1-010003-999-0000</code><br>
-              Ejemplo "Con bruñido puntera": <code class="split">Burnish_Toe___Burnish_Vamp___1-010003-999-0000</code><br>
-              Ejemplo "Con bruñido talón y puntera": <code class="split">BOTH___Burnish_Vamp___1-010003-999-0000</code><br>
+              Ejemplo "Sin bruñido": <code class="split">NONE___Burnish_Vamp___1-010003-999-0000</code><br>
+              Ejemplo "Con bruñido talón": <code class="split">Burnish_Heel___Burnish___1-010003-999-0000</code><br>
+              Ejemplo "Con bruñido puntera": <code class="split">Burnish_Toe___Burnish___1-010003-999-0000</code><br>
+              Ejemplo "Con bruñido talón y puntera": <code class="split">BOTH___Burnish___1-010003-999-0000</code><br>
               </caption>
             </table>
           </section>
@@ -1070,7 +1070,7 @@
                   <td>2</td>
                   <td>Parte del modelo</td>
                   <td><code>Burnish_Heel</code> or <code>Burnish</code></td>
-                  <td>"Burnish" para el valor de "Sin bruñido y "Burnish_Heel" para todos los demás valores.</td>
+                  <td>"Burnish_Heel" para el valor de "Sin bruñido y "Burnish" para todos los demás valores.</td>
                 </tr>
                 <tr>
                   <td>3</td>
@@ -1080,8 +1080,8 @@
                 </tr>
               </tbody>
               <caption>
-              Ejemplo completo valor "sin bruñido": <code class="split">NONE___Burnish___1-010003-999-0000</code><br>
-              Ejemplo completo valor "con bruñido": <code class="split">Burnish_Heel___Burnish_Heel___1-010003-999-0000</code>
+              Ejemplo completo valor "sin bruñido": <code class="split">NONE___Burnish_Heel___1-010003-999-0000</code><br>
+              Ejemplo completo valor "con bruñido": <code class="split">Burnish_Heel___Burnish___1-010003-999-0000</code>
               </caption>
             </table>
           </section>
@@ -2616,6 +2616,12 @@
             <div class="container">
               <div class="row justify-content-center">
                 <div class="col-12">
+                  <h5 class="mt-3"> <span class="p-2"> Version 1.1.9</span> - 19/07/2021</h5>
+                  <ul class="mt-3 mb-5">
+                    <li class="ml-3">Arreglado el error de documentación de los Bruñidos, (<a href="#puntera-brunido">Puntera/Bruñido</a>, 
+                      <a href="#pala-burnish">Pala/Bruñido</a>, <a href="#talon-brunido">Talon/Bruñido</a>)</li>
+                  </ul>
+
                   <h5 class="mt-3"> <span class="p-2"> Version 1.1.8</span> - 19/07/2021</h5>
                   <ul class="mt-3 mb-5">
                     <li class="ml-3">Cordones/Color, arreglado el ejemplo.</li>
@@ -2931,6 +2937,10 @@
 
       var Lversion = $('#changelogModal .modal-body h5').first().find('span').text().replace('Versión', '').replace('Version', '');;
       $('.site-logo .badge-primary').text('v' + Lversion);
+
+      $('#changelogModal .modal-body ul a').click(function (event) {
+        $('#changelogModal').modal('hide');
+      });
     });
   </script>
 
