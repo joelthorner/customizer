@@ -315,8 +315,8 @@ var module = {
     let _prefix = `(${ID_PREFIX_SOLE}|${ID_PREFIX_EDGE})`,
       _soleId = `([a-zA-Z]+)`,
       _soleIdSap = `([a-zA-Z\\-0-9]+)`, // no allow "_" never here!
-      _soleVira = `(${SOLES_VIRA_270}|${SOLES_VIRA_360})`,
-      _solethickness = `(${SOLES_THICKNESS_NORMAL}|${SOLES_THICKNESS_DOUBLE}|${SOLES_THICKNESS_TRIPLE})`,
+      _soleVira = `(${VIRA_PICADO_WEIGHT_270}|${VIRA_PICADO_WEIGHT_360})`,
+      _solethickness = `(${SOLE_THICKNESS_NORMAL}|${SOLE_THICKNESS_DOUBLE}|${SOLE_THICKNESS_TRIPLE})`,
 
       regExp = `${_prefix}_${_soleId}_${_soleIdSap}_${_soleVira}_${_solethickness}`,
       regExpObj = new RegExp(regExp),

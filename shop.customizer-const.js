@@ -124,31 +124,31 @@ const STEP_ID_SHOELACES = 'Shoelaces';
  * Thickness part of Sole/Edge. Normal value.
  * @constant {string}
  */
-const SOLES_THICKNESS_NORMAL = 'TH-00';
+const SOLE_THICKNESS_NORMAL = 'TH-00';
 
 /**
  * Thickness part of Sole/Edge. Double value.
  * @constant {string}
  */
-const SOLES_THICKNESS_DOUBLE = 'TH-15';
+const SOLE_THICKNESS_DOUBLE = 'TH-15';
 
 /**
  * Thickness part of Sole/Edge. Triple value.
  * @constant {string}
  */
-const SOLES_THICKNESS_TRIPLE = 'TH-30';
+const SOLE_THICKNESS_TRIPLE = 'TH-30';
 
 /**
  * Weight part of Sole/Edge.
  * @constant {number}
  */
-const SOLES_VIRA_270 = 270;
+const VIRA_PICADO_WEIGHT_270 = 270;
 
 /**
  * Weight part of Sole/Edge.
  * @constant {number}
  */
-const SOLES_VIRA_360 = 360;
+const VIRA_PICADO_WEIGHT_360 = 360;
 
 /**
  * Static part of value of vira_picado option.

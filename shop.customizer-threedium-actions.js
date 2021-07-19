@@ -317,7 +317,7 @@ var module = {
 
     if (optSoleType) {
       let viraPicadoValue = this.getViraValue(option),
-        replaceValuePart = (text) => text.replace(SOLES_VIRA_270, viraPicadoValue).replace(SOLES_VIRA_360, viraPicadoValue),
+        replaceValuePart = (text) => text.replace(VIRA_PICADO_WEIGHT_270, viraPicadoValue).replace(VIRA_PICADO_WEIGHT_360, viraPicadoValue),
         edgePart = replaceValuePart(optSoleType.selectedValue.replace(ID_PREFIX_SOLE, ID_PREFIX_EDGE)),
         solePart = replaceValuePart(optSoleType.selectedValue),
         showParts = [],
@@ -347,7 +347,7 @@ var module = {
       }
 
       // Add Sole & Edge to showParts if change 270 or 360
-      let oldViraPicadoValue = optSoleType.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`)),
+      let oldViraPicadoValue = optSoleType.selectedValue.match(new RegExp(`${VIRA_PICADO_WEIGHT_270}|${VIRA_PICADO_WEIGHT_360}`)),
         newViraPicadoValue = viraPicadoValue;
 
       if (newViraPicadoValue && oldViraPicadoValue) {

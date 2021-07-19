@@ -455,8 +455,8 @@ var module = {
      * @return {string}
      */
     getViraValue(option) {
-      let result = SOLES_VIRA_270,
-        regExp = new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`),
+      let result = VIRA_PICADO_WEIGHT_270,
+        regExp = new RegExp(`${VIRA_PICADO_WEIGHT_270}|${VIRA_PICADO_WEIGHT_360}`),
         viraPicadoValueMatch = option.selectedValue.match(regExp);
 
       if (viraPicadoValueMatch) {
@@ -464,11 +464,11 @@ var module = {
       }
 
       let isEmptyValue = SHOP.customizer.isNoneValue(option.selectedValue),
-        existViraParam270 = SHOP.customizer.existsOptionParam(option.params, SOLES_VIRA_270),
-        existViraParam360 = SHOP.customizer.existsOptionParam(option.params, SOLES_VIRA_360);
+        existViraParam270 = SHOP.customizer.existsOptionParam(option.params, VIRA_PICADO_WEIGHT_270),
+        existViraParam360 = SHOP.customizer.existsOptionParam(option.params, VIRA_PICADO_WEIGHT_360);
 
       if (isEmptyValue && (existViraParam270 || existViraParam360)) {
-        result = existViraParam270 ? SOLES_VIRA_270 : SOLES_VIRA_360;
+        result = existViraParam270 ? VIRA_PICADO_WEIGHT_270 : VIRA_PICADO_WEIGHT_360;
       }
 
       return result.toString();
@@ -483,9 +483,9 @@ var module = {
      */
     replaceThickness(text, replacePart) {
       return text
-        .replace(SOLES_THICKNESS_NORMAL, replacePart)
-        .replace(SOLES_THICKNESS_DOUBLE, replacePart)
-        .replace(SOLES_THICKNESS_TRIPLE, replacePart);
+        .replace(SOLE_THICKNESS_NORMAL, replacePart)
+        .replace(SOLE_THICKNESS_DOUBLE, replacePart)
+        .replace(SOLE_THICKNESS_TRIPLE, replacePart);
     },
 
     /**
@@ -511,7 +511,7 @@ var module = {
           edgePart: edgePart
         };
 
-      // Change <SOLES_THICKNESS_NORMAL|SOLES_THICKNESS_DOUBLE|SOLES_THICKNESS_TRIPLE> from Edge Thickness
+      // Change <SOLE_THICKNESS_NORMAL|SOLE_THICKNESS_DOUBLE|SOLE_THICKNESS_TRIPLE> from Edge Thickness
       if (optEdgeThickness) {
         for (const key in result) {
           if (Object.hasOwnProperty.call(result, key)) {
@@ -520,16 +520,16 @@ var module = {
         }
       }
 
-      // Change <SOLES_VIRA_270|SOLES_VIRA_360> from Edge Vira-Stormwelt
+      // Change <VIRA_PICADO_WEIGHT_270|VIRA_PICADO_WEIGHT_360> from Edge Vira-Stormwelt
       if (optViraPicado) {
-        let viraPicadoValue = optViraPicado.selectedValue.match(new RegExp(`${SOLES_VIRA_270}|${SOLES_VIRA_360}`));
+        let viraPicadoValue = optViraPicado.selectedValue.match(new RegExp(`${VIRA_PICADO_WEIGHT_270}|${VIRA_PICADO_WEIGHT_360}`));
 
         if (viraPicadoValue) {
           for (const key in result) {
             if (Object.hasOwnProperty.call(result, key)) {
               result[key] = result[key]
-                .replace(SOLES_VIRA_270, viraPicadoValue[0])
-                .replace(SOLES_VIRA_360, viraPicadoValue[0])
+                .replace(VIRA_PICADO_WEIGHT_270, viraPicadoValue[0])
+                .replace(VIRA_PICADO_WEIGHT_360, viraPicadoValue[0])
             }
           }
         }
