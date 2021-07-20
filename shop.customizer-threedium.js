@@ -26,6 +26,7 @@ var module = {
       projectName: 'carmina-shoes-demo',
       containerID: 'customizer-render',
       collectAnalytics: false,
+      // render: false,
 
       /**
        * Called when loading of models and textures has changed First and only parameter is an object contain information about loading status.
@@ -90,9 +91,14 @@ var module = {
       if (error == null) {
         self.components.hideLoading();
 
-        if (self.debug.findErrors) self.debug.checkConfiguration();
+        if (self.debug.findErrors) {
+          self.debug.checkConfiguration();
+        }
 
         self.threedium.onLoadCallbacks.forEach(func => func.call());
+        setTimeout(() => {
+          self.threedium.activeTransitionView('360', null);
+        }, 1000);
       } else {
         CustomizerError('Customizer loading error: ', error);
         self.components.hideLoading(true);
@@ -210,14 +216,18 @@ var module = {
     /**
      * Threedium method https://threedium.co.uk/documentation/api#Activatetransition
      * @param {string} transitionName
+     * @param {string|null} [target]
      * @param {function} [callback]
      */
-    activeTransitionView(transitionName, callback = (error) => CustomizerError(error, 'on activeTransitionView')) {
+    activeTransitionView(transitionName, target = null, callback = (error) => CustomizerError(error, 'on activeTransitionView')) {
       if (transitionName.length) {
-        Unlimited3D.activateTransition({
+        let params = {
           transition: transitionName,
-          target: 'Camera Editor',
-        }, callback);
+        };
+        if (target) {
+          params.target = target;
+        }
+        Unlimited3D.activateTransition(params, callback);
       }
     },
 
@@ -430,7 +440,7 @@ var module = {
      * @param {object} viraPicado - option
      * @return {object}
      */
-     getViraPicadoMaterials(edgeColor, viraPicado) {
+    getViraPicadoMaterials(edgeColor, viraPicado) {
       let materials = {
         picado: null,
         stormwelt: null,
