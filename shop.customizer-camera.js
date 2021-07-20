@@ -106,13 +106,47 @@ var module = {
      */
     lastTransitionApplied: '',
 
+    /**
+     * Manual transitions defined on a product customtag.
+     * @type {object}
+     */
+    manualTransitions: {},
+
+    /**
+     * Camera object onload function.
+     */
     init() {
+      this.setManualTransitions();
+
       let firstStep = SHOP.customizer.getFirstStep(),
         firstOptionStep = SHOP.customizer.getFirstOptionStep(firstStep.id),
         stepViews = this.getStepViews(firstStep.id),
         optionView = this.getOptionView(firstOptionStep.params, stepViews);
 
       this.lastTransitionApplied = optionView;
+    },
+
+    /**
+     * Set manual transitions customtag data into camera object.
+     * - Regexp is a list validator "a:b,c:d"
+     */
+    setManualTransitions() {
+      let $ctTransitions = $('#threedium-manual-transitions'),
+        ctTransitions = $ctTransitions.length ? $ctTransitions.data('value') : '',
+        isValid = ctTransitions.match(/^[\w\-]+:[\w\-]+(?:,[\w\-]+:[\w\-]+)*$/);
+
+      if (ctTransitions.length && isValid) {
+        let items = ctTransitions.split(',');
+
+        for (let i = 0; i < items.length; i++) {
+          const idTransitionArr = items[i].split(':');
+          this.manualTransitions[idTransitionArr[0]] = idTransitionArr[1];
+        }
+      }
+
+      if (ctTransitions.length && !isValid) {
+        CustomizerError(false, 'Manual transitions customtag value is wrong.');
+      }
     },
 
     /**
@@ -128,7 +162,7 @@ var module = {
         let stepViews = this.getStepViews(stepId);
 
         if (stepViews) {
-          let optionView = this.getOptionView(optionData.params, stepViews);
+          let optionView = this.getOptionView(optionData, stepViews);
 
           if (this.lastTransitionApplied != optionView) {
             SHOP.customizer.threedium.activeTransitionView(optionView);
@@ -142,22 +176,28 @@ var module = {
      * Return step views
      * @param {string} stepId 
      * @returns {object}
+     * @return {object|null}
      */
     getStepViews(stepId) {
       return STEPS_VIEW[stepId] ? STEPS_VIEW[stepId] : null;
     },
 
     /**
-     * 
-     * @param {string[]} params 
+     * Return option transition name
+     * @param {object} option 
      * @param {object} stepViews 
+     * @return {string}
      */
-    getOptionView(params, stepViews) {
+    getOptionView(option, stepViews) {
       let result = stepViews.default;
 
-      for (const key in stepViews) {
-        if (Object.hasOwnProperty.call(stepViews, key)) {
-          if (key !== 'default' && SHOP.customizer.existsOptionParam(params, key)) {
+      if (this.manualTransitions[option.internalId]) {
+        // Get manual transition by option internal id
+        return this.manualTransitions[option.internalId];
+      } else {
+        // Search into predefined transitions object
+        for (const key in stepViews) {
+          if (stepViews[key] && key !== 'default' && SHOP.customizer.existsOptionParam(option.params, key)) {
             return stepViews[key];
           }
         }
