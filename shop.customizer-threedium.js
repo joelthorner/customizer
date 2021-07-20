@@ -111,7 +111,9 @@ var module = {
      * This method import threedium api js and call init on callback.
      */
     import() {
-      let src = THREEDIUM_API_SRC.replace('{VERSION}', THREEDIUM_API_VERSION);
+      let version = SHOP.customizer.isMobileVersion() ? THREEDIUM_API_VERSION_MOBILE : THREEDIUM_API_VERSION_DESKTOP,
+        src = THREEDIUM_API_SRC.replace('{VERSION}', version);
+
       Fluid.require.js(src, this.init);
     },
 
@@ -124,9 +126,7 @@ var module = {
       let self = SHOP.customizer;
 
       self.actions.applyAllRestrictions();
-
       self.threedium.getConfiguration();
-
       self.threedium.options = self.threedium.getOptions();
 
       // If mode is findErrors initialize without confs and search bad part/material
@@ -139,18 +139,19 @@ var module = {
 
     /**
      * Merge default defined threedium model options with product
-     * CT options if exists.
+     * customtags. Defineds into logicAndData.tlg
      * @return {object}
      */
     getOptions() {
-      let $ctOptions = $('#threedium-model-options'),
-        ctOptions = $ctOptions.length ? $ctOptions.data('options') : {};
+      let options = SHOP.customizer.isMobileVersion() ? THREEDIUM_MODEL_OPTIONS.mobile : THREEDIUM_MODEL_OPTIONS.desktop;
 
-      if (Object.keys(ctOptions).length === 0 && ctOptions.constructor === Object) {
-        CustomizerError(false, 'Threedium model parameters missing');
+      for (const property in options) {
+        if (!options[property].length) {
+          CustomizerError(`Customtag "${property}" value is empty!`);
+        }
       }
 
-      return { ...this.options, ...ctOptions };
+      return { ...this.options, ...options };
     },
 
     /**

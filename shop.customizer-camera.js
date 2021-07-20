@@ -128,11 +128,11 @@ var module = {
 
     /**
      * Set manual transitions customtag data into camera object.
+     * - Constant is defined into logicAndData.tlg
      * - Regexp is a list validator "a:b,c:d"
      */
     setManualTransitions() {
-      let $ctTransitions = $('#threedium-manual-transitions'),
-        ctTransitions = $ctTransitions.length ? $ctTransitions.data('value') : '',
+      let ctTransitions = THREEDIUM_MANUAL_TRANSITIONS_RAW,
         isValid = ctTransitions.match(/^[\w\-]+:[\w\-]+(?:,[\w\-]+:[\w\-]+)*$/);
 
       if (ctTransitions.length && isValid) {

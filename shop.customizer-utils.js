@@ -40,6 +40,7 @@ var module = {
   /**
    * Returns true or false if element is a text html element
    * @param {object} $element - jQuery element
+   * @returns {boolean}
    */
   isTextOption($element) {
     return $element.is('textarea, input[type="text"]');
@@ -48,6 +49,7 @@ var module = {
   /**
    * Returns true or false if element is a checkbox html element
    * @param {object} $element - jQuery element
+   * @returns {boolean}
    */
   isCheckboxOption($element) {
     return $element.is('input[type="checkbox"]');
@@ -56,9 +58,18 @@ var module = {
   /**
    * Returns true or false if element is a radio html element
    * @param {object} $element - jQuery element
+   * @returns {boolean}
    */
   isRadioOption($element) {
     return $element.is('input[type="radio"]');
+  },
+
+  /**
+   * Returns if the mobile version of threedium is applied
+   * @returns {boolean}
+   */
+  isMobileVersion() {
+    return SHOP.browsers.isMobile || SHOP.browsers.isTablet;
   },
 };
 
